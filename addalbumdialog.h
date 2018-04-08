@@ -23,6 +23,8 @@ private slots:
 
     void on_Result_accepted();
 
+    void on_Result_rejected();
+
 private:
     Ui::AddAlbumDialog *ui;
 };

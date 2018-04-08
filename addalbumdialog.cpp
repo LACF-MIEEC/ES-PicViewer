@@ -17,9 +17,9 @@ void AddAlbumDialog::on_BrowseButton_clicked()
 {
     //Alterar Direcótorio base para uma predifinição
     QString dir = QFileDialog::getExistingDirectory(this, "Abrir Pasta",
-                                                    "",
+                                                    QDir::homePath(),
                                                     QFileDialog::ShowDirsOnly
-                                                    | QFileDialog::DontResolveSymlinks);
+                                                    );
 
     if(!dir.isNull()){
         this->findChild<QLineEdit*>("Directory")->clear();
@@ -85,10 +85,10 @@ void AddAlbumDialog::on_Result_accepted()
         error->exec();
         return;
     }
-    //************************************************************
-    //Criar o Album
+    this->hide();
+}
 
-
-
-    this->close();
+void AddAlbumDialog::on_Result_rejected()
+{
+    this->hide();
 }

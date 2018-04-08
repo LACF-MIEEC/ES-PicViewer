@@ -244,6 +244,13 @@ void MainWindow::on_AddAlbum_clicked()
     if(Dialog->isHidden()){
 
         //Criar o ALbum e Actualizar a interface
+        
+        //addItemAlbumTree
+        
+        //Apresenta Mensagem de confirmação
+        QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Album Criado", "O Álbum foi criado com sucesso",
+                                             QMessageBox::Ok,this);
 
+        msg->exec();
     }
 }
