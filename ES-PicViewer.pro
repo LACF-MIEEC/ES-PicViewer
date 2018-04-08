@@ -25,10 +25,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    addassociationdialog.cpp \
+    albuminfodisplay.cpp \
+    albumlistitem.cpp \
+    albumlistpage.cpp \
+    loadwindow.cpp \
+    managepeople.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    addassociationdialog.h \
+    albuminfodisplay.h \
+    albumlistitem.h \
+    albumlistpage.h \
+    loadwindow.h \
+    managepeople.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    addassociationdialog.ui \
+    albuminfodisplay.ui \
+    albumlistitem.ui \
+    albumlistpage.ui \
+    loadwindow.ui \
+    managepeople.ui
+
+RESOURCES += \
+    resources.qrc

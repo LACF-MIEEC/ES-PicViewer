@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/Icons">
+        <file>bin/Icons/album.png</file>
+        <file>bin/Icons/exit.png</file>
+        <file>bin/Icons/People.png</file>
+        <file>bin/Icons/refresh.png</file>
+    </qresource>
+    <qresource prefix="/Photos">
+        <file>bin/Images/Login_Background.png</file>
+        <file>bin/Images/logo.png</file>
+    </qresource>
+</RCC>
