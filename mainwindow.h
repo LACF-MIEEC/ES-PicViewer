@@ -15,6 +15,7 @@
 #include "managepeople.h"
 #include "addassociationdialog.h"
 #include "albuminfodisplay.h"
+#include "addalbumdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +45,8 @@ private slots:
     void on_AddAssociation_clicked();
 
     void on_RemoveAssociation_clicked();
+
+    void on_AddAlbum_clicked();
 
 private:
     Ui::MainWindow *ui;

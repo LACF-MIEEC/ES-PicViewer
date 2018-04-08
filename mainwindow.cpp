@@ -102,6 +102,12 @@ void MainWindow::addItemAlbumTree(QString ItemName, QStringList PageName)
 
 }
 
+void MainWindow::addItemPeopleList(QString ItemName){
+
+    ui->PeopleList->addItem(new QListWidgetItem(QIcon(":/Icons/bin/Icons/People.png"),ItemName));
+
+}
+
 void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     QString NomeAlbum, NomePagina="";
@@ -188,12 +194,6 @@ void MainWindow::on_ManagePeople_clicked()
     wPeople->show();
 }
 
-void MainWindow::addItemPeopleList(QString ItemName){
-
-    ui->PeopleList->addItem(new QListWidgetItem(QIcon(":/Icons/bin/Icons/People.png"),ItemName));
-
-}
-
 void MainWindow::on_AddAssociation_clicked()
 {
     AddAssociationDialog *ChoosePerson = new AddAssociationDialog(this);
@@ -233,4 +233,11 @@ void MainWindow::on_RemoveAssociation_clicked()
     QListWidgetItem *toDelete = ui->PeopleList->takeItem(ui->PeopleList->currentRow());
 
     toDelete->~QListWidgetItem();
+}
+
+void MainWindow::on_AddAlbum_clicked()
+{
+    AddAlbumDialog *Dialog = new AddAlbumDialog();
+
+    Dialog->show();
 }
