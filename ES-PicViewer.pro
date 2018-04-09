@@ -31,7 +31,11 @@ SOURCES += \
     albumlistitem.cpp \
     albumlistpage.cpp \
     loadwindow.cpp \
-    managepeople.cpp
+    managepeople.cpp \
+    addalbumdialog.cpp \
+    addpagedialog.cpp \
+    photodisplay.cpp \
+    photominiature.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +44,11 @@ HEADERS += \
     albumlistitem.h \
     albumlistpage.h \
     loadwindow.h \
-    managepeople.h
+    managepeople.h \
+    addalbumdialog.h \
+    addpagedialog.h \
+    photodisplay.h \
+    photominiature.h
 
 FORMS += \
         mainwindow.ui \
@@ -49,7 +57,11 @@ FORMS += \
     albumlistitem.ui \
     albumlistpage.ui \
     loadwindow.ui \
-    managepeople.ui
+    managepeople.ui \
+    addalbumdialog.ui \
+    addpagedialog.ui \
+    photodisplay.ui \
+    photominiature.ui
 
 RESOURCES += \
     resources.qrc
