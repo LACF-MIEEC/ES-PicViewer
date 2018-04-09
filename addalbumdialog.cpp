@@ -92,4 +92,5 @@ void AddAlbumDialog::on_Result_accepted()
 void AddAlbumDialog::on_Result_rejected()
 {
     this->close();
+    this->deleteLater();
 }

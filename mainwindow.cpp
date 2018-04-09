@@ -261,11 +261,12 @@ void MainWindow::addAlbum(AddAlbumDialog *Dialog){
 
         msg->exec();
         Dialog->close();
+        Dialog->deleteLater();
 }
 
 void MainWindow::on_AddPage_clicked()
 {
-    AddPageDialog *Dialog = new AddPageDialog();
+
     QString AlbumName;
 
     //Altera caixa de Dialogo para os detalhes corresponderem ao tipo de Página
@@ -284,41 +285,9 @@ void MainWindow::on_AddPage_clicked()
 
     QString Type; //Talvez seja melhor definir um ID [1,4] para definir os tipos
 
-    Type.operator=("Viagem");
+    Type.operator=("Coisa ou Pessoa"); //só para teste (remover depois)
     //*********************************
-
-    if(!Type.compare("Viagem")){
-        Dialog->findChild<QLabel*>("label_Type")->hide();
-        Dialog->findChild<QLineEdit*>("Type")->setEnabled(false);
-        Dialog->findChild<QLineEdit*>("Type")->hide();
-
-    }else if(!Type.compare("Festa")){
-        Dialog->findChild<QLabel*>("label_Date")->setText("Data:");
-
-        Dialog->findChild<QLabel*>("label_DateEnd")->hide();
-        Dialog->findChild<QDateEdit*>("DateEnd")->setEnabled(false);
-        Dialog->findChild<QDateEdit*>("DateEnd")->hide();
-
-
-    }else if(Type.compare("Coisa ou Pessoa")){
-        Dialog->findChild<QLabel*>("label_Type")->hide();
-        Dialog->findChild<QLineEdit*>("Type")->setEnabled(false);
-        Dialog->findChild<QLineEdit*>("Type")->hide();
-
-        Dialog->findChild<QLabel*>("label_Date")->setText("Sem Detalhes Adicionais.");
-
-        Dialog->findChild<QDateEdit*>("Date")->setEnabled(false);
-        Dialog->findChild<QDateEdit*>("Date")->hide();
-
-        Dialog->findChild<QLabel*>("label_DateEnd")->hide();
-        Dialog->findChild<QDateEdit*>("DateEnd")->setEnabled(false);
-        Dialog->findChild<QDateEdit*>("DateEnd")->hide();
-
-    }else if(Type.compare("Outro")){
-        Dialog->findChild<QLabel*>("label_Type")->hide();
-        Dialog->findChild<QLineEdit*>("Type")->setEnabled(false);
-        Dialog->findChild<QLineEdit*>("Type")->hide();
-    }
+    AddPageDialog *Dialog = new AddPageDialog(Type);
 
     connect(Dialog,SIGNAL(pageAccepted(AddPageDialog*)), this, SLOT(addPage(AddPageDialog*)));
     Dialog->show();
@@ -344,6 +313,7 @@ void MainWindow::addPage(AddPageDialog *Dialog){
 
        msg->exec();
        Dialog->close();
+       Dialog->deleteLater();
 }
 
 void MainWindow::on_AddPhoto_clicked()
@@ -369,14 +339,14 @@ void MainWindow::on_AddPhoto_clicked()
                                                     QDir::homePath(),
                                                     "Imagens (*.png *.xpm *.jpg)"
                                                     );
-    if(!dir.isNull()){
+    if(!photosDir.isEmpty()){
 
         //Adicionar Foto
         //ListAlbuns::createPhoto(AlbumName, PageName);
         //Actualizar GUI
 
         //Apresenta Mensagem de confirmação
-        QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Foto Adicionada", "A Foto foi adicionada com sucesso!",
+        QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Fotos Adicionadas", "Fotos adicionadas com sucesso!",
                                               QMessageBox::Ok,this);
 
         msg->exec();
