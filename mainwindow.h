@@ -9,6 +9,10 @@
 #include <QDialogButtonBox>
 #include <QMessageBox>
 #include <QList>
+#include <QLineEdit>
+#include <QDateEdit>
+#include <QPlainTextEdit>
+#include <QComboBox>
 
 #include "albumlistitem.h"
 #include "albumlistpage.h"
@@ -16,6 +20,7 @@
 #include "addassociationdialog.h"
 #include "albuminfodisplay.h"
 #include "addalbumdialog.h"
+#include "addpagedialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +52,14 @@ private slots:
     void on_RemoveAssociation_clicked();
 
     void on_AddAlbum_clicked();
+
+    void on_AddPage_clicked();
+
+    void addAlbum(AddAlbumDialog *Dialog);
+
+    void addPage(AddPageDialog *Dialog);
+
+    void on_AddPhoto_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -36,7 +36,7 @@ void AddAlbumDialog::on_Result_accepted()
     QString Name = this->findChild<QLineEdit*>("Name")->text();
     if(Name.isEmpty()){
        //Tem de  haver nome
-        QMessageBox *error = new QMessageBox(QMessageBox::Information,"Parametros insuficientes", "Tem de fornecer um nome para o album",
+        QMessageBox *error = new QMessageBox(QMessageBox::Warning,"Parametros insuficientes", "Tem de fornecer um nome para o album",
                                              QMessageBox::Ok,this);
 
         error->exec();
@@ -48,7 +48,7 @@ void AddAlbumDialog::on_Result_accepted()
 
     if(Desc.isEmpty()){
        //Tem de  haver descrição
-        QMessageBox *error = new QMessageBox(QMessageBox::Information,"Parametros insuficientes", "Tem de fornecer uma descrição para o album",
+        QMessageBox *error = new QMessageBox(QMessageBox::Warning,"Parametros insuficientes", "Tem de fornecer uma descrição para o album",
                                              QMessageBox::Ok,this);
 
         error->exec();
@@ -59,7 +59,7 @@ void AddAlbumDialog::on_Result_accepted()
     QString Type= this->findChild<QComboBox*>("Type")->currentText(); //Podiamos usar um ID em vez de Texto??
     if(Type.isEmpty()){
         //Tem de estar selecionado um tipo
-        QMessageBox *error = new QMessageBox(QMessageBox::Information,"Parametros insuficientes", "Tem de selecionar um tipo de pagina para o album",
+        QMessageBox *error = new QMessageBox(QMessageBox::Warning,"Parametros insuficientes", "Tem de selecionar um tipo de pagina para o album",
                                              QMessageBox::Ok,this);
 
         error->exec();
@@ -70,7 +70,7 @@ void AddAlbumDialog::on_Result_accepted()
     QString Dir = this->findChild<QLineEdit*>("Directory")->text();
     if(Dir.isEmpty()){
        //Tem de  haver directorio
-       QMessageBox *error = new QMessageBox(QMessageBox::Information,"Parametros insuficientes", "Tem de fornecer uma localização para o album",
+       QMessageBox *error = new QMessageBox(QMessageBox::Warning,"Parametros insuficientes", "Tem de fornecer uma localização para o album",
                                             QMessageBox::Ok,this);
 
        error->exec();
@@ -85,10 +85,11 @@ void AddAlbumDialog::on_Result_accepted()
         error->exec();
         return;
     }
+    emit albumAccepted(this);
     this->hide();
 }
 
 void AddAlbumDialog::on_Result_rejected()
 {
-    this->hide();
+    this->close();
 }

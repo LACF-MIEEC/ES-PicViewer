@@ -25,8 +25,13 @@ private slots:
 
     void on_Result_rejected();
 
+
 private:
     Ui::AddAlbumDialog *ui;
+
+signals:
+    void albumAccepted(AddAlbumDialog *Dialog);
+
 };
 
 #endif // ADDALBUMDIALOG_H
