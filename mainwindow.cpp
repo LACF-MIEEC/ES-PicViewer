@@ -365,7 +365,7 @@ void MainWindow::on_AddPhoto_clicked()
         QString PageName  = ui->AlbumList->itemWidget(ui->AlbumList->currentItem(),0)->findChild<QLabel*>("Text")->text();
 
     }
-    QString dir = QFileDialog::getOpenFileName(this, "Adicionar Foto",
+    QStringList photosDir = QFileDialog::getOpenFileNames(this, "Selecione uma ou mais Fotos",
                                                     QDir::homePath(),
                                                     "Imagens (*.png *.xpm *.jpg)"
                                                     );
