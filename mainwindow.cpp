@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->PhotoDisplay->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->PhotoDisplay->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->PhotoDisplay->setColumnCount(4);
-    ui->PhotoDisplay->setIconSize(QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0)));
+    //ui->PhotoDisplay->setIconSize(QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0)));
 
 
     ui->Title->setText("PicViewer - Bem Vindo!!");
@@ -144,7 +144,7 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
         //-------------
         //Colocar Fotos no Display
 
-        QTableWidgetItem *Photos;
+
 
         //Aceder a objecto página
         //obter path das fotos
@@ -160,13 +160,37 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
         ui->PhotoDisplay->setRowCount(PhotoPath.size()/ui->PhotoDisplay->columnCount()+1);
         int row=0; int column=0;
 
+
+        QTableWidgetItem *Item;
+        PhotoMiniature *Miniature;
+
         for(int i=0;i<PhotoPath.size();i++){
 
-            Photos = new QTableWidgetItem(QIcon(QPixmap(PhotoPath.at(i)).scaled(ui->PhotoDisplay->iconSize(),Qt::KeepAspectRatio)),QString(""));
+            QImageReader reader(PhotoPath.at(i));
+            reader.setAutoTransform(true);
+            const QImage newImage = reader.read();
+            if (newImage.isNull()) {
+                QMessageBox::information(this, QApplication::applicationDisplayName(),
+                                             tr("Cannot load %1: %2")
+                                             .arg(QDir::toNativeSeparators(PhotoPath.at(i)), reader.errorString()));
+                return;
+            }
 
-            Photos->setSizeHint(ui->PhotoDisplay->iconSize());
+            Miniature = new PhotoMiniature();
 
-            ui->PhotoDisplay->setItem(row,column,Photos);
+            Miniature->findChild<QLabel*>("Photo")->setPixmap(QPixmap::fromImage(newImage).scaled(
+                                                                  QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0))
+                                                              ,Qt::KeepAspectRatio));
+            Miniature->findChild<QLabel*>("Photo")->adjustSize();
+
+            Item = new QTableWidgetItem();//QIcon(QPixmap(PhotoPath.at(i)).scaled(ui->PhotoDisplay->iconSize(),Qt::KeepAspectRatio)),QString(""));
+
+
+            Item->setSizeHint(QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0)));
+
+            ui->PhotoDisplay->setItem(row,column,Item);
+
+            ui->PhotoDisplay->setCellWidget(row,column,Miniature);
 
             column++;
             if(column==ui->PhotoDisplay->columnCount()){
@@ -231,8 +255,9 @@ void MainWindow::on_AddAssociation_clicked()
 void MainWindow::on_RemoveAssociation_clicked()
 {
     QListWidgetItem *toDelete = ui->PeopleList->takeItem(ui->PeopleList->currentRow());
-
-    toDelete->~QListWidgetItem();
+    if(toDelete){
+        toDelete->~QListWidgetItem();
+    }
 }
 
 void MainWindow::on_AddAlbum_clicked()

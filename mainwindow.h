@@ -13,6 +13,8 @@
 #include <QDateEdit>
 #include <QPlainTextEdit>
 #include <QComboBox>
+#include <QImageReader>
+#include <QVector>
 
 #include "albumlistitem.h"
 #include "albumlistpage.h"
@@ -21,6 +23,8 @@
 #include "albuminfodisplay.h"
 #include "addalbumdialog.h"
 #include "addpagedialog.h"
+#include "photodisplay.h"
+#include "photominiature.h"
 
 namespace Ui {
 class MainWindow;
@@ -65,6 +69,8 @@ private:
     Ui::MainWindow *ui;
 
     ManagePeople *wPeople;
+
+    //QVector<Fotos*> Vector;
 
 };
 

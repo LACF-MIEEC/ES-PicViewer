@@ -208,6 +208,12 @@
                <height>0</height>
               </size>
              </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
              <attribute name="horizontalHeaderVisible">
               <bool>false</bool>
              </attribute>
@@ -370,6 +376,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QToolButton" name="SlideDisp">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>60</width>
@@ -383,6 +392,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="Delete">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>60</width>
@@ -396,6 +408,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="Search">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>60</width>
