@@ -33,7 +33,6 @@ void AddPersonDialog::on_buttonBox_accepted()
        return;
     }
     //Nascimento
-    //EM FALTA
     QDate Birth = this->findChild<QDateEdit*>("Birth")->date();
     if(!Birth.isValid()){
         //Tem de estar selecionado um genero
