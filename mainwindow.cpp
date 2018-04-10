@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->addItemAlbumTree("Album Velho", Pages);
     this->addItemAlbumTree("Album Novo", Pages);
+
+    ui->AlbumList->collapseAll();
     //------------------------------------
     //Carregar Fotos
 
@@ -54,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Title->setText("PicViewer - Bem Vindo!!");
 
     AlbumInfoDisplay *widget1= new AlbumInfoDisplay();
-    AlbumInfoDisplay *widget2= new AlbumInfoDisplay();
+    PageInfoDisplay *widget2= new PageInfoDisplay();
 
     widget1->resize(ui->Info->sizeHint());
     widget2->resize(ui->Info->sizeHint());
@@ -65,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Info->addItem(widget2,"Informações da Página");
 
 
-    ui->AlbumList->collapseAll();
+
 
 }
 
@@ -150,9 +152,10 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
         //obter path das fotos
 
         QStringList PhotoPath;
+        QVector<int*> PhotoID;
 
         PhotoPath << ":/Photos/bin/Images/Login_Background.png" << ":/Photos/bin/Images/logo.png";
-
+        PhotoID.fill(0,3);
 
         //obter pessoas das fotos
         //???????????
@@ -176,7 +179,7 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
                 return;
             }
 
-            Miniature = new PhotoMiniature();
+            Miniature = new PhotoMiniature(PhotoID.at(i));
 
             Miniature->findChild<QLabel*>("Photo")->setPixmap(QPixmap::fromImage(newImage).scaled(
                                                                   QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0))
@@ -200,6 +203,7 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
         }
 
     }
+
 
 }
 
@@ -376,4 +380,19 @@ void MainWindow::on_AddPhoto_clicked()
 
         msg->exec();
     }
+}
+
+void MainWindow::on_PhotoDisplay_cellDoubleClicked(int row, int column)
+{
+    //ui->PhotoDisplay->cellWidget(row,column)->findChild<int>("Foto");
+
+    //qDebug() << ui->PhotoDisplay->cellWidget(row,column)->;
+
+    QImageReader reader(":/Photos/bin/Images/alegria.png");
+    reader.setAutoTransform(true);
+    const QImage newImage = reader.read();
+
+    PhotoDisplay *Display = new PhotoDisplay(newImage,this);
+
+    Display->show();
 }

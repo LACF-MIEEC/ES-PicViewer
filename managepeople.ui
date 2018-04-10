@@ -125,6 +125,9 @@ font: bold 12pt &quot;Century Gothic&quot;;
           </item>
           <item>
            <widget class="QToolButton" name="DelPerson">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>

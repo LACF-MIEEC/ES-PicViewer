@@ -40,6 +40,7 @@ void AddAlbumDialog::on_Result_accepted()
                                              QMessageBox::Ok,this);
 
         error->exec();
+        error->deleteLater();
        return;
     }
 
@@ -52,6 +53,7 @@ void AddAlbumDialog::on_Result_accepted()
                                              QMessageBox::Ok,this);
 
         error->exec();
+        error->deleteLater();
         return;
     }
 
@@ -63,6 +65,7 @@ void AddAlbumDialog::on_Result_accepted()
                                              QMessageBox::Ok,this);
 
         error->exec();
+        error->deleteLater();
         return;
     }
 
@@ -74,6 +77,7 @@ void AddAlbumDialog::on_Result_accepted()
                                             QMessageBox::Ok,this);
 
        error->exec();
+       error->deleteLater();
        return;
     }
     //Verificar se localização é valida(existe);
@@ -83,6 +87,7 @@ void AddAlbumDialog::on_Result_accepted()
                                              QMessageBox::Ok,this);
 
         error->exec();
+        error->deleteLater();
         return;
     }
     emit albumAccepted(this);

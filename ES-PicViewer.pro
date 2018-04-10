@@ -35,7 +35,9 @@ SOURCES += \
     addalbumdialog.cpp \
     addpagedialog.cpp \
     photodisplay.cpp \
-    photominiature.cpp
+    photominiature.cpp \
+    pageinfodisplay.cpp \
+    addpersondialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +50,9 @@ HEADERS += \
     addalbumdialog.h \
     addpagedialog.h \
     photodisplay.h \
-    photominiature.h
+    photominiature.h \
+    pageinfodisplay.h \
+    addpersondialog.h
 
 FORMS += \
         mainwindow.ui \
@@ -61,7 +65,9 @@ FORMS += \
     addalbumdialog.ui \
     addpagedialog.ui \
     photodisplay.ui \
-    photominiature.ui
+    photominiature.ui \
+    pageinfodisplay.ui \
+    addpersondialog.ui
 
 RESOURCES += \
     resources.qrc

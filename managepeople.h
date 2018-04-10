@@ -2,6 +2,12 @@
 #define MANAGEPEOPLE_H
 
 #include <QWidget>
+#include <QMessageBox>
+#include <QDateEdit>
+#include <QComboBox>
+#include <QLineEdit>
+
+#include "addpersondialog.h"
 
 namespace Ui {
 class ManagePeople;
@@ -19,6 +25,12 @@ public:
 
 private slots:
     void on_Voltar_clicked();
+
+    void on_DelPerson_clicked();
+
+    void on_AddPerson_clicked();
+
+    void addPerson(AddPersonDialog *Dialog);
 
 private:
     Ui::ManagePeople *ui;
