@@ -2,5 +2,5 @@
 
 GestorBD::GestorBD()
 {
-
+//teste teste teste
 }
