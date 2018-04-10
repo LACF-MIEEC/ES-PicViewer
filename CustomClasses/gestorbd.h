@@ -7,6 +7,9 @@
 #include <QSqlRecord>
 #include <QDebug>
 
+#include "foto.h"
+#include "pagina.h"
+
 class GestorBD
 {
 public:

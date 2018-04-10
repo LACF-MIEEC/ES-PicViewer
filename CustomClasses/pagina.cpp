@@ -6,6 +6,9 @@ Pagina::Pagina(PaginaParams params)
     // atributos comuns a todos os tipos
 }
 
+int Pagina::getID(){
+    return pageID;
+}
 
 
 // ------------- VIAGEM ----------------------------
@@ -24,3 +27,4 @@ std::string PaginaViagem::createFolderName(){
     std::string folderName = "insert name here";
     return folderName;
 }
+

@@ -25,22 +25,29 @@ class Foto
 {
 public:
     Foto(FotoParams params);
+    ~Foto();
 
     int deleteSelf(); // Remover-se da base de dados, eliminar ficheiro
 
     std::string getPath();
+    int getID();
+
+    Pagina* parent();
+
 
     int acceptPerson(Pessoa* person);
     int removePerson(Pessoa* person);
     QVector<Pessoa*> getPeople();
 private:
+
     int fotoID;
 
     std::string directoria; //ingles? assim é como está no SAD
 
+    QVector<Pessoa*> people;
+
     ListaAlbuns* aListaAlbuns;
     GestorBD* oGestor;
-    QVector<Pessoa*> people;
     Pagina* parent;
 };
 

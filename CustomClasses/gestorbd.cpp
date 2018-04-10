@@ -37,8 +37,7 @@ bool GestorBD::createTables()
     QSqlQuery query;
     query.prepare("CREATE TABLE FOTO("
                   "ID_Foto INT PRIMARY KEY NOT NULL,"
-                  "Resol VARCHAR (50),"
-                  "Data_Foto VARCHAR (15), "
+                  "Path VARCHAR (50),"
                   "ID_Pagina INT);");
 
     if (!query.exec())
@@ -120,14 +119,15 @@ bool GestorBD::createTables()
     return true;
 }
 
-bool GestorBD::addFoto(const QString& resol,const QString& data,const QString& ID_Foto,const QString& ID_Pagina)
+bool GestorBD::addFoto(Foto *newFoto)
 {
-
+        QString Path = newFoto->getPath();
+        int ID_Foto  = newFoto->getID();
+        int ID_Pagina= newFoto->parent()->getID();
 
         QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO FOTO (Resol, Data_Foto, ID_Foto, ID_Pagina) VALUES (:resol,:data,:id,:id_pagina)");
-        queryAdd.bindValue(":resol", resol);
-        queryAdd.bindValue(":data", data);
+        queryAdd.prepare("INSERT INTO FOTO (Path, ID_Foto, ID_Pagina) VALUES (:Path,:id,:id_pagina)");
+        queryAdd.bindValue(":Path", Path);
         queryAdd.bindValue(":id", ID_Foto);
         queryAdd.bindValue(":id_pagina", ID_Pagina);
 
@@ -218,13 +218,12 @@ bool GestorBD::addPessoa(const QString& Nome,const QString& Data_Nasc,const QStr
     }
 }
 
-bool GestorBD::updateFoto(const QString& ID_Foto,const QString& resol,const QString& data,const QString& id_pagina){
+bool GestorBD::updateFoto(const QString& ID_Foto,const QString& Path,const QString& data,const QString& id_pagina){
 
 
         QSqlQuery queryUpdate;
-        queryUpdate.prepare("UPDATE FOTO SET Resol = :resol,Data_Foto = :data,ID_Pagina = :id_pagina WHERE ID_Foto = :id;");
-        queryUpdate.bindValue(":resol", resol);
-        queryUpdate.bindValue(":data" , data);
+        queryUpdate.prepare("UPDATE FOTO SET Path = :Path,ID_Pagina = :id_pagina WHERE ID_Foto = :id;");
+        queryUpdate.bindValue(":Path", Path);
         queryUpdate.bindValue(":id_pagina", id_pagina);
         queryUpdate.bindValue(":id"   , ID_Foto);
 
@@ -311,7 +310,7 @@ bool GestorBD::getFotos(){
     while (query.next())
     {
         qDebug() << query.value("ID_Foto").toString()      << " " << query.value("ID_Pagina").toString()
-                 << " " << query.value("Resol").toString() << " " << query.value("Data_Foto").toString();
+                 << " " << query.value("Path").toString();
         qDebug();
     }
     return true;
