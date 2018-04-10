@@ -1,15 +1,15 @@
 <RCC>
     <qresource prefix="/Icons">
         <file>bin/Icons/album.png</file>
+        <file>bin/Icons/downarrow.png</file>
         <file>bin/Icons/exit.png</file>
+        <file>bin/Icons/leftarrow.png</file>
         <file>bin/Icons/People.png</file>
         <file>bin/Icons/refresh.png</file>
-        <file>bin/Icons/downarrow.png</file>
-        <file>bin/Icons/leftarrow.png</file>
     </qresource>
     <qresource prefix="/Photos">
+        <file>bin/Images/alegria.png</file>
         <file>bin/Images/Login_Background.png</file>
         <file>bin/Images/logo.png</file>
-        <file>bin/Images/alegria.png</file>
     </qresource>
 </RCC>

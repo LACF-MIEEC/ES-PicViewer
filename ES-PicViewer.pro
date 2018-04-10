@@ -24,50 +24,71 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    addassociationdialog.cpp \
-    albuminfodisplay.cpp \
-    albumlistitem.cpp \
-    albumlistpage.cpp \
-    loadwindow.cpp \
-    managepeople.cpp \
-    addalbumdialog.cpp \
-    addpagedialog.cpp \
-    photodisplay.cpp \
-    photominiature.cpp \
-    pageinfodisplay.cpp \
-    addpersondialog.cpp
+    CustomClasses/album.cpp \
+    CustomClasses/debugES.cpp \
+    CustomClasses/foto.cpp \
+    CustomClasses/gestorbd.cpp \
+    CustomClasses/listaalbuns.cpp \
+    CustomClasses/listapessoas.cpp \
+    CustomClasses/pagina.cpp \
+    CustomClasses/pessoa.cpp \
+    UI/addalbumdialog.cpp \
+    UI/addassociationdialog.cpp \
+    UI/addpagedialog.cpp \
+    UI/addpersondialog.cpp \
+    UI/albuminfodisplay.cpp \
+    UI/albumlistitem.cpp \
+    UI/albumlistpage.cpp \
+    UI/loadwindow.cpp \
+    UI/main.cpp \
+    UI/mainwindow.cpp \
+    UI/managepeople.cpp \
+    UI/pageinfodisplay.cpp \
+    UI/photodisplay.cpp \
+    UI/photominiature.cpp
 
 HEADERS += \
-        mainwindow.h \
-    addassociationdialog.h \
-    albuminfodisplay.h \
-    albumlistitem.h \
-    albumlistpage.h \
-    loadwindow.h \
-    managepeople.h \
-    addalbumdialog.h \
-    addpagedialog.h \
-    photodisplay.h \
-    photominiature.h \
-    pageinfodisplay.h \
-    addpersondialog.h
+    CustomClasses/album.h \
+    CustomClasses/debugES.h \
+    CustomClasses/foto.h \
+    CustomClasses/gestorbd.h \
+    CustomClasses/listaalbuns.h \
+    CustomClasses/listapessoas.h \
+    CustomClasses/pagina.h \
+    CustomClasses/pessoa.h \
+    UI/addalbumdialog.h \
+    UI/addassociationdialog.h \
+    UI/addpagedialog.h \
+    UI/addpersondialog.h \
+    UI/albuminfodisplay.h \
+    UI/albumlistitem.h \
+    UI/albumlistpage.h \
+    UI/loadwindow.h \
+    UI/mainwindow.h \
+    UI/managepeople.h \
+    UI/pageinfodisplay.h \
+    UI/photodisplay.h \
+    UI/photominiature.h
 
 FORMS += \
-        mainwindow.ui \
-    addassociationdialog.ui \
-    albuminfodisplay.ui \
-    albumlistitem.ui \
-    albumlistpage.ui \
-    loadwindow.ui \
-    managepeople.ui \
-    addalbumdialog.ui \
-    addpagedialog.ui \
-    photodisplay.ui \
-    photominiature.ui \
-    pageinfodisplay.ui \
-    addpersondialog.ui
+    UI/addalbumdialog.ui \
+    UI/addassociationdialog.ui \
+    UI/addpagedialog.ui \
+    UI/addpersondialog.ui \
+    UI/albuminfodisplay.ui \
+    UI/albumlistitem.ui \
+    UI/albumlistpage.ui \
+    UI/loadwindow.ui \
+    UI/mainwindow.ui \
+    UI/managepeople.ui \
+    UI/pageinfodisplay.ui \
+    UI/photodisplay.ui \
+    UI/photominiature.ui
 
 RESOURCES += \
-    resources.qrc
+    UI/resources.qrc
+
+SUBDIRS += \
+    ES-PicViewer.pro
+
+DISTFILES +=
