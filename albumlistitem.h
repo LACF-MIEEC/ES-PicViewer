@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::AlbumListItem *ui;
+
 };
 
 #endif // ALBUMLISTITEM_H

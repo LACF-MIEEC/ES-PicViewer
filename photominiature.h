@@ -12,11 +12,13 @@ class PhotoMiniature : public QWidget
     Q_OBJECT
 
 public:
-    explicit PhotoMiniature(QWidget *parent = 0);
+    explicit PhotoMiniature(int *FotoNum, QWidget *parent = 0);
     ~PhotoMiniature();
-
+    int Foto;
 private:
     Ui::PhotoMiniature *ui;
+
+
 };
 
 #endif // PHOTOMINIATURE_H

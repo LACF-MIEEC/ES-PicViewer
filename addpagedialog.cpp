@@ -56,12 +56,13 @@ void AddPageDialog::on_buttonBox_accepted()
                                              QMessageBox::Ok,this);
 
         error->exec();
+        error->deleteLater();
         return;
     }
-    else{
-        emit pageAccepted(this);
-        this->hide();
-    }
+    //Falta confirmar restantes parametros
+
+    emit pageAccepted(this);
+    this->hide();
 }
 
 void AddPageDialog::on_buttonBox_rejected()

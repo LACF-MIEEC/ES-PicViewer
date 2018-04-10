@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
+    <width>1030</width>
     <height>770</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1025</width>
-    <height>765</height>
+    <width>1030</width>
+    <height>770</height>
    </size>
   </property>
   <property name="font">
@@ -131,7 +131,7 @@
            <item>
             <widget class="QTreeWidget" name="AlbumList">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -144,9 +144,12 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>300</width>
+               <width>220</width>
                <height>16777215</height>
               </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
@@ -171,6 +174,12 @@
              </property>
              <property name="rootIsDecorated">
               <bool>false</bool>
+             </property>
+             <property name="uniformRowHeights">
+              <bool>false</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
              </property>
              <property name="expandsOnDoubleClick">
               <bool>false</bool>
@@ -197,14 +206,14 @@
            <item>
             <widget class="QTableWidget" name="PhotoDisplay">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>500</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
@@ -430,10 +439,19 @@
        <item row="1" column="3">
         <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="DetailsDisplay">
+          <property name="spacing">
+           <number>3</number>
+          </property>
           <property name="leftMargin">
            <number>1</number>
           </property>
           <property name="topMargin">
+           <number>1</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
            <number>1</number>
           </property>
           <item>
@@ -465,7 +483,7 @@
                <x>0</x>
                <y>0</y>
                <width>300</width>
-               <height>308</height>
+               <height>295</height>
               </rect>
              </property>
              <attribute name="label">
@@ -477,7 +495,7 @@
           <item>
            <widget class="QListWidget" name="PeopleList">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+             <sizepolicy hsizetype="Maximum" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -509,7 +527,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1025</width>
+     <width>1030</width>
      <height>21</height>
     </rect>
    </property>

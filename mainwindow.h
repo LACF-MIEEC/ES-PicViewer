@@ -15,6 +15,7 @@
 #include <QComboBox>
 #include <QImageReader>
 #include <QVector>
+#include <QDebug>
 
 #include "albumlistitem.h"
 #include "albumlistpage.h"
@@ -25,6 +26,7 @@
 #include "addpagedialog.h"
 #include "photodisplay.h"
 #include "photominiature.h"
+#include "pageinfodisplay.h"
 
 namespace Ui {
 class MainWindow;
@@ -64,6 +66,8 @@ private slots:
     void addPage(AddPageDialog *Dialog);
 
     void on_AddPhoto_clicked();
+
+    void on_PhotoDisplay_cellDoubleClicked(int row, int column);
 
 private:
     Ui::MainWindow *ui;
