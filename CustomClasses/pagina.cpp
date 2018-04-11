@@ -14,9 +14,7 @@ void Pagina::deleteSelf(){
     for(int i=0;Photos.size();i++){
         Photos.at(i)->deleteSelf();
     }
-
     delete this;
-
 }
 
 //------------------Get Atributes--------------------//
@@ -67,5 +65,4 @@ int Pagina::createFolder(QString folderName){
         return 0;
     return -1;
 }
-
 
