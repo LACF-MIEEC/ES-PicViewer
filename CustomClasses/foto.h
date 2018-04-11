@@ -10,13 +10,21 @@ class GestorBD;
 class Pessoa;
 class Pagina;
 
+struct PhotoParam{
+    int ID;
+    QDir Path;
+    Pagina* Parent;
+    GestorBD* Gestor;
+};
 class Foto
 {
 public:
 
-    Foto(int id, QDir Dir, Pagina* parent = 0, GestorBD* gestor = 0);
+    Foto(PhotoParam atributes);
 
-    int deleteSelf();
+    void deleteSelf();
+
+    //----------------Get Atributes----------------//
 
     int getID();
     QDir getPath();

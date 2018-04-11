@@ -11,36 +11,45 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
     qDebug() << "vector size is " << allocatedPeopleID.size() << ", maxID is " << maxPeopleID;
 
     oGestor =gestor;
+
 }
 
-Pessoa* ListaPessoas::createPerson(QString name, QDate birth, gender gen, QString bond){
-    return new Pessoa(genPersonID(),name,birth,gen,bond,this,oGestor);
+ListaPessoas::~ListaPessoas(){
+    for(int i=0;People.size();i++){
+        People.at(i)->deleteSelf();
+    }
+
+    delete this;
+}
+
+
+Pessoa* ListaPessoas::createPerson(PersonParam atributes){
+    atributes.ID=genPersonID();
+    Pessoa* newPerson = new Pessoa(atributes);
+    People.append(newPerson);
+    return newPerson;
 }
 
 int ListaPessoas::generateID(QVector<int> &allocatedID, int &maxID)
 {
-    debugMsg( "Hello World");
+    qDebug() << "Hello World";
     for (int index = 0; index < allocatedID.size(); index++ )
     {
-        if (allocatedID[index] == 0)
+        if (allocatedID.at(index) == 0)
         {
-            std::ostringstream msg;
-            msg << "Free space found: index = " << index << ", vector[index] = " << allocatedID[index];
-            debugMsg(msg.str());
-            msg.str("");
+            qDebug() << "Free space found: index = " << index << ", vector[index] = " << allocatedID.at(index);
 
             allocatedID[index] = 1;
-            msg << ", vector[index] is now " << allocatedID[index] << std::endl;
-            debugMsg(msg.str());
+            qDebug() << ", vector[index] is now " << allocatedID.at(index);;
 
             return index;
         }
         if (index == maxID){
-            debugMsg( "Incrementing maxID");
+            qDebug() << "Incrementing maxID";
             maxID += 1;
             if (maxID == allocatedID.size())
             {
-                debugMsg( "Allocating more space");
+                qDebug() << "Allocating more space";
                 allocatedID.insert(allocatedID.size(), 10, 0);
             }
             allocatedID[maxID] = 1;
@@ -48,10 +57,10 @@ int ListaPessoas::generateID(QVector<int> &allocatedID, int &maxID)
         }
     }
     // Program shouldn't get here...
-    std::cout << "Are you sure the program is correct?" << std::endl;
+    qDebug() << "Are you sure the program is correct?";
     // Are we here? vector is full, we need to append new values
     if (allocatedID.size() == maxID+1){
-        debugMsg( "Incrementing maxID and allocating more space");
+        qDebug() << "Incrementing maxID and allocating more space";
         allocatedID.insert(allocatedID.size(), 10, 0);
         maxID += 1;
         //allocatedID.append(1);
@@ -60,8 +69,8 @@ int ListaPessoas::generateID(QVector<int> &allocatedID, int &maxID)
         //return maxID;
     }
     // If the program gets here, something went wrong
-    debugMsg( "Something went wrong generating an ID");
-    std::cout << "MaxID = " << maxID << ", vector size = " << allocatedID.size() << std::endl;
+    qDebug() << "Something went wrong generating an ID";
+    qDebug() << "MaxID = " << maxID << ", vector size = " << allocatedID.size();
     return -1;
 
 

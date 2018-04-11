@@ -5,30 +5,30 @@
 #include <QString>
 #include <QDir>
 
-//#include "foto.h"
-//#include "pagina.h"
-//#include "listaalbuns.h"
-//#include "gestorbd.h"
+#include "pagina.h"
 
-class Foto;
-class Pagina;
-enum pageType_t : short int;
 class ListaAlbuns;
 class GestorBD;
 
+struct AlbumParam{
+    int ID;
+    QString Name;
+    QString Description;
+    QDir Path;
+    pageType_t PageType;
+    ListaAlbuns* Parent =0;
+    GestorBD* Gestor =0;
+};
 
 class Album
 {
 public:
 
-    Album(int id, QString name, QString desc, QDir path, pageType_t type, ListaAlbuns* parent =0, GestorBD* gestor =0);
+    Album(AlbumParam atributes);
 
-    int deleteSelf();
+    void deleteSelf();
 
-    /* MODIFICATIONS NOT YET IMPLEMENTED
-    int setName(QString newName);
-    void setDescription(QString newDesc);
-    */
+    //----------------Get Atributes----------------//
 
     int getID();
     QString getName();
@@ -40,9 +40,21 @@ public:
 
     ListaAlbuns* parent();
 
-    int acceptPage(Pagina* page);
+    //-------------------Create--------------------//
+
+    Pagina* createPage(PageParam atributes);
+
+    Foto* createPhoto(PhotoParam atributes, Pagina* destination);
+
+
+
+    /* MODIFICATIONS NOT YET IMPLEMENTED
+    int setName(QString newName);
+    void setDescription(QString newDesc);
+    */
 
     /* DELETE AND MOVE NOT YET IMPLEMENTED
+    int acceptPage(Pagina* page);
     int removePage(Pagina* page);
     int deletePage(Pagina* page);
     */
@@ -57,7 +69,7 @@ public:
 
 private:
 
-    int createFolder();
+    int createFolder(QString folderName);
     QString createFolderName();
 
     int ID;
@@ -66,7 +78,7 @@ private:
     QDir Path;
     pageType_t PageType;
 
-    ListaAlbuns* aListaAlbuns;
+    ListaAlbuns* Parent;
     GestorBD* oGestor;
     QVector<Pagina*> Pages;
 

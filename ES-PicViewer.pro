@@ -46,7 +46,8 @@ SOURCES += \
     UI/managepeople.cpp \
     UI/pageinfodisplay.cpp \
     UI/photodisplay.cpp \
-    UI/photominiature.cpp
+    UI/photominiature.cpp \
+    CustomClasses/subpagina.cpp
 
 HEADERS += \
     CustomClasses/album.h \

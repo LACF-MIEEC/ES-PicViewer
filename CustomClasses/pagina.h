@@ -6,9 +6,21 @@
 #include <QDate>
 #include <QDir>
 
+#include "foto.h"
+
 class GestorBD;
 class Album;
-class Foto;
+
+struct PageParam{
+  int ID;
+  QString Description;
+  QDir Path;
+  QDate StartDate;
+  QDate EndDate;
+  QString PartyType;
+  Album* Parent=0;
+  GestorBD* Gestor=0;
+};
 
 enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
 
@@ -16,9 +28,11 @@ class Pagina
 {
 public:
 
-    Pagina(int id, QString desc, QDir path, Album* parent=0,GestorBD* gestor = 0);
+    Pagina(PageParam atributes);
 
-    int deleteSelf();
+    void deleteSelf();
+
+    //----------------Get Atributes----------------//
 
     int getID();
     QString getDescription();
@@ -29,14 +43,16 @@ public:
 
     Album* parent();
 
+    //-------------------Create--------------------//
 
-    int acceptPhoto(Foto* photo);
+    Foto* createPhoto(PhotoParam atributes);
+
 
     /* DELETE AND MOVE NOT YET IMPLEMENTED
+     * int acceptPhoto(Foto* photo);
     int removePhoto(Foto* photo);
     int deletePhoto(Foto* photo);
     */
-
     /* SEARCH NOT YET IMPLEMENTED
     QVector<Foto*> searchPhotoByDate(QDate);
     QVector<Foto*> searchPhotoByKeyword(QString keyword);
@@ -46,7 +62,7 @@ public:
 protected:
 
     int createFolder(QString folderName);
-    virtual QString createFolderName();
+    virtual QString createFolderName()=0;
 
     QString Description;
     int ID;
@@ -62,17 +78,12 @@ class PaginaViagem : public Pagina
 {
 public:
 
-    PaginaViagem(int id, QString desc, QDir path, QDateTime start, QDateTime end, Album* parent=0,GestorBD* gestor = 0);
+    PaginaViagem(PageParam atributes);
 
-    QDate getStartDate(){
-        return StartDate;
-    }
-    QDate getEndDate(){
-        return EndDate;
-    }
-    pageType_t getType(){
-        return viagem;
-    }
+    pageType_t getType();
+
+    QDate getStartDate();
+    QDate getEndDate();
 
 private:
     QString createFolderName();
@@ -82,22 +93,16 @@ private:
 
 };
 
-
 class PaginaFesta : public Pagina
 {
 public:
 
-    PaginaFesta(int id, QString desc, QDir path, QDateTime date, QString type, Album* parent=0,GestorBD* gestor = 0);
+    PaginaFesta(PageParam atributes);
 
-    QDate getDate(){
-        return Date;
-    }
-    QString getPartyType(){
-        return PartyType;
-    }
-    pageType_t getType(){
-        return festa;
-    }
+    pageType_t getType();
+
+    QDate getDate();
+    QString getPartyType();
 
 private:
     QString createFolderName();
@@ -107,16 +112,13 @@ private:
 
 };
 
-
 class PaginaCoisaPessoa : public Pagina
 {
 public:
 
-    PaginaCoisaPessoa(int id, QString desc, QDir path, Album* parent=0,GestorBD* gestor = 0);
+    PaginaCoisaPessoa(PageParam atributes);
 
-    pageType_t getType(){
-        return coisaPessoa;
-    }
+    pageType_t getType();
 
 private:
     QString createFolderName();
@@ -127,17 +129,13 @@ class PaginaOutro : public Pagina
 {
 public:
 
-    PaginaOutro(int id, QString desc, QDir path, QDateTime start,QDateTime end, Album* parent=0,GestorBD* gestor = 0);
+    PaginaOutro(PageParam atributes);
 
-    QDate getStartDate(){
-        return StartDate;
-    }
-    QDate getEndDate(){
-        return EndDate;
-    }
-    pageType_t getType(){
-        return outro;
-    }
+    pageType_t getType();
+
+    QDate getStartDate();
+    QDate getEndDate();
+
 private:
     QString createFolderName();
 

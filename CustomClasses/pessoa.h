@@ -11,11 +11,24 @@ class ListaPessoas;
 
 enum gender :short int {feminino, masculino};
 
+struct PersonParam{
+    int ID;
+    QString Name;
+    QDate Birth;
+    gender Gender;
+    QString Bond;
+    ListaPessoas* Parent;
+    GestorBD* Gestor;
+};
+
 class Pessoa
 {
 public:
-    Pessoa(int id, QString name, QDate birth, gender gen, QString bond, ListaPessoas *parent=0, GestorBD *gestor=0);
-    //~Pessoa();
+    Pessoa(PersonParam atributes);
+
+    void deleteSelf();
+
+    //----------------Get Atributes----------------//
 
     int getID();
     QString getName();

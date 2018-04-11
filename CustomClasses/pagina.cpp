@@ -1,23 +1,31 @@
 #include "pagina.h"
 
-Pagina::Pagina(int id, QString desc, QDir path, Album* parent=0,GestorBD* gestor = 0)
+Pagina::Pagina(PageParam atributes)
 {
-    ID=id;
-    Description=desc;
-    Path=path;
-    Parent=parent;
-    oGestor=gestor;
+    ID          =   atributes.ID;
+    Description =   atributes.Description;
+    Path        =   atributes.Path;
+    Parent      =   atributes.Parent;
+    oGestor     =   atributes.Gestor;
+
+
 }
-int Pagina::deleteSelf(){
+void Pagina::deleteSelf(){
+    for(int i=0;Photos.size();i++){
+        Photos.at(i)->deleteSelf();
+    }
+
+    delete this;
 
 }
 
+//------------------Get Atributes--------------------//
 int Pagina::getID(){
     return ID;
 }
 
 QString Pagina::getDescription(){
-    return Description
+    return Description;
 }
 
 QDir Pagina::getPath(){
@@ -32,79 +40,32 @@ Album* Pagina::parent(){
     return Parent;
 }
 
+//-------------------Create--------------------------//
 
-int Pagina::acceptPhoto(Foto* photo){
+Foto* Pagina::createPhoto(PhotoParam atributes){
+    Foto* newFoto=new Foto(atributes);
+    Photos.append(newFoto);
+    return newFoto;
+}
+
+
+//----------------PRIVATE----------------------------//
+
+int Pagina::createFolder(QString folderName){
+    QDir folder(folderName);
+    QString newFolderName;
+
+    for(int i=1;folder.exists();i++){
+        newFolderName.clear();
+        newFolderName = folderName;
+        newFolderName.append("(");
+        newFolderName.append(i);
+        newFolderName.append(")");
+    }
+
+    if(folder.mkdir(newFolderName))
+        return 0;
     return -1;
 }
 
-int createFolder(QString folderName){
-    return -1;
-}
-// ------------- VIAGEM ----------------------------
 
-PaginaViagem::PaginaViagem(int id, QString desc, QDir path, QDateTime start, QDateTime end, Album* parent=0,GestorBD* gestor = 0):
-    Pagina(id,desc,path,parent,gestor)
-{
-    StartDate=start;
-    EndDate=end;
-}
-
-pageType_t PaginaViagem::getType()
-{
-    return viagem;
-}
-
-QString PaginaViagem::createFolderName(){
-    QStringRef folderName = "Viagem";
-    return folderName;
-}
-// ------------- FESTA ----------------------------
-
-PaginaFesta::PaginaFesta(int id, QString desc, QDir path, QDateTime date, QString type, Album* parent=0,GestorBD* gestor = 0):
-    Pagina(id,desc,path,parent,gestor)
-{
-    Date=date;
-    PartyType=type;
-}
-pageType_t PaginaFesta::getType()
-{
-    return festa;
-}
-
-QString PaginaFesta::createFolderName(){
-    QStringRef folderName = "Festa";
-    return folderName;
-}
-// ------------- COISA OU PESSOA ----------------------------
-
-PaginaCoisaPessoa::PaginaCoisaPessoa(int id, QString desc, QDir path, Album* parent=0,GestorBD* gestor = 0):
-    Pagina(id,desc,path,parent,gestor)
-{
-}
-pageType_t PaginaCoisaPessoa::getType()
-{
-    return coisaPessoa;
-}
-
-QString PaginaCoisaPessoa::createFolderName(){
-    QStringRef folderName = "Coisa";
-    return folderName;
-}
-// ------------- OUTRO ----------------------------
-
-PaginaOutro::PaginaOutro(int id, QString desc, QDir path, QDateTime start, QDateTime end, Album* parent=0,GestorBD* gestor = 0):
-    Pagina(id,desc,path,parent,gestor)
-{
-    StartDate=start;
-    EndDate=end;
-}
-
-pageType_t PaginaOutro::getType()
-{
-    return outro;
-}
-
-QString PaginaOutro::createFolderName(){
-    QStringRef folderName = "Outro";
-    return folderName;
-}

@@ -1,15 +1,21 @@
 #include "pessoa.h"
 
-Pessoa::Pessoa(int id, QString name, QDate birth, gender gen, QString bond, ListaPessoas *parent=0, GestorBD *gestor=0)
+Pessoa::Pessoa(PersonParam atributes)
 {
-    ID=id;
-    Name=name;
-    Birth=birth;
-    Gender=gen;
-    Bond=bond;
-    Parent=parent;
-    oGestor=gestor;
+    ID      =   atributes.ID;
+    Name    =   atributes.Name;
+    Birth   =   atributes.Birth;
+    Gender  =   atributes.Gender;
+    Bond    =   atributes.Bond;
+    Parent  =   atributes.Parent;
+    oGestor =   atributes.Gestor;
+
 }
+
+void Pessoa::deleteSelf(){
+    delete this;
+}
+
 int Pessoa::getID(){
     return ID;
 }

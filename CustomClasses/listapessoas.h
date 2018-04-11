@@ -3,9 +3,9 @@
 
 #include <QVector>
 #include <QString>
+#include <QDebug>
 
 #include "pessoa.h"
-#include "foto.h"
 
 class GestorBD;
 
@@ -13,12 +13,18 @@ class ListaPessoas
 {
 public:
     ListaPessoas(GestorBD* gestor=0);
+    ~ListaPessoas();
+    //----------------Get Atributes----------------//
+
+    QVector<Pessoa*> getPeople();
+
+    //-------------------Create--------------------//
+
+    Pessoa* createPerson(PersonParam atributes);
 
     /* SEARCH NOT YET IMPLEMENTED
     QVector<Foto*> searchPhotosByPerson(QString name);
     */
-    Pessoa* createPerson(QString name, QDate birth, gender gen, QString bond);
-
     /* REMOVE AND ATTACHMENTS NOT YET IMPLEMENTED
     int deletePerson(Pessoa*);
 
@@ -32,8 +38,9 @@ private:
     QVector<int> allocatedPeopleID;
     int maxPeopleID;
 
-    int generateID(QVector<int> &allocatedID, int &maxID); // pode alterar maxID
+    int generateID(QVector<int> &allocatedID, int &maxID);
     int genPersonID();
+
     QVector<Pessoa*> People;
     GestorBD* oGestor;
 };
