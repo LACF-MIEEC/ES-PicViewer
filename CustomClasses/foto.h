@@ -1,47 +1,45 @@
 #ifndef FOTO_H
 #define FOTO_H
 
-#include <string>
+#include <QString>
 #include <QVector>
+#include <QDir>
 
-//#include "listaalbuns.h"
-class ListaAlbuns;
-
-//#include "gestorbd.h"
+class ListaPessoas;
 class GestorBD;
-
-//#include "pessoa.h"
 class Pessoa;
-
-//#include "pagina.h"
 class Pagina;
-
-struct FotoParams{
-    int fotoID;
-    //...
-};
 
 class Foto
 {
 public:
-    Foto(FotoParams params);
 
-    int deleteSelf(); // Remover-se da base de dados, eliminar ficheiro
+    Foto(int id, QDir Dir, Pagina* parent = 0, GestorBD* gestor = 0);
 
-    std::string getPath();
+    int deleteSelf();
 
-    int acceptPerson(Pessoa* person);
-    int removePerson(Pessoa* person);
+    int getID();
+    QDir getPath();
+
     QVector<Pessoa*> getPeople();
+
+    Pagina* parent();
+
+    /*ASSOCIATIONS NOT YET IMPLEMENTED
+    int acceptPerson(Pessoa* Person);
+    int removePerson(Pessoa* Person);
+    */
+
 private:
-    int fotoID;
 
-    std::string directoria; //ingles? assim é como está no SAD
+    int ID;
+    QDir Path;
+    QVector<Pessoa*> People;
 
-    ListaAlbuns* aListaAlbuns;
+    ListaPessoas* PeopleList;//Como se lá chega?????????
     GestorBD* oGestor;
-    QVector<Pessoa*> people;
-    Pagina* parent;
+    Pagina* Parent;
+
 };
 
 #endif // FOTO_H

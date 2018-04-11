@@ -1,22 +1,16 @@
 #include "listaalbuns.h"
-#include "debugES.h"
-#include <iostream>
-#include <sstream>
 
-ListaAlbuns::ListaAlbuns()
+ListaAlbuns::ListaAlbuns(GestorBD *gestor)
 {
-    debugMsg( "Entered constructor");
+    qDebug() << "Entered constructor";
     allocatedAlbumID.fill(0);
     allocatedAlbumID.insert(allocatedAlbumID.size(), 10, 0);
 
     maxAlbumID = 0;
 
-
-
-    std::cout << "vector size is " << allocatedAlbumID.size() << ", maxID is " << maxAlbumID << std::endl;
+    qDebug() << "vector size is " << allocatedAlbumID.size() << ", maxID is " << maxAlbumID;
 
 }
-
 
 int ListaAlbuns::generateID(QVector<int> &allocatedID, int &maxID)
 {
@@ -66,4 +60,24 @@ int ListaAlbuns::generateID(QVector<int> &allocatedID, int &maxID)
     return -1;
 
 
+}
+
+int ListaAlbuns::genAlbumID(){
+    return generateID(allocatedAlbumID, maxAlbumID);
+}
+
+int ListaAlbuns::genPageID(){
+    return generateID(allocatedPageID, maxPageID);
+}
+
+int ListaAlbuns::genPhotoID(){
+    return generateID(allocatedPhotoID, maxPhotoID);
+}
+
+Album* ListaAlbuns::createAlbum(QString name, QString desc, QDir path, pageType_t type){
+    return new Album(genAlbumID(),name,desc,path,type,this,oGestor);
+}
+
+QVector<Album*> ListaAlbuns::getAlbums(){
+    return Albums;
 }

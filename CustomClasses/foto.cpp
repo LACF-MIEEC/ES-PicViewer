@@ -1,7 +1,8 @@
 #include "foto.h"
 
-Foto::Foto(FotoParams params)
+Foto::Foto(int id, QDir Dir, Pagina* parent, GestorBD* gestor)
 {
-    fotoID = params.fotoID;
-    //...
+    FotoID      = ID;
+    Directory   = Dir;
+    Parent      = parent;
 }

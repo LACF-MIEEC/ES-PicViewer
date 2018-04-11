@@ -27,7 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     CustomClasses/album.cpp \
-    CustomClasses/debugES.cpp \
     CustomClasses/foto.cpp \
     CustomClasses/gestorbd.cpp \
     CustomClasses/listaalbuns.cpp \
@@ -51,7 +50,6 @@ SOURCES += \
 
 HEADERS += \
     CustomClasses/album.h \
-    CustomClasses/debugES.h \
     CustomClasses/foto.h \
     CustomClasses/gestorbd.h \
     CustomClasses/listaalbuns.h \
