@@ -6,8 +6,8 @@
 #include <QSqlError>
 #include <QSqlRecord>
 
-#include "listaalbuns.h"
-#include "listapessoas.h"
+//#include "listaalbuns.h"
+//#include "listapessoas.h"
 
 class GestorBD
 {

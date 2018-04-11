@@ -8,9 +8,9 @@ struct Setup{
         Boot,
         RunTime
     };
-    Q_DECLARE_FLAGS(RunState,State)
+    Q_DECLARE_FLAGS(RunStates,RunState)
 };
-Q_DECLARE_OPERATORS_FOR_FLAGS(Setup::RunState)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Setup::RunStates)
 
 #define BOOT 1
 

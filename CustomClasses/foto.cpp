@@ -7,6 +7,18 @@ Foto::Foto(PhotoParam atributes)
     Parent  = atributes.Parent;
     oGestor = atributes.Gestor;
 
+    if(RunMode.testFlag(Setup::Boot)){
+        /*QVector<PhotoParam*> PhotoAtributes = oGestor->getPhotos(this);
+        for(int i=0;PhotoAtributes.size();i++){
+            Photos.append(new Foto(PhotoAtributes.at(i)));
+        }*/
+        RunMode = Setup::RunTime;
+    }
+    if(RunMode.testFlag(Setup::RunTime)){
+        if(!oGestor->addPhoto(this))
+            qDebug << "Unable to Save Page";
+    }
+
 }
 
 void Foto::deleteSelf(){

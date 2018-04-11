@@ -2,9 +2,6 @@
 #define LISTAALBUNS_H
 
 #include "album.h"
-#include "gestorbd.h"
-
-
 
 class ListaAlbuns
 {

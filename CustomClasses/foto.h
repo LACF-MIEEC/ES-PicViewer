@@ -7,7 +7,9 @@
 #include <QDate>
 #include <QDebug>
 
+
 #include "flags.h"
+#include "gestorbd.h"
 
 class ListaPessoas;
 class GestorBD;
@@ -44,6 +46,8 @@ public:
     */
 
 private:
+
+    Setup::RunStates RunMode = Setup::Boot;
 
     int ID;
     QDir Path;
