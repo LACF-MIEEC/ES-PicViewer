@@ -1,5 +1,6 @@
 #include "listaalbuns.h"
 
+
 ListaAlbuns::ListaAlbuns(GestorBD *gestor)
 {
     qDebug() << "Entered constructor";
@@ -11,6 +12,14 @@ ListaAlbuns::ListaAlbuns(GestorBD *gestor)
     qDebug() << "vector size is " << allocatedAlbumID.size() << ", maxID is " << maxAlbumID;
 
     oGestor = gestor;
+
+
+    Albums.clear();
+    QVector<AlbumParam*> AlbumAtributes = oGestor->getAlbums(this);
+    for(int i=0;AlbumAtributes.size();i++){
+        Albums.append(new Album(AlbumAtributes.at(i)));
+    }
+
 }
 ListaAlbuns::~ListaAlbuns(){
     for(int i=0;Albums.size();i++){

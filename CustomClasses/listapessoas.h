@@ -1,9 +1,6 @@
 #ifndef LISTAPESSOAS_H
 #define LISTAPESSOAS_H
 
-#include <QVector>
-#include <QString>
-#include <QDebug>
 
 #include "pessoa.h"
 

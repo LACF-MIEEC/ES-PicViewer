@@ -4,6 +4,10 @@
 #include <QString>
 #include <QVector>
 #include <QDir>
+#include <QDate>
+#include <QDebug>
+
+#include "flags.h"
 
 class ListaPessoas;
 class GestorBD;

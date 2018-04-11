@@ -1,10 +1,6 @@
 #ifndef ALBUM_H
 #define ALBUM_H
 
-#include <QVector>
-#include <QString>
-#include <QDir>
-
 #include "pagina.h"
 
 class ListaAlbuns;
@@ -68,6 +64,8 @@ public:
 
 
 private:
+
+    Setup::RunState RunMode = Setup::Boot;
 
     int createFolder(QString folderName);
     QString createFolderName();

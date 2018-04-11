@@ -5,12 +5,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
-#include <QDebug>
 
-#include "foto.h"
-#include "pagina.h"
-#include "pessoa.h"
-#include "album.h"
 #include "listaalbuns.h"
 #include "listapessoas.h"
 
@@ -28,48 +23,48 @@ public:
     bool createTables();
 
     //-------------------------------------------------------------
-    //GET
+    //ADD
     //-------------------------------------------------------------
-    bool addFoto(Foto     *newFoto);
+    bool addPhoto(Foto     *newFoto);
 
     bool addAlbum(Album   *newAlbum);
 
-    bool addPagina(Pagina *newPagina);
+    bool addPage(Pagina *newPagina);
 
-    bool addPessoa(Pessoa *newPessoa);
+    bool addPerson(Pessoa *newPessoa);
+    //-------------------------------------------------------------
+    //UPDATE
+    //-------------------------------------------------------------
+    bool updatePhoto(Foto *newFoto);
+
+    bool updateAlbum(Album *newAlbum);
+
+    bool updatePage(Pagina *newPagina);
+
+    bool updatePerson(Pessoa *newPessoa);
+
     //-------------------------------------------------------------
     //GET
     //-------------------------------------------------------------
-    bool updateFoto(Foto *newFoto);
+    QVector<PhotoParam*> getPhotos(Pagina* Page);
 
-    bool updateAlbum(Album   *newAlbum);
+    QVector<PageParam *> getPages(Album* Alb);
 
-    bool updatePagina(Pagina *newPagina);
+    QVector<AlbumParam*> getAlbums(ListaAlbuns* Albs);
 
-    bool updatePessoa(Pessoa *newPessoa);
-
-    //-------------------------------------------------------------
-    //GET
-    //-------------------------------------------------------------
-    QVector<Foto*> getFotos(Pagina* Page);
-
-    QVector<Pagina*>  getPaginas(Album* Alb);
-
-    QVector<Album*> getAlbuns(ListaAlbuns* Albs);
-
-    QVector<Pessoa*> getPessoas(ListaPessoas* People);
+    QVector<PersonParam *> getPeople(ListaPessoas* People);
 
 
     //-------------------------------------------------------------
     //DELETE
     //-------------------------------------------------------------
-    bool deleteFoto(Foto *delFoto);
+    bool deletePhoto(Foto *delFoto);
 
     bool deleteAlbum(Album *delAlbum);
 
-    bool deletePagina(Pagina *delPagina);
+    bool deletePage(Pagina *delPagina);
 
-    bool deletePessoa(Pessoa *delPessoa);
+    bool deletePerson(Pessoa *delPessoa);
 
     //-------------------------------------------------------------
     //OTHERS
@@ -84,7 +79,7 @@ public:
 
     bool addAtachment(const QString& ,const QString&);
 
-    bool getPessoasByFoto(const QString&);
+    bool getPeopleByFoto(const QString&);
 
     bool getAtachments();
 

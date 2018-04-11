@@ -4,6 +4,8 @@
 #include <QVector>
 #include <QString>
 #include <QDate>
+#include <QDir>
+#include <QDebug>
 
 class GestorBD;
 class Foto;

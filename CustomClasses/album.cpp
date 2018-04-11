@@ -1,4 +1,5 @@
 #include "album.h"
+#include "gestorbd.h"
 
 Album::Album(AlbumParam atributes)
 {
@@ -10,6 +11,19 @@ Album::Album(AlbumParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
+    Pages.clear();
+
+    if(RunMode.testFlag(Setup::Boot)){
+        QVector<PageParam*> PageAtributes = oGestor->getPages(this);
+        for(int i=0;PageAtributes.size();i++){
+            Pages.append(new Pagina(PageAtributes.at(i)));
+        }
+        RunMode = Setup::RunTime;
+    }
+    if(RunMode.testFlag(Setup::RunTime)){
+        if(!oGestor->addAlbum(this))
+            qDebug << "Unable to Save Album";
+    }
 }
 
 //----------------Get Atributes----------------//

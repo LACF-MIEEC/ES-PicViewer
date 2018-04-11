@@ -1,13 +1,10 @@
 #ifndef LISTAALBUNS_H
 #define LISTAALBUNS_H
 
-#include <QVector>
-#include <QString>
-#include <QDebug>
-
 #include "album.h"
+#include "gestorbd.h"
 
-class GestorBD;
+
 
 class ListaAlbuns
 {

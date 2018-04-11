@@ -8,7 +8,17 @@ Pagina::Pagina(PageParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-
+    if(RunMode.testFlag(Setup::Boot)){
+        QVector<PageParam*> PageAtributes = oGestor->getPages(this);
+        for(int i=0;PageAtributes.size();i++){
+            Pages.append(new Pagina(PageAtributes.at(i)));
+        }
+        RunMode = Setup::RunTime;
+    }
+    if(RunMode.testFlag(Setup::RunTime)){
+        if(!oGestor->addAlbum(this))
+            qDebug << "Unable to Save Album";
+    }
 }
 void Pagina::deleteSelf(){
     for(int i=0;Photos.size();i++){

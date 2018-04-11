@@ -1,10 +1,6 @@
 #ifndef PAGINA_H
 #define PAGINA_H
 
-#include <QString>
-#include <QVector>
-#include <QDate>
-#include <QDir>
 
 #include "foto.h"
 
@@ -37,7 +33,12 @@ public:
     int getID();
     QString getDescription();
     QDir getPath();
+
     virtual pageType_t getType()=0;
+
+    virtual QDate getStartDate()=0;
+    virtual QDate getEndDate()=0;
+    virtual QString getPartyType()=0;
 
     QVector<Foto*> getPhotos();
 
@@ -60,6 +61,8 @@ public:
 
 
 protected:
+
+    Setup::RunState RunMode = Setup::Boot;
 
     int createFolder(QString folderName);
     virtual QString createFolderName()=0;
@@ -84,8 +87,10 @@ public:
 
     QDate getStartDate();
     QDate getEndDate();
+    QString getPartyType();
 
 private:
+
     QString createFolderName();
 
     QDate StartDate;
@@ -101,7 +106,8 @@ public:
 
     pageType_t getType();
 
-    QDate getDate();
+    QDate getStartDate();
+    QDate getEndDate();
     QString getPartyType();
 
 private:
@@ -120,6 +126,10 @@ public:
 
     pageType_t getType();
 
+    QDate getStartDate();
+    QDate getEndDate();
+    QString getPartyType();
+
 private:
     QString createFolderName();
 
@@ -135,6 +145,7 @@ public:
 
     QDate getStartDate();
     QDate getEndDate();
+    QString getPartyType();
 
 private:
     QString createFolderName();

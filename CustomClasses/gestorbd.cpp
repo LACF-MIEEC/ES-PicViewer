@@ -1,8 +1,9 @@
 #include "gestorbd.h"
+
+
 //-------------------------------------------------------------
 //CREATE TABLES
 //-------------------------------------------------------------
-
 bool GestorBD::createTables()
 {
     //********************************************************************************
@@ -105,34 +106,33 @@ bool GestorBD::createTables()
 //-------------------------------------------------------------
 //ADD
 //-------------------------------------------------------------
-bool GestorBD::addFoto(Foto *newFoto)
+bool GestorBD::addPhoto(Foto *newFoto)
 {
-        QString Path = newFoto->getPath();
-        int ID_Foto  = newFoto->getID();
-        int ID_Pagina= newFoto->parent()->getID();
+    QString Path = newFoto->getPath().path();
+    int ID_Foto  = newFoto->getID();
+    int ID_Pagina= newFoto->parent()->getID();
 
-        QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO FOTO (Path, ID_Foto, ID_Pagina) VALUES (:Path,:id_foto,:id_pagina)");
-        queryAdd.bindValue(":Path", Path);
-        queryAdd.bindValue(":id_foto", ID_Foto);
-        queryAdd.bindValue(":id_pagina", ID_Pagina);
+    QSqlQuery queryAdd;
+    queryAdd.prepare("INSERT INTO FOTO (Path, ID_Foto, ID_Pagina) VALUES (:Path,:id_foto,:id_pagina)");
+    queryAdd.bindValue(":Path", Path);
+    queryAdd.bindValue(":id_foto", ID_Foto);
+    queryAdd.bindValue(":id_pagina", ID_Pagina);
 
-        if(!queryAdd.exec())
-        {
-            qDebug() << "add Foto failed: " << queryAdd.lastError();
-            return false;
-        }
+    if(!queryAdd.exec())
+    {
+        qDebug() << "add Foto failed: " << queryAdd.lastError();
+        return false;
+    }
+    return true;
 }
 
 bool GestorBD::addAlbum(Album *newAlbum){
 
-    int Tipo           = newAlbum->getPageType();
+    pageType_t Tipo    = newAlbum->getPageType();
     int ID_Album       = newAlbum->getID();
     QString Nome_Album = newAlbum->getName();
     QString Descricao  = newAlbum->getDescription();
-    QDir Dir;
-    QString Path = Dir.absoluteFilePath(newAlbum->getPath());
-
+    QString Path       = newAlbum->getPath().path();
 
     QSqlQuery queryAdd;
     queryAdd.prepare("INSERT INTO ALBUM (ID_Album, Nome_Album, Path, Tipo, Descricao) VALUES (:id_alb,:nome_alb,:path,:tipo,:desc)");
@@ -147,44 +147,44 @@ bool GestorBD::addAlbum(Album *newAlbum){
         qDebug() << "add Album failed: " << queryAdd.lastError();
         return false;
     }
-   return true;
+    return true;
 }
 
-bool GestorBD::addPagina(Pagina *newPagina){
+bool GestorBD::addPage(Pagina *newPagina){
 
 
     int ID_Pagina       = newPagina->getID();
     int ID_Album        = newPagina->parent()->getID();
-    int Tipo            = newPagina->getType();
+    pageType_t Tipo            = newPagina->getType();
     QString Descricao   = newPagina->getDescription();
     QString Data_Inicio, Data_Fim,Tipo_Festa;
 
     if(Tipo==viagem){
-         Data_Inicio = newPagina->getStartDate()->toString(Qt::ISODate);
-         Data_Fim    = newPagina->getEndDate()->toString(Qt::ISODate);
-         Tipo_Festa  = "NULL";
+        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
+        Data_Fim    = newPagina->getEndDate().toString(Qt::ISODate);
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==outro){
-         Data_Inicio = newPagina->getStartDate()->toString(Qt::ISODate);
-         Data_Fim    = newPagina->getEndDate()->toString(Qt::ISODate);
-         Tipo_Festa  = "NULL";
+        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
+        Data_Fim    = newPagina->getEndDate().toString(Qt::ISODate);
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==coisaPessoa){
-         Data_Inicio = "NULL";
-         Data_Fim    = "NULL";
-         Tipo_Festa  = "NULL";
+        Data_Inicio = "NULL";
+        Data_Fim    = "NULL";
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==festa){
-         Data_Inicio = newPagina->getDate()->toString(Qt::ISODate);
-         Data_Fim    = "NULL";
-         Tipo_Festa  = newPagina->getPartyType();
+        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
+        Data_Fim    = "NULL";
+        Tipo_Festa  = newPagina->getPartyType();
     }
 
-    QDir Dir;
-    QString Path = Dir.absoluteFilePath(newPagina->getPath());
+
+    QString Path = newPagina->getPath().path();
 
 
 
@@ -207,14 +207,14 @@ bool GestorBD::addPagina(Pagina *newPagina){
     return true;
 }
 
-bool GestorBD::addPessoa(Pessoa *newPessoa){
+bool GestorBD::addPerson(Pessoa *newPessoa){
 
 
-   int ID_Pessoa       = newPessoa->getID();
-   int Genero          = newPessoa->getGender();
-   QString Nome_Pessoa = newPessoa->getName();
-   QString Data_Nasc   = newPessoa->getBirth()->toString();
-   QString Relacao     = newPessoa->getBond();
+    int ID_Pessoa       = newPessoa->getID();
+    int Genero          = newPessoa->getGender();
+    QString Nome_Pessoa = newPessoa->getName();
+    QString Data_Nasc   = newPessoa->getBirth().toString();
+    QString Relacao     = newPessoa->getBond();
 
     QSqlQuery queryAdd;
     queryAdd.prepare("INSERT INTO PESSOA (ID_Pessoa,Nome_Pessoa, Data_Nasc, Genero, Relacao) VALUES (:id_pessoa,:nome,:data,:gen,:rel)");
@@ -239,26 +239,26 @@ bool GestorBD::addPessoa(Pessoa *newPessoa){
 //-------------------------------------------------------------
 //UPDATE
 //-------------------------------------------------------------
-bool GestorBD::updateFoto(Foto *newFoto){
+bool GestorBD::updatePhoto(Foto *newFoto){
 
-        QString Path = newFoto->getPath();
-        int ID_Foto  = newFoto->getID();
-        int ID_Pagina= newFoto->parent()->getID();
+    QString Path = newFoto->getPath().path();
+    int ID_Foto  = newFoto->getID();
+    int ID_Pagina= newFoto->parent()->getID();
 
-        QSqlQuery queryAdd;
-        queryUpdate.prepare("UPDATE FOTO SET Path = :Path,ID_Pagina = :id_pagina WHERE ID_Foto = :id;");
-        queryUpdate.bindValue(":Path", Path);
-        queryUpdate.bindValue(":id_pagina", ID_Pagina);
-        queryUpdate.bindValue(":id"   , ID_Foto);
+    QSqlQuery queryUpdate;
+    queryUpdate.prepare("UPDATE FOTO SET Path = :Path,ID_Pagina = :id_pagina WHERE ID_Foto = :id;");
+    queryUpdate.bindValue(":Path", Path);
+    queryUpdate.bindValue(":id_pagina", ID_Pagina);
+    queryUpdate.bindValue(":id"   , ID_Foto);
 
 
-        if(!queryUpdate.exec())
-        {
-            qDebug() << "add person failed: " << queryUpdate.lastError();
-            return false;
-        }
+    if(!queryUpdate.exec())
+    {
+        qDebug() << "add person failed: " << queryUpdate.lastError();
+        return false;
+    }
 
-        return true;
+    return true;
 }
 
 bool GestorBD::updateAlbum(Album *newAlbum){
@@ -267,16 +267,15 @@ bool GestorBD::updateAlbum(Album *newAlbum){
     int ID_Album       = newAlbum->getID();
     QString Nome_Album = newAlbum->getName();
     QString Descricao  = newAlbum->getDescription();
-    QDir Dir;
-    QString Path = Dir.absoluteFilePath(newAlbum->getPath());
+    QString Path = newAlbum->getPath().path();
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE ALBUM SET Nome_Album = :nome_alb, Path = :path, Tipo = :tipo, Descricao = :desc WHERE ID_Album = :id_alb; ");
-    queryAdd.bindValue(":id_alb", ID_Album);
-    queryAdd.bindValue(":nome_alb", Nome_Album);
-    queryAdd.bindValue(":path", Path);
-    queryAdd.bindValue(":tipo", Tipo);
-    queryAdd.bindValue(":desc", Descricao);
+    queryUpdate.bindValue(":id_alb", ID_Album);
+    queryUpdate.bindValue(":nome_alb", Nome_Album);
+    queryUpdate.bindValue(":path", Path);
+    queryUpdate.bindValue(":tipo", Tipo);
+    queryUpdate.bindValue(":desc", Descricao);
 
     if(!queryUpdate.exec())
     {
@@ -287,7 +286,7 @@ bool GestorBD::updateAlbum(Album *newAlbum){
     return true;
 }
 
-bool GestorBD::updatePagina(Pagina *newPagina){
+bool GestorBD::updatePage(Pagina *newPagina){
 
     int ID_Pagina       = newPagina->getID();
     int ID_Album        = newPagina->parent()->getID();
@@ -296,42 +295,41 @@ bool GestorBD::updatePagina(Pagina *newPagina){
     QString Data_Inicio, Data_Fim,Tipo_Festa;
 
     if(Tipo==viagem){
-         Data_Inicio = newPagina->getStartDate()->toString();;
-         Data_Fim    = newPagina->getEndDate()->toString();
-         Tipo_Festa  = "NULL";
+        Data_Inicio = newPagina->getStartDate().toString();;
+        Data_Fim    = newPagina->getEndDate().toString();
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==outro){
-         Data_Inicio = newPagina->getStartDate()->toString();
-         Data_Fim    = newPagina->getEndDate()->toString();
-         Tipo_Festa  = "NULL";
+        Data_Inicio = newPagina->getStartDate().toString();
+        Data_Fim    = newPagina->getEndDate().toString();
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==coisaPessoa){
-         Data_Inicio = "NULL";
-         Data_Fim    = "NULL";
-         Tipo_Festa  = "NULL";
+        Data_Inicio = "NULL";
+        Data_Fim    = "NULL";
+        Tipo_Festa  = "NULL";
     }
 
     if(Tipo==festa){
-         Data_Inicio = newPagina->getDate()->toString();
-         Data_Fim    = "NULL";
-         Tipo_Festa  = newPagina->getPartyType();
+        Data_Inicio = newPagina->getStartDate().toString();
+        Data_Fim    = "NULL";
+        Tipo_Festa  = newPagina->getPartyType();
     }
 
-    QDir Dir;
-    QString Path = Dir.absoluteFilePath(newPagina->getPath());
+    QString Path = newPagina->getPath().path();
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE PAGINA SET ID_Album = :id_alb, Descricao = :desc, Tipo=:tipo, Data_Inicio=:datai,Data_Fim=:dataf,Tipo_Festa=:tipof,Path=:path WHERE ID_Pagina = :id_pag;");
-    queryAdd.bindValue(":id_pag", ID_Pagina);
-    queryAdd.bindValue(":id_alb", ID_Album);
-    queryAdd.bindValue(":tipo", Tipo);
-    queryAdd.bindValue(":desc", Descricao);
-    queryAdd.bindValue(":datai", Data_Inicio);
-    queryAdd.bindValue(":dataf", Data_Fim);
-    queryAdd.bindValue(":tipof", Tipo_Festa);
-    queryAdd.bindValue(":path", Path);
+    queryUpdate.bindValue(":id_pag", ID_Pagina);
+    queryUpdate.bindValue(":id_alb", ID_Album);
+    queryUpdate.bindValue(":tipo", Tipo);
+    queryUpdate.bindValue(":desc", Descricao);
+    queryUpdate.bindValue(":datai", Data_Inicio);
+    queryUpdate.bindValue(":dataf", Data_Fim);
+    queryUpdate.bindValue(":tipof", Tipo_Festa);
+    queryUpdate.bindValue(":path", Path);
 
     if(!queryUpdate.exec())
     {
@@ -341,13 +339,13 @@ bool GestorBD::updatePagina(Pagina *newPagina){
     return true;
 }
 
-bool GestorBD::updatePessoa(Pessoa *newPessoa){
+bool GestorBD::updatePerson(Pessoa *newPessoa){
 
 
     int ID_Pessoa       = newPessoa->getID();
     int Genero          = newPessoa->getGender();
     QString Nome_Pessoa = newPessoa->getName();
-    QString Data_Nasc   = newPessoa->getBirth()->toString();
+    QString Data_Nasc   = newPessoa->getBirth().toString();
     QString Relacao     = newPessoa->getBond();
 
     QSqlQuery queryUpdate;
@@ -366,138 +364,156 @@ bool GestorBD::updatePessoa(Pessoa *newPessoa){
     return true;
 }
 
+
 //-------------------------------------------------------------
 //GET
 //-------------------------------------------------------------
-QVector<Foto*> GestorBD::getFotos(Pagina* Page){
+QVector<PhotoParam*> GestorBD::getPhotos(Pagina* Page){
 
     int PageID = Page->getID();
 
-    QSqlQuery query;
-    query.prepare("SELECT * FROM FOTO WHERE ID_Pagina=:id_pag;");
-    queryUpdate.bindValue(":id_pag", PageID);
+    QSqlQuery queryGet;
+    queryGet.prepare("SELECT * FROM FOTO WHERE ID_Pagina=:id_pag;");
+    queryGet.bindValue(":id_pag", PageID);
 
-    if(!query.exec())
+    if(!queryGet.exec())
     {
-        qDebug() << "get foto failed: " << query.lastError();
+        qDebug() << "get foto failed: " << queryGet.lastError();
     }
-    int FotoID;
-    QDir Dir;
-    QVector<Foto*> Fotos;
-    for(int i=0;query.next();i++)
+
+    QVector<PhotoParam*> Fotos;
+
+    PhotoParam *Atributes;
+
+    while(queryGet.next())
     {
-        FotoID    = query.value("ID_Foto").toInt();
-        Dir.setPath(query.value("Path").toString());
-        Fotos.at(i) = new Foto(FotoID, Dir, Page,this);
+        Atributes           = new PhotoParam;
+        Atributes->Parent    = Page;
+        Atributes->Gestor    = this;
+        Atributes->ID        = queryGet.value("ID_Foto").toInt();
+        Atributes->Path.setPath(queryGet.value("Path").toString());
+
+        Fotos.append(Atributes);
 
     }
+    return Fotos;
 }
 
-QVector<Pagina*> GestorBD::getPaginas(Album* Alb){
+QVector<PageParam*> GestorBD::getPages(Album* Alb){
 
     int AlbumID = Alb->getID();
+
+    QSqlQuery queryGet;
+
+    queryGet.prepare("SELECT * FROM PAGINA WHERE ID_Album = id_album;");
+    queryGet.bindValue(":id_album", AlbumID);
+    if(!queryGet.exec())
+    {
+        qDebug() << "get pagina failed: " << queryGet.lastError();
+    }
+
+
+    QVector<PageParam*> Paginas;
+    PageParam *Atributes;
+    pageType_t Type;
+
+    while(queryGet.next())
+    {
+        Atributes               = new PageParam;
+        Atributes->Gestor        = this;
+        Atributes->Parent        = Alb;
+        Atributes->ID            = queryGet.value("ID_Pagina").toInt();
+        Atributes->Description   = queryGet.value("Descricao").toString();
+        Type                    = (pageType_t)queryGet.value("Tipo").toInt();
+        Atributes->Path.setPath(queryGet.value("Path").toString());
+        Atributes->StartDate     = queryGet.value("DataInicio").toDate();
+        Atributes->EndDate       = queryGet.value("DataFim").toDate();
+        Atributes->PartyType     = queryGet.value("Tipo_Festa").toString();
+
+        switch(Type){
+        case viagem:
+            Paginas.append(Atributes);
+            break;
+        case coisaPessoa:
+            Paginas.append(Atributes);
+            break;
+        case festa:
+            Paginas.append(Atributes);
+            break;
+        case outro:
+            Paginas.append(Atributes);
+            break;
+        }
+    }
+    return Paginas;
+}
+
+QVector<PersonParam*> GestorBD::getPeople(ListaPessoas* People){
+
+    QSqlQuery queryGet;
+    queryGet.prepare("SELECT * FROM PESSOA;");
+    if(!queryGet.exec())
+    {
+        qDebug() << "get pessoa failed: " << queryGet.lastError();
+    }
+
+
+    QVector<PersonParam*> Pessoas;
+
+    PersonParam *Atributes;
+
+
+    while(queryGet.next()){
+        Atributes           = new PersonParam;
+        Atributes->Gestor    = this;
+        Atributes->Parent    = People;
+        Atributes->ID        = queryGet.value("ID_Pessoa").toInt();
+        Atributes->Name      = queryGet.value("Nome_Pessoa").toString();
+        Atributes->Birth     = queryGet.value("Data_Nasc").toDate();
+        Atributes->Gender    = (gender)queryGet.value("Genero").toInt();
+        Atributes->Bond      = queryGet.value("Relacao").toString();
+
+        Pessoas.append(Atributes);
+    }
+    return Pessoas;
+}
+
+QVector<AlbumParam*> GestorBD::getAlbums(ListaAlbuns* Albs){
+
     QSqlQuery query;
-    query.prepare("SELECT * FROM PAGINA WHERE ID_Album = id_album;");
-    queryUpdate.bindValue(":id_album", AlbumID);
+    query.prepare("SELECT * FROM ALBUM;");
     if(!query.exec())
     {
-        qDebug() << "get pagina failed: " << query.lastError();
+        qDebug() << "get album failed: " << query.lastError();
     }
 
 
-    int PaginaID,Tipo;
-    QDateTime DataInicio, DataFim;
-    QDir Dir;
-    QString Desc,TipoFesta;
-    QVector<Pagina*> Paginas;
-    for(int i=0;query.next();i++)
-    {
-        PaginaID   = query.value("ID_Pagina").toInt();
-        Desc       = query.value("Descricao").toString();
-        Tipo       = query.value("Tipo").toInt();
-        Dir.setPath(query.value("Path").toString());
-        DataInicio = query.value("DataInicio").toDate();
-        DataFim    = query.value("DataFim").toDate();
-        TipoFesta = query.value("Tipo_Festa").toString();
+    QVector<AlbumParam*> Albums;
 
-        if(Tipo == viagem){
-            Paginas.at(i) = new PaginaViagem(PaginaID,Desc,Dir,DataInicio,DataFim,Alb,this);
-        }
-        if(Tipo == coisaPessoa){
-            Paginas.at(i) = new PaginaCoisaPessoa(PaginaID,Desc,Dir,Alb,this);
-        }
+    AlbumParam *Atributes;
 
-        if(Tipo == festa){
-            Paginas.at(i) = new PaginaFesta(PaginaID,Desc,Dir,DataInicio,TipoFesta,Alb,this);
-        }
+    while(query.next()){
 
-        if(Tipo == outro){
-            Paginas.at(i) = new PaginaOutro(PaginaID,Desc,Dir,DataInicio,DataFim,Alb,this);
-        }
+        Atributes                =   new AlbumParam;
+        Atributes->Gestor        =   this;
+        Atributes->Parent        =   Albs;
+        Atributes->ID            =   query.value("ID_Album").toInt();
+        Atributes->Name          =   query.value("Nome_Album").toString();
+        Atributes->PageType      =   (pageType_t)query.value("Tipo").toInt();
+        Atributes->Description   =   query.value("Descricao").toString();
+        Atributes->Path.setPath(query.value("Path").toString());
 
+        Albums.append(Atributes);
+        //Albuns.append(new Album(atributes));
     }
-
+    return Albums;
 }
 
-QVector<Pessoa*> GestorBD::getPessoas(ListaPessoas* People){
-
-   QSqlQuery query;
-   query.prepare("SELECT * FROM PESSOA;");
-   if(!query.exec())
-   {
-       qDebug() << "get pessoa failed: " << query.lastError();
-   }
-
-
-
-    QDateTime DataNasc;
-    QString Relacao,NomePessoa;
-    QVector<Pessoa*> Pessoas;
-    int PessoaID,Genero;
-
-    for(int i=0;query.next();i++){
-
-        PessoaID   = query.value("ID_Pessoa").toInt();
-        NomePessoa = query.value("Nome_Pessoa").toString();
-        DataNasc   = query.value("Data_Nasc").toDate();
-        Genero     = query.value("Genero").toInt();
-        Relacao    = query.value("Relacao").toString();
-
-        Pessoas.at(i) = new Pessoa(PessoaID,NomePessoa,DataNasc,Genero,Relacao,People,this);
-    }
-}
-
-QVector<Album*> GestorBD::getAlbuns(ListaAlbuns* Albs){
-
-   QSqlQuery query;
-   query.prepare("SELECT * FROM ALBUM;");
-   if(!query.exec())
-   {
-       qDebug() << "get album failed: " << query.lastError();
-   }
-
-
-    QVector<Album*> Albuns;
-    QString Desc, NomeAlbum;
-    QDir Dir;
-    int AlbumID,Tipo;
-
-    for(int i=0;query.next();i++){
-
-        AlbumID   = query.value("ID_Album").toInt();
-        NomeAlbum = query.value("Nome_Album").toString();
-        Tipo     = query.value("Tipo").toInt();
-        Desc     = query.value("Descricao").toString();
-        Dir.setPath(query.value("Path").toString());
-
-        Albuns.at(i) = new Album(AlbumID,NomeAlbum,Desc,Dir,Tipo,Albs,this);
-    }
-}
 
 //-------------------------------------------------------------
 //DELETE
 //-------------------------------------------------------------
-bool GestorBD::deleteFoto(Foto *delFoto){
+bool GestorBD::deletePhoto(Foto *delFoto){
 
     int ID_Foto  = delFoto->getID();
 
@@ -522,7 +538,7 @@ bool GestorBD::deleteFoto(Foto *delFoto){
     return true;
 }
 
-bool GestorBD::deletePagina(Pagina *delPagina){
+bool GestorBD::deletePage(Pagina *delPagina){
 
     int ID_Pagina  = delPagina->getID();
 
@@ -538,7 +554,7 @@ bool GestorBD::deletePagina(Pagina *delPagina){
     return true;
 }
 
-bool GestorBD::deletePessoa(Pessoa *delPessoa){
+bool GestorBD::deletePerson(Pessoa *delPessoa){
 
     int ID_Pessoa  = delPessoa->getID();
 
@@ -579,6 +595,7 @@ bool GestorBD::deleteAlbum(Album *delAlbum){
 
     return true;
 }
+
 
 //-------------------------------------------------------------
 //OTHERS
@@ -628,7 +645,7 @@ bool GestorBD::removeAll(){
         qDebug() << "Drop Table failed: " << queryRem.lastError();
         return false;
     }
-return true;
+    return true;
 }
 
 bool GestorBD::clearAll(){
@@ -676,19 +693,48 @@ bool GestorBD::clearAll(){
         qDebug() << "Clear Table failed: " << queryClr.lastError();
         return false;
     }
-return true;
+    return true;
 }
 
+GestorBD::GestorBD(const QString &path)
+{
+    m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db.setDatabaseName(path);
+
+    if (!m_db.open())
+    {
+        qDebug() << "Error: connection with database fail";
+    }
+    else
+    {
+        qDebug() << "Database: connection ok";
+    }
+}
+
+GestorBD::~GestorBD()
+{
+    if (m_db.isOpen())
+    {
+        m_db.close();
+    }
+}
+
+bool GestorBD::isOpen() const
+{
+    return m_db.isOpen();
+}
+
+/*
 bool GestorBD::getPessoasByFoto(const QString& Foto_ID){
 
-   QSqlQuery query;
-   query.prepare("SELECT Nome_Pessoa,Data_Nasc,Genero, Relacao FROM ASSOCIA NATURAL JOIN PESSOA WHERE ID_Foto=  :id;");
-   query.bindValue(":id", Foto_ID);
-   if(!query.exec())
-   {
-       qDebug() << "get pessoa failed: " << query.lastError();
-       return false;
-   }
+    QSqlQuery query;
+    query.prepare("SELECT Nome_Pessoa,Data_Nasc,Genero, Relacao FROM ASSOCIA NATURAL JOIN PESSOA WHERE ID_Foto=  :id;");
+    query.bindValue(":id", Foto_ID);
+    if(!query.exec())
+    {
+        qDebug() << "get pessoa failed: " << query.lastError();
+        return false;
+    }
     while (query.next())
     {
         qDebug() << query.value("Nome_Pessoa").toString() << " " << query.value("Data_Nasc").toString()
@@ -697,7 +743,6 @@ bool GestorBD::getPessoasByFoto(const QString& Foto_ID){
     }
     return true;
 }
-
 bool GestorBD::addAtachment(const QString& ID_Foto,const QString& Nome_Pessoa)
 {
 
@@ -741,45 +786,5 @@ bool GestorBD::getAtachments(){
     }
     return true;
 }
-
-GestorBD::GestorBD(const QString &path)
-{
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName(path);
-
-    if (!m_db.open())
-    {
-        qDebug() << "Error: connection with database fail";
-    }
-    else
-    {
-        qDebug() << "Database: connection ok";
-    }
-}
-
-GestorBD::~GestorBD()
-{
-    if (m_db.isOpen())
-    {
-        m_db.close();
-    }
-}
-
-bool GestorBD::isOpen() const
-{
-    return m_db.isOpen();
-}
-
-/*
-bool DB_Manager::deleteFromDB(){
-QSqlQuery queryRem;
-queryRem.prepare("DROP TABLE FOTO;");
-
-if(!queryRem.exec())
-{
-    qDebug() << "Drop Table failed: " << queryRem.lastError();
-    return false;
-}
-
-}
 */
+

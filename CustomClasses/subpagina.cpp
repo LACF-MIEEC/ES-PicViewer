@@ -22,6 +22,9 @@ QDate PaginaViagem::getStartDate(){
 QDate PaginaViagem::getEndDate(){
     return EndDate;
 }
+QString PaginaViagem::getPartyType(){
+    return QString();
+}
 
 QString PaginaViagem::createFolderName(){
     QString folderName(Path.path());
@@ -42,8 +45,12 @@ pageType_t PaginaFesta::getType()
     return festa;
 }
 
-QDate PaginaFesta::getDate(){
+QDate PaginaFesta::getStartDate(){
     return Date;
+}
+QDate PaginaFesta::getEndDate(){
+    return QDate();
+
 }
 QString PaginaFesta::getPartyType(){
     return PartyType;
@@ -64,6 +71,16 @@ PaginaCoisaPessoa::PaginaCoisaPessoa(PageParam atributes):
 pageType_t PaginaCoisaPessoa::getType()
 {
     return coisaPessoa;
+}
+
+QDate PaginaCoisaPessoa::getStartDate(){
+    return QDate();
+}
+QDate PaginaCoisaPessoa::getEndDate(){
+    return QDate();
+}
+QString PaginaCoisaPessoa::getPartyType(){
+    return QString();
 }
 
 QString PaginaCoisaPessoa::createFolderName(){
@@ -90,6 +107,9 @@ QDate PaginaOutro::getStartDate(){
 }
 QDate PaginaOutro::getEndDate(){
     return EndDate;
+}
+QString PaginaOutro::getPartyType(){
+    return QString();
 }
 
 QString PaginaOutro::createFolderName(){
