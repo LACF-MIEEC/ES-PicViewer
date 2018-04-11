@@ -19,6 +19,8 @@ class Pessoa
 public:
     Pessoa(PessoaParams params);
 
+    int getID();
+
     int acceptPhoto(Foto* photo); // no SAD está acceptPhotos()
     int removePhoto(Foto* photo); // no SAD está removePhotos()
     QVector<Foto*> getPhotos();
@@ -26,6 +28,7 @@ public:
     // getters e setters conforme necessário
 private:
     std::string name;
+    int PersonID;
 
     ListaAlbuns* aListaAlbuns;
     GestorBD* oGestor;

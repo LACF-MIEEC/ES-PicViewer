@@ -9,6 +9,10 @@
 
 #include "foto.h"
 #include "pagina.h"
+#include "pessoa.h"
+#include "album.h"
+#include "listaalbuns.h"
+#include "listapessoas.h"
 
 class GestorBD
 {
@@ -20,55 +24,69 @@ public:
     //destructor
     ~GestorBD();
 
-    bool isOpen() const;
-
+    //Cria Tabelas
     bool createTables();
 
-    bool addFoto(const QString& ,const QString& ,const QString& ,const QString&);
+    //-------------------------------------------------------------
+    //GET
+    //-------------------------------------------------------------
+    bool addFoto(Foto     *newFoto);
 
-    bool addAtachment(const QString& ,const QString&);
+    bool addAlbum(Album   *newAlbum);
 
-    bool addAlbum(const QString& ,const QString& ,const QString& ,const QString&,const QString&);
+    bool addPagina(Pagina *newPagina);
 
-    bool addPagina(const QString& ,const QString& ,const QString&);
+    bool addPessoa(Pessoa *newPessoa);
+    //-------------------------------------------------------------
+    //GET
+    //-------------------------------------------------------------
+    bool updateFoto(Foto *newFoto);
 
-    bool addPessoa(const QString& ,const QString& ,const QString& ,const QString&);
+    bool updateAlbum(Album   *newAlbum);
 
-    bool updateFoto(const QString& ,const QString& ,const QString& ,const QString&);
+    bool updatePagina(Pagina *newPagina);
 
-    bool updateAtachment(const QString& , const QString&, const QString &);
+    bool updatePessoa(Pessoa *newPessoa);
 
-    bool updateAlbum(const QString& ,const QString& ,const QString& ,const QString&,const QString&);
+    //-------------------------------------------------------------
+    //GET
+    //-------------------------------------------------------------
+    QVector<Foto*> getFotos(Pagina* Page);
 
-    bool updatePagina(const QString& ,const QString& ,const QString&);
+    QVector<Pagina*>  getPaginas(Album* Alb);
 
-    bool updatePessoa(const QString& ,const QString& ,const QString& ,const QString&);
+    QVector<Album*> getAlbuns(ListaAlbuns* Albs);
 
-    bool getFotos();
+    QVector<Pessoa*> getPessoas(ListaPessoas* People);
 
-    bool getPaginas();
 
-    bool getAlbuns();
+    //-------------------------------------------------------------
+    //DELETE
+    //-------------------------------------------------------------
+    bool deleteFoto(Foto *delFoto);
 
-    bool getPessoas();
+    bool deleteAlbum(Album *delAlbum);
 
-    bool getPessoasByFoto(const QString&);
+    bool deletePagina(Pagina *delPagina);
 
-    bool getAtachments();
+    bool deletePessoa(Pessoa *delPessoa);
 
-    bool deleteFoto(const QString&);
-
-    bool deleteAlbum(const QString&);
-
-    bool deletePagina(const QString&);
-
-    bool deletePessoa(const QString&);
-
+    //-------------------------------------------------------------
+    //OTHERS
+    //-------------------------------------------------------------
     bool removeAll();
 
     bool clearAll();
 
-    //bool deleteFromDB();
+    bool isOpen() const;
+
+    bool updateAtachment(const QString& , const QString&, const QString &);
+
+    bool addAtachment(const QString& ,const QString&);
+
+    bool getPessoasByFoto(const QString&);
+
+    bool getAtachments();
 
 private:
     QSqlDatabase m_db;

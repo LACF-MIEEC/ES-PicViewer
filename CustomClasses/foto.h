@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QVector>
+#include <QDir>
 
 //#include "listaalbuns.h"
 class ListaAlbuns;
