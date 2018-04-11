@@ -2,28 +2,47 @@
 #define LISTAPESSOAS_H
 
 #include <QVector>
-#include <string>
+#include <QString>
+#include <QDebug>
 
 #include "pessoa.h"
-#include "foto.h"
+
+class GestorBD;
 
 class ListaPessoas
 {
 public:
-    ListaPessoas();
+    ListaPessoas(GestorBD* gestor=0);
+    ~ListaPessoas();
+    //----------------Get Atributes----------------//
 
+    QVector<Pessoa*> getPeople();
 
-    QVector<Foto*> searchPhotosByPerson(std::string name);
+    //-------------------Create--------------------//
 
-    Pessoa* createPerson(PessoaParams params);
+    Pessoa* createPerson(PersonParam atributes);
+
+    /* SEARCH NOT YET IMPLEMENTED
+    QVector<Foto*> searchPhotosByPerson(QString name);
+    */
+    /* REMOVE AND ATTACHMENTS NOT YET IMPLEMENTED
     int deletePerson(Pessoa*);
 
     int attachPerson(Pessoa* person, Foto* foto);
     int dettachPerson(Pessoa* person, Foto* foto);
+    */
 
 
 private:
-    QVector<Pessoa*> people;
+
+    QVector<int> allocatedPeopleID;
+    int maxPeopleID;
+
+    int generateID(QVector<int> &allocatedID, int &maxID);
+    int genPersonID();
+
+    QVector<Pessoa*> People;
+    GestorBD* oGestor;
 };
 
 #endif // LISTAPESSOAS_H

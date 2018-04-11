@@ -2,37 +2,62 @@
 #define PESSOA_H
 
 #include <QVector>
-#include <string>
+#include <QString>
+#include <QDate>
 
-#include "listaalbuns.h"
-#include "gestorbd.h"
-//#include "foto.h"
+class GestorBD;
 class Foto;
+class ListaPessoas;
 
-struct PessoaParams{
-    std::string name;
-    //...
+enum gender :short int {feminino, masculino};
+
+struct PersonParam{
+    int ID;
+    QString Name;
+    QDate Birth;
+    gender Gender;
+    QString Bond;
+    ListaPessoas* Parent;
+    GestorBD* Gestor;
 };
 
 class Pessoa
 {
 public:
-    Pessoa(PessoaParams params);
+    Pessoa(PersonParam atributes);
+
+    void deleteSelf();
+
+    //----------------Get Atributes----------------//
 
     int getID();
+    QString getName();
+    QDate getBirth();
+    gender getGender();
+    QString getBond();
 
-    int acceptPhoto(Foto* photo); // no SAD está acceptPhotos()
-    int removePhoto(Foto* photo); // no SAD está removePhotos()
     QVector<Foto*> getPhotos();
 
-    // getters e setters conforme necessário
-private:
-    std::string name;
-    int PersonID;
+    ListaPessoas* parent();
 
-    ListaAlbuns* aListaAlbuns;
+    /* ATTACHMENTS NOT YET IMPLEMENTED
+    int acceptPhoto(Foto* photo);
+    */
+    /* REMOVE NOT YET IMPLEMENTED
+    int removePhoto(Foto* photo);
+    */
+
+private:
+
+    int ID;
+    QString Name;
+    QDate Birth;
+    gender Gender;
+    QString Bond;
+
+    ListaPessoas *Parent;
     GestorBD* oGestor;
-    QVector<Foto*> fotos;
+    QVector<Foto*> Photos;
 };
 
 #endif // PESSOA_H

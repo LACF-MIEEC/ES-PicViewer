@@ -1,141 +1,146 @@
 #ifndef PAGINA_H
 #define PAGINA_H
 
-#include <string>
+#include <QString>
 #include <QVector>
+#include <QDate>
+#include <QDir>
 
+#include "foto.h"
 
-//#include "gestorbd.h"
 class GestorBD;
-
-//#include "listaalbuns.h"
-class ListaAlbuns;
-
-//#include "album.h"
 class Album;
 
-//#include "foto.h"
-class Foto;
-struct FotoParams;
-
-
-
+struct PageParam{
+  int ID;
+  QString Description;
+  QDir Path;
+  QDate StartDate;
+  QDate EndDate;
+  QString PartyType;
+  Album* Parent=0;
+  GestorBD* Gestor=0;
+};
 
 enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
-
-struct PaginaParams{
-    int pageID;
-    //...
-
-};
 
 class Pagina
 {
 public:
-    //std::string para algum tipo fancy de string?
-    Pagina(PaginaParams);
-    //~Pagina();
-    int deleteSelf(); // Remover da B.D., etc
 
-    int createPhoto(FotoParams photo);
-    int acceptPhoto(Foto* photo);
-    int removePhoto(Foto* photo);
-    int deletePhoto(Foto* photo);
+    Pagina(PageParam atributes);
 
-    void attachPerson(); // ???
-    void detachPerson(); // ???
+    void deleteSelf();
 
-    QVector<Foto*> getPhotos();
-    QVector<Foto*> searchPhotoByDate(/*Date*/);
-    QVector<Foto*> searchPhotoByKeyword(std::string keyword);
+    //----------------Get Atributes----------------//
 
     int getID();
-    PaginaParams getAttributes(); // getters mais especificos?
-    pageType_t getType(); // Reimplementada por cada subClasse
-    //void getAttributes(); // --- Repetida no SAD
+    QString getDescription();
+    QDir getPath();
+    virtual pageType_t getType()=0;
 
-protected:  // Por causa das heranças
-    int createFolder(); // Não está no SAD, mas imagino que seja preciso
-    std::string createFolderName();
+    QVector<Foto*> getPhotos();
 
-    std::string description;
-    int pageID;
-    // ...
-    Album* parent;
-    ListaAlbuns* aListaAlbuns;
+    Album* parent();
+
+    //-------------------Create--------------------//
+
+    Foto* createPhoto(PhotoParam atributes);
+
+
+    /* DELETE AND MOVE NOT YET IMPLEMENTED
+     * int acceptPhoto(Foto* photo);
+    int removePhoto(Foto* photo);
+    int deletePhoto(Foto* photo);
+    */
+    /* SEARCH NOT YET IMPLEMENTED
+    QVector<Foto*> searchPhotoByDate(QDate);
+    QVector<Foto*> searchPhotoByKeyword(QString keyword);
+    */
+
+
+protected:
+
+    int createFolder(QString folderName);
+    virtual QString createFolderName()=0;
+
+    QString Description;
+    int ID;
+    QDir Path;
+
+    Album* Parent;
     GestorBD* oGestor;
-    QVector<Foto*> photos;
+    QVector<Foto*> Photos;
 };
 
 
 class PaginaViagem : public Pagina
 {
 public:
-    // Definições podem ser passadas para o .cpp
-    PaginaViagem(PaginaParams params);/* : Pagina(params) {
-        //atributos especificos deste tipo
-    }*/
 
-    pageType_t getType();/*{
-        return viagem;
-    }*/
+    PaginaViagem(PageParam atributes);
+
+    pageType_t getType();
+
+    QDate getStartDate();
+    QDate getEndDate();
 
 private:
-    std::string createFolderName();
+    QString createFolderName();
+
+    QDate StartDate;
+    QDate EndDate;
 
 };
-
 
 class PaginaFesta : public Pagina
 {
 public:
-    // Definições podem ser passadas para o .cpp
-    PaginaFesta(PaginaParams params) : Pagina(params) {
-        //atributos especificos deste tipo
-    }
 
-    pageType_t getType(){
-        return festa;
-    }
+    PaginaFesta(PageParam atributes);
+
+    pageType_t getType();
+
+    QDate getDate();
+    QString getPartyType();
 
 private:
-    std::string createFolderName();
+    QString createFolderName();
+
+    QDate Date;
+    QString PartyType;
 
 };
-
 
 class PaginaCoisaPessoa : public Pagina
 {
 public:
-    // Definições podem ser passadas para o .cpp
-    PaginaCoisaPessoa(PaginaParams params) : Pagina(params) {
-       //atributos especificos deste tipo
-    }
 
-    pageType_t getType(){
-        return coisaPessoa;
-    }
+    PaginaCoisaPessoa(PageParam atributes);
+
+    pageType_t getType();
 
 private:
-    std::string createFolderName();
+    QString createFolderName();
 
 };
-
 
 class PaginaOutro : public Pagina
 {
 public:
-    // Definições podem ser passadas para o .cpp
-    PaginaOutro(PaginaParams params) : Pagina(params) {
-        //atributos especificos deste tipo
-    }
 
-    pageType_t getType(){
-        return outro;
-    }
+    PaginaOutro(PageParam atributes);
+
+    pageType_t getType();
+
+    QDate getStartDate();
+    QDate getEndDate();
+
 private:
-    std::string createFolderName();
+    QString createFolderName();
 
+    QDate StartDate;
+    QDate EndDate;
 };
 
 

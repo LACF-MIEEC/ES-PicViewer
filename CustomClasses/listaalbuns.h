@@ -2,59 +2,47 @@
 #define LISTAALBUNS_H
 
 #include <QVector>
+#include <QString>
+#include <QDebug>
 
-//#include "album.h"
-class Album;
-struct AlbumParams;
+#include "album.h"
 
-//#include "pagina.h"
-class Pagina;
-struct PaginaParams;
-
-//#include "foto.h"
-class Foto;
-struct FotoParams;
-
+class GestorBD;
 
 class ListaAlbuns
 {
 public:
-    ListaAlbuns();
+    ListaAlbuns(GestorBD* gestor=0);
+    ~ListaAlbuns();
 
+    //----------------Get Atributes----------------//
 
+    QVector<Album*> getAlbums();
 
+    //-------------------Create--------------------//
 
+    Album* createAlbum(AlbumParam atributes);
 
+    Pagina* createPage(PageParam atributes, Album* destination=0);
 
-    Album* createAlbum(AlbumParams params);
+    Foto* createPhoto(PhotoParam atributes,Pagina* destPage, Album* destAlbum);
+
+    /* REMOVE AND EDIT NOT YET IMPLEMENTED
     int deleteAlbum(Album* album);
-    int editAlbum(Album* album, std::string newName, std::string newDesc);
-    QVector<Album*> getAlbuns();
-
-    Pagina* createPage(PaginaParams params);
+    int editAlbum(Album* album, QString newName, QString newDesc);
+    */
+    /* MOVE AND SEARCH NOT YET IMPLEMENTED
     int movePage(Album* origin, Album* destination, Pagina* page);
 
     int movePhoto(Album* originAlbum, Pagina* originPage,
                   Album* destinationAlbum, Pagina* destinationPage,
                   Foto* photo);
-    QVector<Foto*> searchPhotoByDate(/*Date*/);
-    QVector<Foto*> searchPhotoByKeyword(std::string keyword);
-
-
-
-    int genAlbumID();/*{
-        return generateID(allocatedAlbumID, maxAlbumID);
-    }*/
-
-    int genPageID();/*{
-        return generateID(allocatedPageID, maxPageID);
-    }*/
-
-    int genPhotoID();/*{
-        return generateID(allocatedPhotoID, maxPhotoID);
-    }*/
+    QVector<Foto*> searchPhotoByDate(QDate);
+    QVector<Foto*> searchPhotoByKeyword(QString keyword);
+    */
 
 private:
+
     QVector<int> allocatedAlbumID;
     int maxAlbumID;
 
@@ -64,9 +52,13 @@ private:
     QVector<int> allocatedPhotoID;
     int maxPhotoID;
 
-    QVector<Album*> albuns;
-    //typedef QVector<int> testType;
-    int generateID(QVector<int> &allocatedID, int &maxID); // pode alterar maxID
+    int generateID(QVector<int> &allocatedID, int &maxID);
+    int genAlbumID();
+    int genPageID();
+    int genPhotoID();
+
+    QVector<Album*> Albums;
+    GestorBD* oGestor;
 };
 
 #endif // LISTAALBUNS_H

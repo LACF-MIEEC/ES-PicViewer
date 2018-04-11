@@ -1,30 +1,68 @@
 #include "pagina.h"
 
-Pagina::Pagina(PaginaParams params)
+Pagina::Pagina(PageParam atributes)
 {
-    pageID = params.pageID;
-    // atributos comuns a todos os tipos
+    ID          =   atributes.ID;
+    Description =   atributes.Description;
+    Path        =   atributes.Path;
+    Parent      =   atributes.Parent;
+    oGestor     =   atributes.Gestor;
+
+
+}
+void Pagina::deleteSelf(){
+    for(int i=0;Photos.size();i++){
+        Photos.at(i)->deleteSelf();
+    }
+    delete this;
 }
 
+//------------------Get Atributes--------------------//
 int Pagina::getID(){
-    return pageID;
+    return ID;
+}
+
+QString Pagina::getDescription(){
+    return Description;
+}
+
+QDir Pagina::getPath(){
+    return Path;
+}
+
+QVector<Foto*> Pagina::getPhotos(){
+    return Photos;
+}
+
+Album* Pagina::parent(){
+    return Parent;
+}
+
+//-------------------Create--------------------------//
+
+Foto* Pagina::createPhoto(PhotoParam atributes){
+    Foto* newFoto=new Foto(atributes);
+    Photos.append(newFoto);
+    return newFoto;
 }
 
 
-// ------------- VIAGEM ----------------------------
+//----------------PRIVATE----------------------------//
 
-PaginaViagem::PaginaViagem(PaginaParams params) : Pagina(params)
-{
-    //...
-}
+int Pagina::createFolder(QString folderName){
+    QDir folder(folderName);
+    QString newFolderName;
 
-pageType_t PaginaViagem::getType()
-{
-    return viagem;
-}
+    for(int i=1;folder.exists();i++){
+        newFolderName.clear();
+        newFolderName = folderName;
+        newFolderName.append("(");
+        newFolderName.append(i);
+        newFolderName.append(")");
+    }
 
-std::string PaginaViagem::createFolderName(){
-    std::string folderName = "insert name here";
-    return folderName;
+    if(folder.mkdir(newFolderName))
+        return 0;
+    return -1;
 }
 

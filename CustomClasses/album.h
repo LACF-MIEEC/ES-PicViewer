@@ -2,75 +2,86 @@
 #define ALBUM_H
 
 #include <QVector>
-#include <string> // Ou o que for preciso para o tipo de string que se usar
-// Search & Replace std::string por std::string, ou assim
+#include <QString>
+#include <QDir>
 
-//#include "foto.h"
-class Foto;
-struct FotoParams;
+#include "pagina.h"
 
-//#include "pagina.h"
-class Pagina;
-struct PaginaParams;
-enum pageType_t : short int;
-
-//#include "listaalbuns.h"
 class ListaAlbuns;
-
-//#include "gestorbd.h"
 class GestorBD;
 
-struct AlbumParams {
-    int albumID;
-    std::string Name; // ou outro tipo de string
-    GestorBD* oGestor;
-    ListaAlbuns* aListaAlbuns;
-    //...
+struct AlbumParam{
+    int ID;
+    QString Name;
+    QString Description;
+    QDir Path;
+    pageType_t PageType;
+    ListaAlbuns* Parent =0;
+    GestorBD* Gestor =0;
 };
 
 class Album
 {
 public:
-    // TODO: tipos de return
-    Album(AlbumParams params);
 
-    //~Album();
+    Album(AlbumParam atributes);
 
+    void deleteSelf();
 
-    int deleteSelf(); //Remover-se da base de dados, remover suas paginas, apagar pasta...
+    //----------------Get Atributes----------------//
 
-    int setName(std::string newName);
-    void setDescription(std::string newDesc);
-
-    QVector<Pagina*> getPages();
+    int getID();
+    QString getName();
+    QString getDescription();
+    QDir getPath();
     pageType_t getPageType();
 
-    Pagina* createPage(PaginaParams params);
+    QVector<Pagina*> getPages();
+
+    ListaAlbuns* parent();
+
+    //-------------------Create--------------------//
+
+    Pagina* createPage(PageParam atributes);
+
+    Foto* createPhoto(PhotoParam atributes, Pagina* destination);
+
+
+
+    /* MODIFICATIONS NOT YET IMPLEMENTED
+    int setName(QString newName);
+    void setDescription(QString newDesc);
+    */
+
+    /* DELETE AND MOVE NOT YET IMPLEMENTED
     int acceptPage(Pagina* page);
     int removePage(Pagina* page);
     int deletePage(Pagina* page);
+    */
 
-    QVector<Foto*> searchPhotoByDate(/*Date*/);
-    QVector<Foto*> searchPhotoByKeyword(std::string keyword);
+    //int acceptPhoto(Pagina* page, Foto* photo); //Mais vale ir logo à página se já tenho o ponteiro
 
-
-    Foto* createPhoto(FotoParams params);
-    int acceptPhoto(Pagina* page, Foto* photo);
+    /* SEARCH NOT YET IMPLEMENTED
+    QVector<Foto*> searchPhotoByDate(QDate date);
+    QVector<Foto*> searchPhotoByKeyword(QString keyword);
+    */
 
 
 private:
 
-    int createFolder();
-    std::string createFolderName();
+    int createFolder(QString folderName);
+    QString createFolderName();
 
-    int albumID;
+    int ID;
+    QString Name;
+    QString Description;
+    QDir Path;
+    pageType_t PageType;
 
-    ListaAlbuns* aListaAlbuns;
+    ListaAlbuns* Parent;
     GestorBD* oGestor;
-    QVector<Pagina*> pages;
+    QVector<Pagina*> Pages;
 
-
-    pageType_t pageType; // enum definido em pagina.h
 };
 
 #endif // ALBUM_H
