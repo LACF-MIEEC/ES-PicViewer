@@ -1,24 +1,13 @@
 #ifndef PAGINA_H
 #define PAGINA_H
 
+#include <QString>
+#include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
 
 #include "foto.h"
-
-class GestorBD;
-class Album;
-
-struct PageParam{
-  int ID;
-  QString Description;
-  QDir Path;
-  QDate StartDate;
-  QDate EndDate;
-  QString PartyType;
-  Album* Parent=0;
-  GestorBD* Gestor=0;
-};
-
-enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
 
 class Pagina
 {

@@ -1,6 +1,12 @@
 #ifndef LISTAALBUNS_H
 #define LISTAALBUNS_H
 
+#include <QString>
+#include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
+
 #include "album.h"
 
 class ListaAlbuns

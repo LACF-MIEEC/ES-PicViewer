@@ -1,20 +1,13 @@
 #ifndef ALBUM_H
 #define ALBUM_H
 
+#include <QString>
+#include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
+
 #include "pagina.h"
-
-class ListaAlbuns;
-class GestorBD;
-
-struct AlbumParam{
-    int ID;
-    QString Name;
-    QString Description;
-    QDir Path;
-    pageType_t PageType;
-    ListaAlbuns* Parent =0;
-    GestorBD* Gestor =0;
-};
 
 class Album
 {

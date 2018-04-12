@@ -1,13 +1,19 @@
 #ifndef GESTORBD_H
 #define GESTORBD_H
 
+#include <QString>
+#include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
+
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
 
-//#include "listaalbuns.h"
-//#include "listapessoas.h"
+#include "paramstructs.h"
+#include "flags.h"
 
 class GestorBD
 {

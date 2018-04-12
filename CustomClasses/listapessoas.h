@@ -1,10 +1,13 @@
 #ifndef LISTAPESSOAS_H
 #define LISTAPESSOAS_H
 
+#include <QString>
+#include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
 
 #include "pessoa.h"
-
-class GestorBD;
 
 class ListaPessoas
 {

@@ -7,21 +7,7 @@
 #include <QDir>
 #include <QDebug>
 
-class GestorBD;
-class Foto;
-class ListaPessoas;
-
-enum gender :short int {feminino, masculino};
-
-struct PersonParam{
-    int ID;
-    QString Name;
-    QDate Birth;
-    gender Gender;
-    QString Bond;
-    ListaPessoas* Parent;
-    GestorBD* Gestor;
-};
+#include "gestorbd.h"
 
 class Pessoa
 {

@@ -7,21 +7,9 @@
 #include <QDate>
 #include <QDebug>
 
-
-#include "flags.h"
 #include "gestorbd.h"
+#include "listaalbuns.h"
 
-class ListaPessoas;
-class GestorBD;
-class Pessoa;
-class Pagina;
-
-struct PhotoParam{
-    int ID;
-    QDir Path;
-    Pagina* Parent;
-    GestorBD* Gestor;
-};
 class Foto
 {
 public:
