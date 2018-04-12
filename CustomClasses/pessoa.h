@@ -37,8 +37,6 @@ public:
 
 private:
 
-    Setup::RunStates RunMode = Setup::Boot;
-
     int ID;
     QString Name;
     QDate Birth;

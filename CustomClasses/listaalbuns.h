@@ -15,6 +15,8 @@ public:
     ListaAlbuns(GestorBD* gestor=0);
     ~ListaAlbuns();
 
+    bool load(GestorBD* gestor=0);
+
     //----------------Get Atributes----------------//
 
     QVector<Album *> *getAlbums();

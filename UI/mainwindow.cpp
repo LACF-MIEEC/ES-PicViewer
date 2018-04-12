@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+Setup::RunStates RunMode;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,6 +10,22 @@ MainWindow::MainWindow(QWidget *parent) :
     wPeople = new ManagePeople();
 
     ui->setupUi(this);
+
+    oGestor      = new GestorBD(DBPath.path());
+    aListaPessoas= new ListaPessoas(oGestor);
+    aListaAlbuns = new ListaAlbuns(oGestor);
+
+    AlbumParam AlbumAtributes;
+
+    AlbumAtributes.Name="Album2";
+    AlbumAtributes.Description="jbaoidbae";
+    AlbumAtributes.PageType=festa;
+    AlbumAtributes.Path=QDir("c:\\Album2");
+
+    if(aListaAlbuns->createAlbum(AlbumAtributes)==nullptr){
+        qDebug() << "MainWindow:Unable to Create Album";
+    }
+
 
     //=================================
     //Construir Janela

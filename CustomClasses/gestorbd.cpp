@@ -1,6 +1,6 @@
 #include "gestorbd.h"
 
-
+QDir DBPath=QDir("BaseDeDados.db");
 //-------------------------------------------------------------
 //CREATE TABLES
 //-------------------------------------------------------------
@@ -424,8 +424,8 @@ QVector<PageParam*>* GestorBD::getPages(AlbumParam *Alb){
         Atributes->Description   = queryGet.value("Descricao").toString();
         Type                    = (pageType_t)queryGet.value("Tipo").toInt();
         Atributes->Path.setPath(queryGet.value("Path").toString());
-        Atributes->StartDate     = queryGet.value("DataInicio").toDate();
-        Atributes->EndDate       = queryGet.value("DataFim").toDate();
+        Atributes->StartDate     = queryGet.value("Data_Inicio").toDate();
+        Atributes->EndDate       = queryGet.value("Data_Fim").toDate();
         Atributes->PartyType     = queryGet.value("Tipo_Festa").toString();
 
         Paginas->append(Atributes);
@@ -471,6 +471,7 @@ QVector<AlbumParam*>* GestorBD::getAlbums(ListaAlbuns *Albs){
     if(!query.exec())
     {
         qDebug() << "get album failed: " << query.lastError();
+        return nullptr;
     }
 
 

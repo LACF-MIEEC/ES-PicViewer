@@ -12,33 +12,37 @@ Album::Album(AlbumParam atributes)
     oGestor     =   atributes.Gestor;
 
     if(RunMode.testFlag(Setup::Boot)){
-        Pages = new QVector<Pagina*>();
-        QVector<PageParam*> *PageAtributes = oGestor->getPages(&atributes);
-        for(int i=0;PageAtributes->size();i++){
-            PageAtributes->at(i)->Parent=this;
-            switch(PageType){
-            case viagem:
-                Pages->append(new PaginaViagem(*PageAtributes->at(i)));
-                break;
-            case coisaPessoa:
-                Pages->append(new PaginaCoisaPessoa(*PageAtributes->at(i)));
-                break;
-            case festa:
-                Pages->append(new PaginaFesta(*PageAtributes->at(i)));
-                break;
-            case outro:
-                Pages->append(new PaginaOutro(*PageAtributes->at(i)));
-                break;
-            }
+
+}
+
+bool Album::load(GestorBD *gestor=0){
+    if(gestor==0)
+        gestor=oGestor;
+    if(gestor==0){
+        qDebug() << "Album.load():ERROR GestorBD not set.";
+        return false;
+    }
+
+    Pages = new QVector<Pagina*>();
+    QVector<PageParam*> *PageAtributes = oGestor->getPages(&atributes);
+    for(int i=0;i<PageAtributes->size();i++){
+        PageAtributes->at(i)->Parent=this;
+        switch(PageType){
+        case viagem:
+            Pages->append(new PaginaViagem(*PageAtributes->at(i)));
+            break;
+        case coisaPessoa:
+            Pages->append(new PaginaCoisaPessoa(*PageAtributes->at(i)));
+            break;
+        case festa:
+            Pages->append(new PaginaFesta(*PageAtributes->at(i)));
+            break;
+        case outro:
+            Pages->append(new PaginaOutro(*PageAtributes->at(i)));
+            break;
         }
-        delete PageAtributes;
-        RunMode = Setup::RunTime;
     }
-    if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addAlbum(&atributes))
-            qDebug() << "Unable to Save Album";
-        qDebug() << "Album Saved";
-    }
+    delete PageAtributes;
 }
 
 //----------------Get Atributes----------------//
@@ -83,22 +87,28 @@ Pagina* Album::createPage(PageParam atributes){
     switch(PageType){
     case viagem:
         newPage=new PaginaViagem(atributes);
-        Pages->append(newPage);
-        return newPage;
+        break;
     case festa:
         newPage=new PaginaFesta(atributes);
-        Pages->append(newPage);
-        return newPage;
+        break;
     case coisaPessoa:
         newPage=new PaginaCoisaPessoa(atributes);
-        Pages->append(newPage);
-        return newPage;
+        break;
     case outro:
         newPage=new PaginaOutro(atributes);
+        break;
+    default:
+        return nullptr;
+    }
+    if(!oGestor->addPage(&atributes)){
+        qDebug() << "Unable to Save Page";
+        delete newPage;
+        return nullptr;
+    }
+    else{
+        qDebug() << "Page Saved";
         Pages->append(newPage);
         return newPage;
-    default:
-        return NULL;
     }
 }
 

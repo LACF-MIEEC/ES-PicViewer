@@ -8,7 +8,8 @@
 #include <QDebug>
 
 #include "gestorbd.h"
-#include "listaalbuns.h"
+#include "listapessoas.h"
+
 
 class Foto
 {
@@ -34,8 +35,6 @@ public:
     */
 
 private:
-
-    Setup::RunStates RunMode = Setup::Boot;
 
     int ID;
     QDir Path;

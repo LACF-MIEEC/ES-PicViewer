@@ -14,9 +14,9 @@ class Album
 public:
 
     Album(AlbumParam atributes);
+    ~Album();
 
-    void deleteSelf();
-
+    bool load(GestorBD *gestor=0);
     //----------------Get Atributes----------------//
 
     int getID();
@@ -57,8 +57,6 @@ public:
 
 
 private:
-
-    Setup::RunStates RunMode = Setup::Boot;
 
     int createFolder(QString folderName);
     QString createFolderName();

@@ -12,15 +12,7 @@ Foto::Foto(PhotoParam atributes)
         /*
          *  Get Attachments
          */
-        RunMode = Setup::RunTime;
     }
-    if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addPhoto(&atributes))
-            qDebug() << "Unable to Save Photo";
-        qDebug() << "Photo Saved";
-
-    }
-
 }
 
 void Foto::deleteSelf(){

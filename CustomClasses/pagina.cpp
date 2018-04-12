@@ -11,17 +11,11 @@ Pagina::Pagina(PageParam atributes)
     if(RunMode.testFlag(Setup::Boot)){
         Photos = new QVector<Foto*>();
         QVector<PhotoParam*> *PhotoAtributes = oGestor->getPhotos(&atributes);
-        for(int i=0;PhotoAtributes->size();i++){
+        for(int i=0;i<PhotoAtributes->size();i++){
             PhotoAtributes->at(i)->Parent=this;
             Photos->append(new Foto(*PhotoAtributes->at(i)));
         }
-        RunMode = Setup::RunTime;
         delete PhotoAtributes;
-    }
-    if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addPage(&atributes))
-            qDebug() << "Unable to Save Page";
-        qDebug() << "Page Saved";
     }
 }
 void Pagina::deleteSelf(){
@@ -57,8 +51,16 @@ Album* Pagina::parent(){
 
 Foto* Pagina::createPhoto(PhotoParam atributes){
     Foto* newFoto=new Foto(atributes);
-    Photos->append(newFoto);
-    return newFoto;
+    if(!oGestor->addPhoto(&atributes)){
+        qDebug() << "Unable to Save Photo";
+        delete newFoto;
+        return nullptr;
+    }
+    else{
+        qDebug() << "Photo Saved";
+        Photos->append(newFoto);
+        return newFoto;
+    }
 }
 
 

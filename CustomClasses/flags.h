@@ -1,8 +1,8 @@
 #ifndef FLAGS_H
 #define FLAGS_H
 
+#include <QFlags>
 #include <QFlag>
-
 struct Setup{
     enum RunState{
         Boot,
@@ -12,6 +12,7 @@ struct Setup{
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(Setup::RunStates)
 
-#define BOOT 1
+extern Setup::RunStates RunMode;
 
 #endif // FLAGS_H
+

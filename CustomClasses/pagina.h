@@ -51,8 +51,6 @@ public:
 
 protected:
 
-    Setup::RunStates RunMode = Setup::Boot;
-
     int createFolder(QString folderName);
     virtual QString createFolderName()=0;
 

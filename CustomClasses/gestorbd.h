@@ -15,6 +15,8 @@
 #include "paramstructs.h"
 #include "flags.h"
 
+extern QDir DBPath;
+
 class GestorBD
 {
 public:

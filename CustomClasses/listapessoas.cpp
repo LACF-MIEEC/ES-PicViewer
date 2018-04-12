@@ -14,7 +14,7 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
 
     People = new QVector<Pessoa*>();
     QVector<PersonParam*> *PersonAtributes = oGestor->getPeople(this);
-    for(int i=0;PersonAtributes->size();i++){
+    for(int i=0;i<PersonAtributes->size();i++){
         People->append(new Pessoa(*PersonAtributes->at(i)));
     }
     delete PersonAtributes;
@@ -33,8 +33,16 @@ ListaPessoas::~ListaPessoas(){
 Pessoa* ListaPessoas::createPerson(PersonParam atributes){
     atributes.ID=genPersonID();
     Pessoa* newPerson = new Pessoa(atributes);
-    People->append(newPerson);
-    return newPerson;
+    if(!oGestor->addPerson(&atributes)){
+        qDebug() << "Unable to Save Person";
+        delete newPerson;
+        return nullptr;
+    }
+    else{
+        qDebug() << "Person Saved";
+        People->append(newPerson);
+        return newPerson;
+    }
 }
 
 int ListaPessoas::generateID(QVector<int> &allocatedID, int &maxID)

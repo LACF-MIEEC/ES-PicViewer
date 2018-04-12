@@ -3,23 +3,16 @@
 
 ListaAlbuns::ListaAlbuns(GestorBD *gestor)
 {
-    qDebug() << "Entered constructor";
+    qDebug() << "ListaAlbuns: Entered constructor";
     allocatedAlbumID.fill(0);
     allocatedAlbumID.insert(allocatedAlbumID.size(), 10, 0);
-
+    allocatedAlbumID.replace(0, 1);
     maxAlbumID = 0;
 
-    qDebug() << "vector size is " << allocatedAlbumID.size() << ", maxID is " << maxAlbumID;
+    qDebug() << "ListaAlbuns: vector size is " << allocatedAlbumID.size() << ", maxID is " << maxAlbumID;
 
     oGestor = gestor;
-
     Albums = new QVector<Album*>();
-    QVector<AlbumParam*> *AlbumAtributes = oGestor->getAlbums(this);
-    for(int i=0;AlbumAtributes->size();i++){
-        Albums->append(new Album(*AlbumAtributes->at(i)));
-    }
-    delete AlbumAtributes;
-
 }
 ListaAlbuns::~ListaAlbuns(){
     for(int i=0;Albums->size();i++){
@@ -28,7 +21,27 @@ ListaAlbuns::~ListaAlbuns(){
     delete this;
 }
 
+bool ListaAlbuns::load(GestorBD *gestor){
+    if(gestor==0)
+        gestor=oGestor;
+    if(gestor==0){
+        qDebug() << "ListaAlbuns.load():ERROR GestorBD not set.";
+        return false;
+    }
 
+    Albums->clear();
+    QVector<AlbumParam*> *AlbumAtributes = gestor->getAlbums(this);
+    if(!AlbumAtributes){
+        qDebug() << "ListaAlbuns.load(): ERROR GestorBD->Fail to load.";
+
+        return false;
+    }
+    for(int i=0;i<AlbumAtributes->size();i++){
+        Albums->append(new Album(*AlbumAtributes->at(i)));
+    }
+    delete AlbumAtributes;
+    return true;
+}
 //------------------Private-------------------//
 int ListaAlbuns::generateID(QVector<int> &allocatedID, int &maxID)
 {
@@ -96,8 +109,16 @@ QVector<Album*>* ListaAlbuns::getAlbums(){
 Album* ListaAlbuns::createAlbum(AlbumParam atributes){
     atributes.ID=genAlbumID();
     Album* newAlbum = new Album(atributes);
-    Albums->append(newAlbum);
-    return newAlbum;
+    if(!oGestor->addAlbum(&atributes)){
+        qDebug() << "Unable to Save Album";
+        delete newAlbum;
+        return nullptr;
+    }
+    else{
+        qDebug() << "Album Saved";
+        Albums->append(newAlbum);
+        return newAlbum;
+    }
 }
 
 Pagina* ListaAlbuns::createPage(PageParam atributes, Album* destination){

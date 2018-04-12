@@ -28,6 +28,10 @@
 #include "photominiature.h"
 #include "pageinfodisplay.h"
 
+#include "CustomClasses/listaalbuns.h"
+#include "CustomClasses/listapessoas.h"
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -73,6 +77,10 @@ private:
     Ui::MainWindow *ui;
 
     ManagePeople *wPeople;
+
+    GestorBD* oGestor;
+    ListaAlbuns* aListaAlbuns;
+    ListaPessoas* aListaPessoas;
 
     //QVector<Fotos*> Vector;
 
