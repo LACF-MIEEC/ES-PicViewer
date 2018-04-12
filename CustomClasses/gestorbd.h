@@ -31,30 +31,30 @@ public:
     //-------------------------------------------------------------
     //ADD
     //-------------------------------------------------------------
-    bool addPhoto(Foto     *newFoto);
+    bool addPhoto(PhotoParam);
 
-    bool addAlbum(Album   *newAlbum);
+    bool addAlbum(AlbumParam);
 
-    bool addPage(Pagina *newPagina);
+    bool addPage(PageParam);
 
-    bool addPerson(Pessoa *newPessoa);
+    bool addPerson(PersonParam);
     //-------------------------------------------------------------
     //UPDATE
     //-------------------------------------------------------------
-    bool updatePhoto(Foto *newFoto);
+    bool updatePhoto(PhotoParam);
 
-    bool updateAlbum(Album *newAlbum);
+    bool updateAlbum(AlbumParam);
 
-    bool updatePage(Pagina *newPagina);
+    bool updatePage(PageParam);
 
-    bool updatePerson(Pessoa *newPessoa);
+    bool updatePerson(PersonParam);
 
     //-------------------------------------------------------------
     //GET
     //-------------------------------------------------------------
-    QVector<PhotoParam*> getPhotos(Pagina* Page);
+    QVector<PhotoParam*> getPhotos(PageParam);
 
-    QVector<PageParam *> getPages(Album* Alb);
+    QVector<PageParam *> getPages(AlbumParam);
 
     QVector<AlbumParam*> getAlbums(ListaAlbuns* Albs);
 
@@ -64,13 +64,13 @@ public:
     //-------------------------------------------------------------
     //DELETE
     //-------------------------------------------------------------
-    bool deletePhoto(Foto *delFoto);
+    bool deletePhoto(PhotoParam);
 
-    bool deleteAlbum(Album *delAlbum);
+    bool deleteAlbum(AlbumParam);
 
-    bool deletePage(Pagina *delPagina);
+    bool deletePage(PageParam);
 
-    bool deletePerson(Pessoa *delPessoa);
+    bool deletePerson(PersonParam);
 
     //-------------------------------------------------------------
     //OTHERS

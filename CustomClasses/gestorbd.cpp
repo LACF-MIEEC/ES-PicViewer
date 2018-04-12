@@ -106,11 +106,11 @@ bool GestorBD::createTables()
 //-------------------------------------------------------------
 //ADD
 //-------------------------------------------------------------
-bool GestorBD::addPhoto(Foto *newFoto)
+bool GestorBD::addPhoto(PhotoParam newPhoto)
 {
-    QString Path = newFoto->getPath().path();
-    int ID_Foto  = newFoto->getID();
-    int ID_Pagina= newFoto->parent()->getID();
+    QString Path = newPhoto.Path.path();
+    int ID_Foto  = newPhoto.ID;
+    int ID_Pagina= newPhoto.ParentID;
 
     QSqlQuery queryAdd;
     queryAdd.prepare("INSERT INTO FOTO (Path, ID_Foto, ID_Pagina) VALUES (:Path,:id_foto,:id_pagina)");
@@ -126,13 +126,13 @@ bool GestorBD::addPhoto(Foto *newFoto)
     return true;
 }
 
-bool GestorBD::addAlbum(Album *newAlbum){
+bool GestorBD::addAlbum(AlbumParam newAlbum){
 
-    pageType_t Tipo    = newAlbum->getPageType();
-    int ID_Album       = newAlbum->getID();
-    QString Nome_Album = newAlbum->getName();
-    QString Descricao  = newAlbum->getDescription();
-    QString Path       = newAlbum->getPath().path();
+    pageType_t Tipo    = newAlbum.PageType;
+    int ID_Album       = newAlbum.ID;
+    QString Nome_Album = newAlbum.Name;
+    QString Descricao  = newAlbum.Description;
+    QString Path       = newAlbum.Path.path();
 
     QSqlQuery queryAdd;
     queryAdd.prepare("INSERT INTO ALBUM (ID_Album, Nome_Album, Path, Tipo, Descricao) VALUES (:id_alb,:nome_alb,:path,:tipo,:desc)");
@@ -150,24 +150,24 @@ bool GestorBD::addAlbum(Album *newAlbum){
     return true;
 }
 
-bool GestorBD::addPage(Pagina *newPagina){
+bool GestorBD::addPage(PageParam newPage){
 
 
-    int ID_Pagina       = newPagina->getID();
-    int ID_Album        = newPagina->parent()->getID();
-    pageType_t Tipo            = newPagina->getType();
-    QString Descricao   = newPagina->getDescription();
+    int ID_Pagina       = newPage.ID;
+    int ID_Album        = newPage.ParentID;
+    pageType_t Tipo     = newPage.Type;
+    QString Descricao   = newPage.Description;
     QString Data_Inicio, Data_Fim,Tipo_Festa;
 
     if(Tipo==viagem){
-        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
-        Data_Fim    = newPagina->getEndDate().toString(Qt::ISODate);
+        Data_Inicio = newPage.StartDate.toString(Qt::ISODate);
+        Data_Fim    = newPage.EndDate.toString(Qt::ISODate);
         Tipo_Festa  = "NULL";
     }
 
     if(Tipo==outro){
-        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
-        Data_Fim    = newPagina->getEndDate().toString(Qt::ISODate);
+        Data_Inicio = newPage.StartDate.toString(Qt::ISODate);
+        Data_Fim    = newPage.EndDate.toString(Qt::ISODate);
         Tipo_Festa  = "NULL";
     }
 
@@ -178,13 +178,13 @@ bool GestorBD::addPage(Pagina *newPagina){
     }
 
     if(Tipo==festa){
-        Data_Inicio = newPagina->getStartDate().toString(Qt::ISODate);
+        Data_Inicio = newPage.StartDate.toString(Qt::ISODate);
         Data_Fim    = "NULL";
-        Tipo_Festa  = newPagina->getPartyType();
+        Tipo_Festa  = newPage.PartyType;
     }
 
 
-    QString Path = newPagina->getPath().path();
+    QString Path = newPage.Path.path();
 
 
 
@@ -207,14 +207,14 @@ bool GestorBD::addPage(Pagina *newPagina){
     return true;
 }
 
-bool GestorBD::addPerson(Pessoa *newPessoa){
+bool GestorBD::addPerson(PersonParam newPerson){
 
 
-    int ID_Pessoa       = newPessoa->getID();
-    int Genero          = newPessoa->getGender();
-    QString Nome_Pessoa = newPessoa->getName();
-    QString Data_Nasc   = newPessoa->getBirth().toString();
-    QString Relacao     = newPessoa->getBond();
+    int ID_Pessoa       = newPerson.ID;
+    int Genero          = newPerson.Gender;
+    QString Nome_Pessoa = newPerson.Name;
+    QString Data_Nasc   = newPerson.Birth.toString();
+    QString Relacao     = newPerson.Bond;
 
     QSqlQuery queryAdd;
     queryAdd.prepare("INSERT INTO PESSOA (ID_Pessoa,Nome_Pessoa, Data_Nasc, Genero, Relacao) VALUES (:id_pessoa,:nome,:data,:gen,:rel)");
@@ -239,11 +239,11 @@ bool GestorBD::addPerson(Pessoa *newPessoa){
 //-------------------------------------------------------------
 //UPDATE
 //-------------------------------------------------------------
-bool GestorBD::updatePhoto(Foto *newFoto){
+bool GestorBD::updatePhoto(PhotoParam newPhoto){
 
-    QString Path = newFoto->getPath().path();
-    int ID_Foto  = newFoto->getID();
-    int ID_Pagina= newFoto->parent()->getID();
+    QString Path = newPhoto.Path.path();
+    int ID_Foto  = newPhoto.ID;
+    int ID_Pagina= newPhoto.ParentID;
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE FOTO SET Path = :Path,ID_Pagina = :id_pagina WHERE ID_Foto = :id;");
@@ -261,13 +261,13 @@ bool GestorBD::updatePhoto(Foto *newFoto){
     return true;
 }
 
-bool GestorBD::updateAlbum(Album *newAlbum){
+bool GestorBD::updateAlbum(AlbumParam newAlbum){
 
-    int Tipo           = newAlbum->getPageType();
-    int ID_Album       = newAlbum->getID();
-    QString Nome_Album = newAlbum->getName();
-    QString Descricao  = newAlbum->getDescription();
-    QString Path = newAlbum->getPath().path();
+    int Tipo           = newAlbum.PageType;
+    int ID_Album       = newAlbum.ID;
+    QString Nome_Album = newAlbum.Name;
+    QString Descricao  = newAlbum.Description;
+    QString Path = newAlbum.Path.path();
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE ALBUM SET Nome_Album = :nome_alb, Path = :path, Tipo = :tipo, Descricao = :desc WHERE ID_Album = :id_alb; ");
@@ -286,23 +286,23 @@ bool GestorBD::updateAlbum(Album *newAlbum){
     return true;
 }
 
-bool GestorBD::updatePage(Pagina *newPagina){
+bool GestorBD::updatePage(PageParam newPage){
 
-    int ID_Pagina       = newPagina->getID();
-    int ID_Album        = newPagina->parent()->getID();
-    int Tipo            = newPagina->getType();
-    QString Descricao   = newPagina->getDescription();
+    int ID_Pagina       = newPage.ID;
+    int ID_Album        = newPage.ParentID;
+    int Tipo            = newPage.Type;
+    QString Descricao   = newPage.Description;
     QString Data_Inicio, Data_Fim,Tipo_Festa;
 
     if(Tipo==viagem){
-        Data_Inicio = newPagina->getStartDate().toString();;
-        Data_Fim    = newPagina->getEndDate().toString();
+        Data_Inicio = newPage.StartDate.toString();;
+        Data_Fim    = newPage.EndDate.toString();
         Tipo_Festa  = "NULL";
     }
 
     if(Tipo==outro){
-        Data_Inicio = newPagina->getStartDate().toString();
-        Data_Fim    = newPagina->getEndDate().toString();
+        Data_Inicio = newPage.StartDate.toString();
+        Data_Fim    = newPage.EndDate.toString();
         Tipo_Festa  = "NULL";
     }
 
@@ -313,12 +313,12 @@ bool GestorBD::updatePage(Pagina *newPagina){
     }
 
     if(Tipo==festa){
-        Data_Inicio = newPagina->getStartDate().toString();
+        Data_Inicio = newPage.StartDate.toString();
         Data_Fim    = "NULL";
-        Tipo_Festa  = newPagina->getPartyType();
+        Tipo_Festa  = newPage.PartyType;
     }
 
-    QString Path = newPagina->getPath().path();
+    QString Path = newPage.Path.path();
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE PAGINA SET ID_Album = :id_alb, Descricao = :desc, Tipo=:tipo, Data_Inicio=:datai,Data_Fim=:dataf,Tipo_Festa=:tipof,Path=:path WHERE ID_Pagina = :id_pag;");
@@ -339,14 +339,14 @@ bool GestorBD::updatePage(Pagina *newPagina){
     return true;
 }
 
-bool GestorBD::updatePerson(Pessoa *newPessoa){
+bool GestorBD::updatePerson(PersonParam newPerson){
 
 
-    int ID_Pessoa       = newPessoa->getID();
-    int Genero          = newPessoa->getGender();
-    QString Nome_Pessoa = newPessoa->getName();
-    QString Data_Nasc   = newPessoa->getBirth().toString();
-    QString Relacao     = newPessoa->getBond();
+    int ID_Pessoa       = newPerson.ID;
+    int Genero          = newPerson.Gender;
+    QString Nome_Pessoa = newPerson.Name;
+    QString Data_Nasc   = newPerson.Birth.toString();
+    QString Relacao     = newPerson.Bond;
 
     QSqlQuery queryUpdate;
     queryUpdate.prepare("UPDATE PESSOA SET Nome_Pessoa = :nome_pessoa,Data_Nasc = :data, Genero = :genero, Relacao = :relacao WHERE ID_Pessoa = :id_pessoa;");
@@ -368,9 +368,9 @@ bool GestorBD::updatePerson(Pessoa *newPessoa){
 //-------------------------------------------------------------
 //GET
 //-------------------------------------------------------------
-QVector<PhotoParam*> GestorBD::getPhotos(Pagina* Page){
+QVector<PhotoParam*> GestorBD::getPhotos(PageParam Page){
 
-    int PageID = Page->getID();
+    int PageID = Page.ID;
 
     QSqlQuery queryGet;
     queryGet.prepare("SELECT * FROM FOTO WHERE ID_Pagina=:id_pag;");
@@ -388,7 +388,7 @@ QVector<PhotoParam*> GestorBD::getPhotos(Pagina* Page){
     while(queryGet.next())
     {
         Atributes           = new PhotoParam;
-        Atributes->Parent    = Page;
+        Atributes->Parent    = Page.Parent;
         Atributes->Gestor    = this;
         Atributes->ID        = queryGet.value("ID_Foto").toInt();
         Atributes->Path.setPath(queryGet.value("Path").toString());
@@ -399,9 +399,9 @@ QVector<PhotoParam*> GestorBD::getPhotos(Pagina* Page){
     return Fotos;
 }
 
-QVector<PageParam*> GestorBD::getPages(Album* Alb){
+QVector<PageParam*> GestorBD::getPages(AlbumParam Alb){
 
-    int AlbumID = Alb->getID();
+    int AlbumID = Alb.ID;
 
     QSqlQuery queryGet;
 
@@ -421,7 +421,7 @@ QVector<PageParam*> GestorBD::getPages(Album* Alb){
     {
         Atributes               = new PageParam;
         Atributes->Gestor        = this;
-        Atributes->Parent        = Alb;
+        Atributes->Parent        = Alb.Parent;
         Atributes->ID            = queryGet.value("ID_Pagina").toInt();
         Atributes->Description   = queryGet.value("Descricao").toString();
         Type                    = (pageType_t)queryGet.value("Tipo").toInt();
@@ -513,9 +513,9 @@ QVector<AlbumParam*> GestorBD::getAlbums(ListaAlbuns* Albs){
 //-------------------------------------------------------------
 //DELETE
 //-------------------------------------------------------------
-bool GestorBD::deletePhoto(Foto *delFoto){
+bool GestorBD::deletePhoto(PhotoParam delPhoto){
 
-    int ID_Foto  = delFoto->getID();
+    int ID_Foto  = delPhoto.ID;
 
     QSqlQuery queryDel;
     queryDel.prepare("DELETE FROM FOTO WHERE ID_Foto=:id;");
@@ -538,9 +538,9 @@ bool GestorBD::deletePhoto(Foto *delFoto){
     return true;
 }
 
-bool GestorBD::deletePage(Pagina *delPagina){
+bool GestorBD::deletePage(PageParam delPage){
 
-    int ID_Pagina  = delPagina->getID();
+    int ID_Pagina  = delPage.ID;
 
     QSqlQuery queryDel;
     queryDel.prepare("DELETE FROM PAGINA WHERE ID_Pagina=:id;");
@@ -554,9 +554,9 @@ bool GestorBD::deletePage(Pagina *delPagina){
     return true;
 }
 
-bool GestorBD::deletePerson(Pessoa *delPessoa){
+bool GestorBD::deletePerson(PersonParam delPerson){
 
-    int ID_Pessoa  = delPessoa->getID();
+    int ID_Pessoa  = delPerson.ID;
 
     QSqlQuery queryDel;
     queryDel.prepare("DELETE FROM PESSOA WHERE ID_Pessoa=:id_pessoa;");
@@ -579,9 +579,9 @@ bool GestorBD::deletePerson(Pessoa *delPessoa){
     return true;
 }
 
-bool GestorBD::deleteAlbum(Album *delAlbum){
+bool GestorBD::deleteAlbum(AlbumParam delAlbum){
 
-    int ID_Album  = delAlbum->getID();
+    int ID_Album  = delAlbum.ID;
 
     QSqlQuery queryDel;
     queryDel.prepare("DELETE FROM ALBUM WHERE ID_Album=:id;");
