@@ -13,16 +13,17 @@ ListaAlbuns::ListaAlbuns(GestorBD *gestor)
 
     oGestor = gestor;
 
-    Albums.clear();
-    QVector<AlbumParam*> AlbumAtributes = oGestor->getAlbums(this);
-    for(int i=0;AlbumAtributes.size();i++){
-        Albums.append(new Album(AlbumAtributes[i]));
+    Albums = new QVector<Album*>();
+    QVector<AlbumParam*> *AlbumAtributes = oGestor->getAlbums(this);
+    for(int i=0;AlbumAtributes->size();i++){
+        Albums->append(new Album(*AlbumAtributes->at(i)));
     }
+    delete AlbumAtributes;
 
 }
 ListaAlbuns::~ListaAlbuns(){
-    for(int i=0;Albums.size();i++){
-        Albums.at(i)->deleteSelf();
+    for(int i=0;Albums->size();i++){
+        Albums->at(i)->deleteSelf();
     }
     delete this;
 }
@@ -88,14 +89,14 @@ int ListaAlbuns::genPhotoID(){
 }
 
 //----------------GetAtributes----------------//
-QVector<Album*> ListaAlbuns::getAlbums(){
+QVector<Album*>* ListaAlbuns::getAlbums(){
     return Albums;
 }
 //------------------Create--------------------//
 Album* ListaAlbuns::createAlbum(AlbumParam atributes){
     atributes.ID=genAlbumID();
     Album* newAlbum = new Album(atributes);
-    Albums.append(newAlbum);
+    Albums->append(newAlbum);
     return newAlbum;
 }
 

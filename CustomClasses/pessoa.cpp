@@ -17,7 +17,7 @@ Pessoa::Pessoa(PersonParam atributes)
         RunMode = Setup::RunTime;
     }
     if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addPerson(atributes))
+        if(!oGestor->addPerson(&atributes))
             qDebug() << "Unable to Save Person";
         qDebug() << "Person Saved";
     }

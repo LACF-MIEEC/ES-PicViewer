@@ -25,7 +25,7 @@ public:
     QDir getPath();
     pageType_t getPageType();
 
-    QVector<Pagina*> getPages();
+    QVector<Pagina *> *getPages();
 
     ListaAlbuns* parent();
 
@@ -71,7 +71,7 @@ private:
 
     ListaAlbuns* Parent;
     GestorBD* oGestor;
-    QVector<Pagina*> Pages;
+    QVector<Pagina*> *Pages;
 
 };
 

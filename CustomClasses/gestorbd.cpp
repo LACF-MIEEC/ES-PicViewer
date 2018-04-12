@@ -387,8 +387,7 @@ QVector<PhotoParam*>* GestorBD::getPhotos(PageParam *Page){
 
     while(queryGet.next())
     {
-        Atributes           = new PhotoParam;
-        Atributes->Parent    = Page.Parent;
+        Atributes            = new PhotoParam;
         Atributes->Gestor    = this;
         Atributes->ID        = queryGet.value("ID_Foto").toInt();
         Atributes->Path.setPath(queryGet.value("Path").toString());
@@ -421,7 +420,6 @@ QVector<PageParam*>* GestorBD::getPages(AlbumParam *Alb){
     {
         Atributes               = new PageParam;
         Atributes->Gestor        = this;
-        Atributes->Parent        = Alb->Parent;
         Atributes->ID            = queryGet.value("ID_Pagina").toInt();
         Atributes->Description   = queryGet.value("Descricao").toString();
         Type                    = (pageType_t)queryGet.value("Tipo").toInt();
@@ -430,20 +428,8 @@ QVector<PageParam*>* GestorBD::getPages(AlbumParam *Alb){
         Atributes->EndDate       = queryGet.value("DataFim").toDate();
         Atributes->PartyType     = queryGet.value("Tipo_Festa").toString();
 
-        switch(Type){
-        case viagem:
-            Paginas.append(Atributes);
-            break;
-        case coisaPessoa:
-            Paginas.append(Atributes);
-            break;
-        case festa:
-            Paginas.append(Atributes);
-            break;
-        case outro:
-            Paginas.append(Atributes);
-            break;
-        }
+        Paginas->append(Atributes);
+
     }
     return Paginas;
 }
@@ -503,7 +489,7 @@ QVector<AlbumParam*>* GestorBD::getAlbums(ListaAlbuns *Albs){
         Atributes->Description   =   query.value("Descricao").toString();
         Atributes->Path.setPath(query.value("Path").toString());
 
-        Albums.append(Atributes);
+        Albums->append(Atributes);
         //Albuns.append(new Album(atributes));
     }
     return Albums;
@@ -708,6 +694,7 @@ GestorBD::GestorBD(const QString &path)
     else
     {
         qDebug() << "Database: connection ok";
+        createTables();
     }
 }
 

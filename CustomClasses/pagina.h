@@ -29,7 +29,7 @@ public:
     virtual QDate getEndDate()=0;
     virtual QString getPartyType()=0;
 
-    QVector<Foto*> getPhotos();
+    QVector<Foto *> *getPhotos();
 
     Album* parent();
 
@@ -62,7 +62,7 @@ protected:
 
     Album* Parent;
     GestorBD* oGestor;
-    QVector<Foto*> Photos;
+    QVector<Foto*> *Photos;
 };
 
 

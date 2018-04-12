@@ -41,7 +41,7 @@ private:
     int generateID(QVector<int> &allocatedID, int &maxID);
     int genPersonID();
 
-    QVector<Pessoa*> People;
+    QVector<Pessoa*> *People;
     GestorBD* oGestor;
 };
 

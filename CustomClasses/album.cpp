@@ -11,29 +11,31 @@ Album::Album(AlbumParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    Pages.clear();
-
     if(RunMode.testFlag(Setup::Boot)){
-        QVector<PageParam*> PageAtributes = oGestor->getPages(atributes);
-        for(int i=0;PageAtributes.size();i++){
-            switch(PageType)
+        Pages = new QVector<Pagina*>();
+        QVector<PageParam*> *PageAtributes = oGestor->getPages(&atributes);
+        for(int i=0;PageAtributes->size();i++){
+            PageAtributes->at(i)->Parent=this;
+            switch(PageType){
             case viagem:
-                Pages.append(new PaginaViagem(PageAtributes[i]));
+                Pages->append(new PaginaViagem(*PageAtributes->at(i)));
                 break;
             case coisaPessoa:
-                Pages.append(new PaginaCoisaPessoa(PageAtributes[i]));
+                Pages->append(new PaginaCoisaPessoa(*PageAtributes->at(i)));
                 break;
             case festa:
-                Pages.append(new PaginaFesta(PageAtributes[i]));
+                Pages->append(new PaginaFesta(*PageAtributes->at(i)));
                 break;
             case outro:
-                Pages.append(new PaginaOutro(PageAtributes[i]));
+                Pages->append(new PaginaOutro(*PageAtributes->at(i)));
                 break;
+            }
         }
+        delete PageAtributes;
         RunMode = Setup::RunTime;
     }
     if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addAlbum(atributes))
+        if(!oGestor->addAlbum(&atributes))
             qDebug() << "Unable to Save Album";
         qDebug() << "Album Saved";
     }
@@ -41,10 +43,10 @@ Album::Album(AlbumParam atributes)
 
 //----------------Get Atributes----------------//
 void Album::deleteSelf(){
-    for(int i=0;Pages.size();i++){
-        Pages.at(i)->deleteSelf();
+    for(int i=0;Pages->size();i++){
+        Pages->at(i)->deleteSelf();
     }
-
+    delete Pages;
     delete this;
 }
 
@@ -64,7 +66,7 @@ pageType_t Album::getPageType(){
     return PageType;
 }
 
-QVector<Pagina*> Album::getPages(){
+QVector<Pagina*>* Album::getPages(){
     return Pages;
 }
 
@@ -81,19 +83,19 @@ Pagina* Album::createPage(PageParam atributes){
     switch(PageType){
     case viagem:
         newPage=new PaginaViagem(atributes);
-        Pages.append(newPage);
+        Pages->append(newPage);
         return newPage;
     case festa:
         newPage=new PaginaFesta(atributes);
-        Pages.append(newPage);
+        Pages->append(newPage);
         return newPage;
     case coisaPessoa:
         newPage=new PaginaCoisaPessoa(atributes);
-        Pages.append(newPage);
+        Pages->append(newPage);
         return newPage;
     case outro:
         newPage=new PaginaOutro(atributes);
-        Pages.append(newPage);
+        Pages->append(newPage);
         return newPage;
     default:
         return NULL;

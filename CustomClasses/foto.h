@@ -24,7 +24,7 @@ public:
     int getID();
     QDir getPath();
 
-    QVector<Pessoa*> getPeople();
+    QVector<Pessoa *> *getPeople();
 
     Pagina* parent();
 
@@ -39,7 +39,7 @@ private:
 
     int ID;
     QDir Path;
-    QVector<Pessoa*> People;
+    QVector<Pessoa*> *People;
 
     ListaPessoas* PeopleList;//Como se lá chega?????????
     GestorBD* oGestor;

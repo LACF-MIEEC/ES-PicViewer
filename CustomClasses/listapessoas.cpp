@@ -12,18 +12,18 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
 
     oGestor =gestor;
 
-    People.clear();
-    QVector<PersonParam*> PersonAtributes = oGestor->getPeople(this);
-    for(int i=0;PersonAtributes.size();i++){
-        People.append(new Pessoa(PersonAtributes[i]));
+    People = new QVector<Pessoa*>();
+    QVector<PersonParam*> *PersonAtributes = oGestor->getPeople(this);
+    for(int i=0;PersonAtributes->size();i++){
+        People->append(new Pessoa(*PersonAtributes->at(i)));
     }
-
+    delete PersonAtributes;
 
 }
 
 ListaPessoas::~ListaPessoas(){
-    for(int i=0;People.size();i++){
-        People.at(i)->deleteSelf();
+    for(int i=0;People->size();i++){
+        People->at(i)->deleteSelf();
     }
 
     delete this;
@@ -33,7 +33,7 @@ ListaPessoas::~ListaPessoas(){
 Pessoa* ListaPessoas::createPerson(PersonParam atributes){
     atributes.ID=genPersonID();
     Pessoa* newPerson = new Pessoa(atributes);
-    People.append(newPerson);
+    People->append(newPerson);
     return newPerson;
 }
 
