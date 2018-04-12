@@ -9,15 +9,16 @@ Pagina::Pagina(PageParam atributes)
     oGestor     =   atributes.Gestor;
 
     if(RunMode.testFlag(Setup::Boot)){
-        QVector<PhotoParam*> PhotoAtributes = oGestor->getPhotos(this);
+        QVector<PhotoParam*> PhotoAtributes = oGestor->getPhotos(atributes);
         for(int i=0;PhotoAtributes.size();i++){
-            Photos.append(new Foto(PhotoAtributes.at(i)));
+            Photos.append(new Foto(PhotoAtributes[i]));
         }
         RunMode = Setup::RunTime;
     }
     if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addPage(this))
-            qDebug << "Unable to Save Page";
+        if(!oGestor->addPage(atributes))
+            qDebug() << "Unable to Save Page";
+        qDebug() << "Page Saved";
     }
 }
 void Pagina::deleteSelf(){

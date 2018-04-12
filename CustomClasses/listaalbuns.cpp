@@ -13,11 +13,10 @@ ListaAlbuns::ListaAlbuns(GestorBD *gestor)
 
     oGestor = gestor;
 
-
     Albums.clear();
     QVector<AlbumParam*> AlbumAtributes = oGestor->getAlbums(this);
     for(int i=0;AlbumAtributes.size();i++){
-        Albums.append(new Album(AlbumAtributes.at(i)));
+        Albums.append(new Album(AlbumAtributes[i]));
     }
 
 }

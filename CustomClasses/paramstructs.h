@@ -18,6 +18,7 @@ struct PhotoParam{
     int ID;
     QDir Path;
     Pagina* Parent;
+    int ParentID;
     GestorBD* Gestor;
 };
 
@@ -32,6 +33,7 @@ struct PageParam{
   QDate EndDate;
   QString PartyType;
   Album* Parent=0;
+  int   ParentID;
   GestorBD* Gestor=0;
 };
 

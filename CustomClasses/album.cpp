@@ -14,15 +14,28 @@ Album::Album(AlbumParam atributes)
     Pages.clear();
 
     if(RunMode.testFlag(Setup::Boot)){
-        QVector<PageParam*> PageAtributes = oGestor->getPages(this);
+        QVector<PageParam*> PageAtributes = oGestor->getPages(atributes);
         for(int i=0;PageAtributes.size();i++){
-            Pages.append(new Pagina(PageAtributes.at(i)));
+            switch(PageType)
+            case viagem:
+                Pages.append(new PaginaViagem(PageAtributes[i]));
+                break;
+            case coisaPessoa:
+                Pages.append(new PaginaCoisaPessoa(PageAtributes[i]));
+                break;
+            case festa:
+                Pages.append(new PaginaFesta(PageAtributes[i]));
+                break;
+            case outro:
+                Pages.append(new PaginaOutro(PageAtributes[i]));
+                break;
         }
         RunMode = Setup::RunTime;
     }
     if(RunMode.testFlag(Setup::RunTime)){
-        if(!oGestor->addAlbum(this))
-            qDebug << "Unable to Save Album";
+        if(!oGestor->addAlbum(atributes))
+            qDebug() << "Unable to Save Album";
+        qDebug() << "Album Saved";
     }
 }
 

@@ -10,6 +10,18 @@ Pessoa::Pessoa(PersonParam atributes)
     Parent  =   atributes.Parent;
     oGestor =   atributes.Gestor;
 
+    if(RunMode.testFlag(Setup::Boot)){
+        /*
+         * Get Attachments
+         */
+        RunMode = Setup::RunTime;
+    }
+    if(RunMode.testFlag(Setup::RunTime)){
+        if(!oGestor->addPerson(atributes))
+            qDebug() << "Unable to Save Person";
+        qDebug() << "Person Saved";
+    }
+
 }
 
 void Pessoa::deleteSelf(){

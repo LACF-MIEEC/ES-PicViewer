@@ -12,6 +12,13 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
 
     oGestor =gestor;
 
+    People.clear();
+    QVector<PersonParam*> PersonAtributes = oGestor->getPeople(this);
+    for(int i=0;PersonAtributes.size();i++){
+        People.append(new Pessoa(PersonAtributes[i]));
+    }
+
+
 }
 
 ListaPessoas::~ListaPessoas(){
