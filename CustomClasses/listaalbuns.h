@@ -15,7 +15,7 @@ public:
     ListaAlbuns(GestorBD* gestor=0);
     ~ListaAlbuns();
 
-    bool load(GestorBD* gestor=0);
+    bool loadAlbuns(GestorBD* gestor=0);
 
     //----------------Get Atributes----------------//
 

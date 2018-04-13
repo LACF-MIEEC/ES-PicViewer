@@ -14,9 +14,11 @@ class Pagina
 public:
 
     Pagina(PageParam atributes);
+    ~Pagina();
 
-    void deleteSelf();
+    bool loadPhotos(GestorBD* gestor=0);
 
+    bool createFolder();
     //----------------Get Atributes----------------//
 
     int getID();
@@ -51,7 +53,6 @@ public:
 
 protected:
 
-    int createFolder(QString folderName);
     virtual QString createFolderName()=0;
 
     QString Description;

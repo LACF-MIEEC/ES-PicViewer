@@ -7,19 +7,12 @@ Foto::Foto(PhotoParam atributes)
     Parent  = atributes.Parent;
     oGestor = atributes.Gestor;
 
-    if(RunMode.testFlag(Setup::Boot)){
-        People = new QVector<Pessoa*>();
-        /*
-         *  Get Attachments
-         */
-    }
+    People = new QVector<Pessoa*>();
 }
 
-void Foto::deleteSelf(){
-
-    delete this;
+Foto::~Foto(){
+    delete People;
 }
-
 
 int Foto::getID(){
     return ID;

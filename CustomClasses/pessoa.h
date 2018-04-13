@@ -13,8 +13,7 @@ class Pessoa
 {
 public:
     Pessoa(PersonParam atributes);
-
-    void deleteSelf();
+    ~Pessoa();
 
     //----------------Get Atributes----------------//
 
@@ -24,7 +23,7 @@ public:
     gender getGender();
     QString getBond();
 
-    QVector<Foto*> getPhotos();
+    QVector<Foto *> *getPhotos();
 
     ListaPessoas* parent();
 
@@ -45,7 +44,7 @@ private:
 
     ListaPessoas *Parent;
     GestorBD* oGestor;
-    QVector<Foto*> Photos;
+    QVector<Foto*> *Photos;
 };
 
 #endif // PESSOA_H

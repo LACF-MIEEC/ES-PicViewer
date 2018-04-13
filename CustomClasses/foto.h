@@ -16,8 +16,7 @@ class Foto
 public:
 
     Foto(PhotoParam atributes);
-
-    void deleteSelf();
+    ~Foto();
 
 
     //----------------Get Atributes----------------//

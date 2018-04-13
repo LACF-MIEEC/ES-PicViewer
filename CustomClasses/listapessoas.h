@@ -14,6 +14,8 @@ class ListaPessoas
 public:
     ListaPessoas(GestorBD* gestor=0);
     ~ListaPessoas();
+
+    bool loadPeople(GestorBD* gestor=0);
     //----------------Get Atributes----------------//
 
     QVector<Pessoa*> getPeople();

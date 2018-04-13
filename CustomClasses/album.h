@@ -16,7 +16,9 @@ public:
     Album(AlbumParam atributes);
     ~Album();
 
-    bool load(GestorBD *gestor=0);
+    bool loadPages(GestorBD *gestor=0);
+
+    bool createFolder();
     //----------------Get Atributes----------------//
 
     int getID();
@@ -34,7 +36,6 @@ public:
     Pagina* createPage(PageParam atributes);
 
     Foto* createPhoto(PhotoParam atributes, Pagina* destination);
-
 
 
     /* MODIFICATIONS NOT YET IMPLEMENTED
@@ -58,7 +59,6 @@ public:
 
 private:
 
-    int createFolder(QString folderName);
     QString createFolderName();
 
     int ID;

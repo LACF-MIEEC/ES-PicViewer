@@ -2,44 +2,58 @@
 
 ListaPessoas::ListaPessoas(GestorBD *gestor)
 {
-    qDebug() << "Entered constructor";
-    allocatedPeopleID.fill(0);
+    qDebug() << "ListaPessoas: Initializing PeopleID.";
+    allocatedPeopleID.clear();
     allocatedPeopleID.insert(allocatedPeopleID.size(), 10, 0);
-
+    allocatedPeopleID.replace(0, 1);
     maxPeopleID = 0;
-
-    qDebug() << "vector size is " << allocatedPeopleID.size() << ", maxID is " << maxPeopleID;
+    qDebug() << "ListaPeople: allocatedPeopleID size is " << allocatedPeopleID.size() << ", maxPeopleID is " << maxPeopleID;
 
     oGestor =gestor;
-
     People = new QVector<Pessoa*>();
-    QVector<PersonParam*> *PersonAtributes = oGestor->getPeople(this);
+}
+
+ListaPessoas::~ListaPessoas(){
+    for(int i=0;People->size();i++){
+        delete People->at(i);
+    }
+    delete People;
+}
+
+bool ListaPessoas::loadPeople(GestorBD* gestor){
+    if(gestor==0)
+        gestor=oGestor;
+    if(gestor==0){
+        qDebug() << "ListaPessoas.load():ERROR GestorBD not set.";
+        return false;
+    }
+
+    QVector<PersonParam*> *PersonAtributes = gestor->getPeople(this);
+    if(!PersonAtributes){
+        qDebug() << "ListaPessoas.load(): ERROR GestorBD->Fail to load.";
+        delete PersonAtributes;
+        return false;
+    }
+
+    People->clear();
     for(int i=0;i<PersonAtributes->size();i++){
         People->append(new Pessoa(*PersonAtributes->at(i)));
     }
     delete PersonAtributes;
 
+    return true;
 }
-
-ListaPessoas::~ListaPessoas(){
-    for(int i=0;People->size();i++){
-        People->at(i)->deleteSelf();
-    }
-
-    delete this;
-}
-
 
 Pessoa* ListaPessoas::createPerson(PersonParam atributes){
     atributes.ID=genPersonID();
     Pessoa* newPerson = new Pessoa(atributes);
     if(!oGestor->addPerson(&atributes)){
-        qDebug() << "Unable to Save Person";
+        qDebug() << "ListaPessoas:Unable to Save Person";
         delete newPerson;
         return nullptr;
     }
     else{
-        qDebug() << "Person Saved";
+        qDebug() << "ListaPessoas:Person Saved";
         People->append(newPerson);
         return newPerson;
     }
@@ -47,45 +61,37 @@ Pessoa* ListaPessoas::createPerson(PersonParam atributes){
 
 int ListaPessoas::generateID(QVector<int> &allocatedID, int &maxID)
 {
-    qDebug() << "Hello World";
     for (int index = 0; index < allocatedID.size(); index++ )
     {
         if (allocatedID.at(index) == 0)
         {
-            qDebug() << "Free space found: index = " << index << ", vector[index] = " << allocatedID.at(index);
-
-            allocatedID[index] = 1;
-            qDebug() << ", vector[index] is now " << allocatedID.at(index);;
-
+            qDebug() << "ListaPessoas::generateID() ->Free ID found " << index << ", Vector[index] = " << allocatedID.at(index);
+            allocatedID.replace(index,1);
+            qDebug() << "ListaPessoas::generateID() ->Vector[index] replaced by" << allocatedID.at(index);;
             return index;
         }
         if (index == maxID){
-            qDebug() << "Incrementing maxID";
+            qDebug() << "ListaPessoas::generateID() -> Incrementing maxID.";
             maxID += 1;
             if (maxID == allocatedID.size())
             {
-                qDebug() << "Allocating more space";
+                qDebug() << "ListaPessoas::generateID() -> Vector full Allocating more space.";
                 allocatedID.insert(allocatedID.size(), 10, 0);
             }
-            allocatedID[maxID] = 1;
+            allocatedID.replace(maxID,1);
             return maxID;
         }
     }
-    // Program shouldn't get here...
-    qDebug() << "Are you sure the program is correct?";
-    // Are we here? vector is full, we need to append new values
+    //This Should't happen!!
     if (allocatedID.size() == maxID+1){
-        qDebug() << "Incrementing maxID and allocating more space";
+        qDebug() << "ListaPessoas::generateID() -> Index Problem: Allocating more space";
         allocatedID.insert(allocatedID.size(), 10, 0);
         maxID += 1;
-        //allocatedID.append(1);
-        allocatedID[maxID] = 1;
+        allocatedID.replace(maxID,1);
         return maxID;
-        //return maxID;
     }
-    // If the program gets here, something went wrong
-    qDebug() << "Something went wrong generating an ID";
-    qDebug() << "MaxID = " << maxID << ", vector size = " << allocatedID.size();
+    qDebug() << "ListaPessoas:Something went wrong generating an ID";
+    qDebug() << "ListaPessoas:MaxID = " << maxID << ", vector size = " << allocatedID.size();
     return -1;
 
 
