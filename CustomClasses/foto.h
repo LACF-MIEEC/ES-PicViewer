@@ -20,46 +20,51 @@ class Foto
 {
 public:
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Construtor
-     * \param atributes - Estrutura PhotoParam
+     * \brief Construtor.
+     * \param atributes - Estrutura PhotoParam.
      */
     Foto(PhotoParam atributes);
   
+
+    ////////////////////////////////////////////////
     /*!
-     *\brief Destrutor
+     *\brief Destrutor.
      */
     ~Foto();
 
 
     //----------------Get Atributes----------------//
-
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve ID da %Foto
-     * \return ID da  %Foto
+     * \brief Devolve ID da %Foto.
+     * \return ID da  %Foto.
      */
     int getID();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve caminho do ficheiro %Foto
-     * \return caminho do ficheiro %Foto
+     * \brief Devolve caminho do ficheiro %Foto.
+     * \return caminho do ficheiro %Foto.
      */
     QDir getPath();
 
-    ////////////////////////////////////////////////
-    /*!
-     * \brief Devolve Pessoas associadas à %Foto
-     * \return Ponteiro para o vetor de classes Pessoa
-     */
-    QVector<Pessoa *> *getPeople();
 
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve Página da %Foto
-     * \return Ponteiro para a classe Pagina
+     * \brief Devolve Pessoas associadas à %Foto.
+     * \return Ponteiro para o vetor de classes Pessoa.
+     */
+    QVector<Pessoa *> *getPeople();
+
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Página da %Foto.
+     * \return Ponteiro para a classe Pagina.
      */
     Pagina* parent();
 

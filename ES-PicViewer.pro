@@ -72,7 +72,8 @@ HEADERS += \
     UI/photodisplay.h \
     UI/photominiature.h \
     CustomClasses/flags.h \
-    CustomClasses/paramstructs.h
+    CustomClasses/paramstructs.h \
+    CustomClasses/description.h
 
 FORMS += \
     UI/addalbumdialog.ui \

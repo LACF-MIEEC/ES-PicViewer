@@ -20,7 +20,7 @@ public:
 
     ////////////////////////////////////////////////
     /*!
-     * \brief Construtor
+     * \brief Construtor.
      * \param gestor - Ponteiro para a classe GestorBD.
      */
     ListaPessoas(GestorBD* gestor=0);
@@ -32,9 +32,9 @@ public:
     ~ListaPessoas();
 
     /*!
-     * \brief Carrega Pessoas existentes na BD
+     * \brief Carrega Pessoas existentes na BD.
      *
-     *  Reinicializa o Vector de Pessoas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     *  Reinicializa o Vector de Pessoas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar.
      *
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Todos os objetos carregados, False - Falha ao carregar todos os objectos da BD.
@@ -54,7 +54,7 @@ public:
 
     ////////////////////////////////////////////////
     /*!
-     * \brief Cria nova Pessoa
+     * \brief Cria nova Pessoa.
      *
      * Cria nova pessoa com os atributos definidos em atributes.
      * \param atributes - Estrutura PersonParam.
@@ -78,19 +78,21 @@ private:
     QVector<int> allocatedPeopleID;
     int maxPeopleID;
 
-    ////////////////////////////////////////////////
-    /*!
-     * \brief Algoritmo para gerar novo ID
-     * \param allocatedID - Vetor de inteiros que representam os ID já alocados
-     * \param maxID - Representa o número do maior ID criado
-     * \return Novo ID de Álbum
-     */
-    int generateID(QVector<int> &allocatedID, int &maxID);
 
     ////////////////////////////////////////////////
     /*!
-     * \brief Gera ID para a nova %Pessoa
-     * \return Novo ID da %Pessoa
+     * \brief Algoritmo para gerar novo ID.
+     * \param allocatedID - Vetor de inteiros que representam os ID já alocados.
+     * \param maxID - Representa o número do maior ID criado.
+     * \return Novo ID de Álbum.
+     */
+    int generateID(QVector<int> &allocatedID, int &maxID);
+
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera ID para a nova %Pessoa.
+     * \return Novo ID da %Pessoa.
      */
     int genPersonID();
 

@@ -26,6 +26,7 @@ class GestorBD
 {
 public:
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Construtor.
@@ -34,6 +35,7 @@ public:
      * \param path - Caminho Absoluto para o ficheiro da Base de Dados.
      */
     GestorBD(const QString& path);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -44,7 +46,8 @@ public:
      */
     ~GestorBD();
 
-    //Cria Tabelas
+
+    //-------------------Create--------------------//
     ////////////////////////////////////////////////
     /*!
      * \brief Cria as tabelas da Base de Dados.
@@ -52,9 +55,8 @@ public:
      */
     bool createTables();
 
-    //-------------------------------------------------------------
-    //ADD
-    //-------------------------------------------------------------
+
+    //-------------------add--------------------//
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona nova %Foto à Base de Dados.
@@ -62,6 +64,7 @@ public:
      * \return True - %Foto Adicionada, False - %Foto não adicionada.
      */
     bool addPhoto(PhotoParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -71,6 +74,7 @@ public:
      */
     bool addAlbum(AlbumParam*);
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona nova Página à Base de Dados.
@@ -78,6 +82,7 @@ public:
      * \return True - Página Adicionada, False - Página não adicionada.
      */
     bool addPage(PageParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -90,6 +95,7 @@ public:
     //UPDATE
     //-------------------------------------------------------------
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Atualiza Informações da %Foto pretendida.
@@ -99,6 +105,7 @@ public:
      * \return True - %Foto Atualizada, False - %Foto não Atualizada.
      */
     bool updatePhoto(PhotoParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -110,6 +117,7 @@ public:
      */
     bool updateAlbum(AlbumParam*);
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Atualiza Informações da Página pretendido.
@@ -119,6 +127,7 @@ public:
      * \return True - Página Atualizada, False - Página não Atualizada.
      */
     bool updatePage(PageParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -130,9 +139,8 @@ public:
      */
     bool updatePerson(PersonParam*);
 
-    //-------------------------------------------------------------
-    //GET
-    //-------------------------------------------------------------
+
+    //-------------------get--------------------//
     ////////////////////////////////////////////////
     /*!
      * \brief Procura na Base de Dados todas as Fotos da Página pretendida.
@@ -142,6 +150,7 @@ public:
      * \return Vetor de Estruturas PhotoParam com atributos das Fotos.
      */
     QVector<PhotoParam *> *getPhotos(PageParam *);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -153,6 +162,7 @@ public:
      */
     QVector<PageParam *> *getPages(AlbumParam *);
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Procura na Base de Dados todos os Álbuns existentes.
@@ -161,6 +171,7 @@ public:
      * \return Vetor de Estruturas AlbumParam com atributos dos Álbuns.
      */
     QVector<AlbumParam *> *getAlbums(ListaAlbuns *);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -172,9 +183,7 @@ public:
     QVector<PersonParam *> *getPeople(ListaPessoas *);
 
 
-    //-------------------------------------------------------------
-    //DELETE
-    //-------------------------------------------------------------
+    //-------------------delete--------------------//
     ////////////////////////////////////////////////
     /*!
      * \brief Elimina %Foto pretendida.
@@ -184,6 +193,7 @@ public:
      * \return True - %Foto Eliminada, False - %Foto não Eliminada.
      */
     bool deletePhoto(PhotoParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -195,6 +205,7 @@ public:
      */
     bool deleteAlbum(AlbumParam*);
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Elimina Página pretendida.
@@ -204,6 +215,7 @@ public:
      * \return True - Página Eliminada, False - Página não Eliminada.
      */
     bool deletePage(PageParam*);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -215,15 +227,15 @@ public:
      */
     bool deletePerson(PersonParam*);
 
-    //-------------------------------------------------------------
-    //OTHERS
-    //-------------------------------------------------------------
+
+    //-------------------Create--------------------//
     ////////////////////////////////////////////////
     /*!
      * \brief Remove as Tabelas Criadas.
      * \return True - Tabelas Eliminadas, False - Tabelas não Eliminadas.
      */
     bool removeAll();
+
 
     ////////////////////////////////////////////////
     /*!
@@ -232,6 +244,7 @@ public:
      */
     bool clearAll();
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief isOpen
@@ -239,20 +252,20 @@ public:
      */
     bool isOpen() const;
 
-    ////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////
     //bool updateAtachment(const QString& , const QString&, const QString &);
 
-    ////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////
     //bool addAtachment(const QString& ,const QString&);
 
-    ////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////
     //bool getPeopleByFoto(const QString&);
 
-    ////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////
     //bool getAtachments();
 
 private:
