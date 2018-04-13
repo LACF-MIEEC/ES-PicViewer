@@ -46,12 +46,15 @@ struct AlbumParam{
 class Album
 {
 public:
+
+
     ////////////////////////////////////////////////
     /*!
      * \brief Construtor.
      * \param atributes - Estrutura AlbumParam.
      */
     Album(AlbumParam atributes);
+
 
     ////////////////////////////////////////////////
     /*!
@@ -63,13 +66,25 @@ public:
     /*!
      * \brief Carrega Páginas existentes na Base de Dados.
      *
-     * Reinicializa o Vector de Paginas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     * Reinicializa o Vector de Paginas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar.
      * \param gestor - Ponteiro para a classe GestorBD.
+     * \param allocatedID - Vetor de inteiros que representam os ID's já alocados.
+     * \param maxID - Representa o número do maior ID criado.
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */
     bool loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor=0);
 
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Cria Pasta relativa ao Álbum.
+     *
+     * Cria Pasta com nome gerado pela função createFolderName.
+     * \return True - Pasta criada, False - Pasta não criada.
+     */
+
     bool createFolder();
+
 
     //----------------Get Atributes----------------//
     ////////////////////////////////////////////////
@@ -79,6 +94,7 @@ public:
      */
     int getID();
 
+
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve nome do Álbum.
@@ -86,56 +102,62 @@ public:
      */
     QString getName();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve Descrição do Álbum
-     * \return Descrição do Álbum
+     * \brief Devolve Descrição do Álbum.
+     * \return Descrição do Álbum.
      */
     QString getDescription();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve caminho da diretoria do Álbum
-     * \return Caminho da diretoria do Álbum
+     * \brief Devolve caminho da diretoria do Álbum.
+     * \return Caminho da diretoria do Álbum.
      */
     QDir getPath();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve o tipo de página do Álbum
-     * \return Tipo de Página do Álbum
+     * \brief Devolve o tipo de página do Álbum.
+     * \return Tipo de Página do Álbum.
      */
     pageType_t getPageType();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve Páginas no Álbum
-     * \return Ponteiro para vetor de classes Pagina
+     * \brief Devolve Páginas no Álbum.
+     * \return Ponteiro para vetor de classes Pagina.
      */
     QVector<Pagina *> *getPages();
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Devolve Lista de Álbuns
-     * \return Ponteiro para a classe ListaAlbuns
+     * \brief Devolve Lista de Álbuns.
+     * \return Ponteiro para a classe ListaAlbuns.
      */
     ListaAlbuns* parent();
 
-    //-------------------Create--------------------//
 
+    //-------------------Create--------------------//
     ////////////////////////////////////////////////
     /*!
-     * \brief Cria uma nova Página
+     * \brief Cria uma nova Página.
      *
-     * Cria uma nova Página com os atributos recebidos em atributes
-     * \param atributes - estrutura PageParam
-     * \return Ponteiro para a classe Pagina
+     * Cria uma nova Página com os atributos recebidos em atributes.
+     * \param atributes - estrutura PageParam.
+     * \return Ponteiro para a classe Pagina.
      */
     Pagina* createPage(PageParam atributes);
 
+
     ////////////////////////////////////////////////
     /*!
-     * \brief Cria uma nova Página
+     * \brief Cria uma nova Página.
      *
      * Cria uma nova %Foto na Página destination com os atributos atributes.
      * \param atributes - Estrutura PhotoParam.
@@ -165,6 +187,16 @@ public:
 
 
 private:
+
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera nome para a diretoria representativa do Álbum.
+     *
+     * O nome do álbum é gerado retirando todos os carateres especiais e acentos.
+     * do nome do Álbum e juntando o ID do album, separados por um "_".
+     * \return Nome do Álbum.
+     */
 
     QString createFolderName();
 

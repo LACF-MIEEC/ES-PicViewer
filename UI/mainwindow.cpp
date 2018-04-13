@@ -493,6 +493,7 @@ void MainWindow::on_AddPhoto_clicked()
                 msg->exec();
                 msg->deleteLater();
             }
+
             else{
                 //Adicionar Foto
                 atributes.Gestor=oGestor;
@@ -510,6 +511,7 @@ void MainWindow::on_AddPhoto_clicked()
 
                 PhotoCounter++;
             }
+
         }
         //updateGUI();
 
