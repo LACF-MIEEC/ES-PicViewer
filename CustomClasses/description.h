@@ -12,7 +12,7 @@
  *
  * Tal como planeado e mencionado nas etapas anteriores do presente projeto, para satisfazer as funcionalidades que são impostas no problema, <br>
  * recorremos a uma arquitetura de software orientada a objetos que faz a gestão das entidades Álbum, Página, %Foto e %Pessoa cujas classes <br>
- * implementadas são Album, Pagina, Foto e Pessoa, respetivamente.
+ * implementadas são Album, Pagina, Foto e Pessoa, respetivamente além das classes de gestão ListaAlbuns, ListaPessoas e GestorBD
  *
  * Toda a informação do software é armazenada numa base de dados que foi implementada com 5 tabelas, 4 delas representativas das entidades acima <br>
  * referidas e a restante para armazenar as associações entre Fotos e Pessoas. Esta última tabela aumenta a eficiencia da Base de dados uma vez <br>
