@@ -1,47 +1,80 @@
 #ifndef FOTO_H
 #define FOTO_H
 
-#include <string>
+#include <QString>
 #include <QVector>
+#include <QDir>
+#include <QDate>
+#include <QDebug>
 
-//#include "listaalbuns.h"
-class ListaAlbuns;
+#include "gestorbd.h"
+#include "listapessoas.h"
 
-//#include "gestorbd.h"
-class GestorBD;
-
-//#include "pessoa.h"
-class Pessoa;
-
-//#include "pagina.h"
-class Pagina;
-
-struct FotoParams{
-    int fotoID;
-    //...
-};
-
+////////////////////////////////////////////////
+/*!
+ * \brief Classe que representa uma %Foto.
+ *
+ * Contém a diretoria da imagem.
+ */
 class Foto
 {
 public:
-    Foto(FotoParams params);
 
-    int deleteSelf(); // Remover-se da base de dados, eliminar ficheiro
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Construtor
+     * \param atributes - Estrutura PhotoParam
+     */
+    Foto(PhotoParam atributes);
+  
+    ~Foto();
 
-    std::string getPath();
 
-    int acceptPerson(Pessoa* person);
-    int removePerson(Pessoa* person);
-    QVector<Pessoa*> getPeople();
+    //----------------Get Atributes----------------//
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve ID da %Foto
+     * \return int - ID da  %Foto
+     */
+    int getID();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve caminho do ficheiro %Foto
+     * \return QDir - caminho do ficheiro %Foto
+     */
+    QDir getPath();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Pessoas associadas à %Foto
+     * \return QVector - Ponteiro para o vetor de classes Pessoa
+     */
+    QVector<Pessoa *> *getPeople();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Página da %Foto
+     * \return Ponteiro para a classe Pagina
+     */
+    Pagina* parent();
+
+    /*ASSOCIATIONS NOT YET IMPLEMENTED
+    int acceptPerson(Pessoa* Person);
+    int removePerson(Pessoa* Person);
+    */
+
 private:
-    int fotoID;
 
-    std::string directoria; //ingles? assim é como está no SAD
+    int ID;
+    QDir Path;
+    QVector<Pessoa*> *People;
 
-    ListaAlbuns* aListaAlbuns;
+    ListaPessoas* PeopleList;//Como se lá chega?????????
     GestorBD* oGestor;
-    QVector<Pessoa*> people;
-    Pagina* parent;
+    Pagina* Parent;
+
 };
 
 #endif // FOTO_H

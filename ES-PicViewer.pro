@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT	 += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,10 +23,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#  comment this to disable qDebug outputs
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 SOURCES += \
     CustomClasses/album.cpp \
-    CustomClasses/debugES.cpp \
     CustomClasses/foto.cpp \
     CustomClasses/gestorbd.cpp \
     CustomClasses/listaalbuns.cpp \
@@ -45,11 +47,11 @@ SOURCES += \
     UI/managepeople.cpp \
     UI/pageinfodisplay.cpp \
     UI/photodisplay.cpp \
-    UI/photominiature.cpp
+    UI/photominiature.cpp \
+    CustomClasses/subpagina.cpp
 
 HEADERS += \
     CustomClasses/album.h \
-    CustomClasses/debugES.h \
     CustomClasses/foto.h \
     CustomClasses/gestorbd.h \
     CustomClasses/listaalbuns.h \
@@ -68,7 +70,9 @@ HEADERS += \
     UI/managepeople.h \
     UI/pageinfodisplay.h \
     UI/photodisplay.h \
-    UI/photominiature.h
+    UI/photominiature.h \
+    CustomClasses/flags.h \
+    CustomClasses/paramstructs.h
 
 FORMS += \
     UI/addalbumdialog.ui \

@@ -1,76 +1,151 @@
-#ifndef ALBUM_H
+    #ifndef ALBUM_H
 #define ALBUM_H
 
+#include <QString>
 #include <QVector>
-#include <string> // Ou o que for preciso para o tipo de string que se usar
-// Search & Replace std::string por std::string, ou assim
+#include <QDir>
+#include <QDate>
+#include <QDebug>
 
-//#include "foto.h"
-class Foto;
-struct FotoParams;
-
-//#include "pagina.h"
-class Pagina;
-struct PaginaParams;
-enum pageType_t : short int;
-
-//#include "listaalbuns.h"
-class ListaAlbuns;
-
-//#include "gestorbd.h"
-class GestorBD;
-
-struct AlbumParams {
-    int albumID;
-    std::string Name; // ou outro tipo de string
-    GestorBD* oGestor;
-    ListaAlbuns* aListaAlbuns;
-    //...
-};
-
+#include "pagina.h"
+/*!
+ * \brief Classe representativa de um Álbum na ótica do utilizador.
+ *
+ * Contém as Páginas e as características associadas à representação de um Álbum.
+ */
 class Album
 {
 public:
-    // TODO: tipos de return
-    Album(AlbumParams params);
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Construtor.
+     * \param atributes - Estrutura AlbumParam.
+     */
+    Album(AlbumParam atributes);
 
-    //~Album();
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Destrutor.
+     */
+    ~Album();
+  
+    ////////////////////////////////////////////////
+    /*!
+     * \brief %Carrega Páginas existentes na Base de Dados.
+     * \param gestor - Ponteiro para a classe GestorBD.
+     * \return True - Página(s) lidas, False - Página(s) não lidas.
+     */
+    bool loadPages(GestorBD *gestor=0);
+  
+    bool createFolder();
 
+    //----------------Get Atributes----------------//
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve ID do Álbum.
+     * \return int - ID do Álbum.
+     */
+    int getID();
 
-    int deleteSelf(); //Remover-se da base de dados, remover suas paginas, apagar pasta...
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve nome do Álbum.
+     * \return QString - Nome do Álbum.
+     */
+    QString getName();
 
-    int setName(std::string newName);
-    void setDescription(std::string newDesc);
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Descrição do Álbum
+     * \return Descrição do Álbum
+     */
+    QString getDescription();
 
-    QVector<Pagina*> getPages();
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve caminho da diretoria do Álbum
+     * \return Caminho da diretoria do Álbum
+     */
+    QDir getPath();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve o tipo de página do Álbum
+     * \return Tipo de Página do Álbum
+     */
     pageType_t getPageType();
 
-    Pagina* createPage(PaginaParams params);
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Páginas no Álbum
+     * \return Ponteiro para vetor de classes Pagina
+     */
+    QVector<Pagina *> *getPages();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Lista de Álbuns
+     * \return Ponteiro para a classe ListaAlbuns
+     */
+    ListaAlbuns* parent();
+
+    //-------------------Create--------------------//
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Cria uma nova Página
+     *
+     * Cria uma nova Página com os atributos recebidos em atributes
+     * \param atributes - estrutura PageParam
+     * \return Ponteiro para a classe Pagina
+     */
+    Pagina* createPage(PageParam atributes);
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Cria uma nova Página
+     *
+     * Cria uma nova %Foto na Página destination com os atributos atributes.
+     * \param atributes - Estrutura PhotoParam.
+     * \param destination - Ponteiro para a classe Pagina.
+     * \return Ponteiro para a classe Foto.
+     */
+    Foto* createPhoto(PhotoParam atributes, Pagina* destination);
+
+
+    /* MODIFICATIONS NOT YET IMPLEMENTED
+    int setName(QString newName);
+    void setDescription(QString newDesc);
+    */
+
+    /* DELETE AND MOVE NOT YET IMPLEMENTED
     int acceptPage(Pagina* page);
     int removePage(Pagina* page);
     int deletePage(Pagina* page);
+    */
 
-    QVector<Foto*> searchPhotoByDate(/*Date*/);
-    QVector<Foto*> searchPhotoByKeyword(std::string keyword);
+    //int acceptPhoto(Pagina* page, Foto* photo); //Mais vale ir logo à página se já tenho o ponteiro
 
-
-    Foto* createPhoto(FotoParams params);
-    int acceptPhoto(Pagina* page, Foto* photo);
+    /* SEARCH NOT YET IMPLEMENTED
+    QVector<Foto*> searchPhotoByDate(QDate date);
+    QVector<Foto*> searchPhotoByKeyword(QString keyword);
+    */
 
 
 private:
+    
+    QString createFolderName();
 
-    int createFolder();
-    std::string createFolderName();
+    int ID;
+    QString Name;
+    QString Description;
+    QDir Path;
+    pageType_t PageType;
 
-    int albumID;
-
-    ListaAlbuns* aListaAlbuns;
+    ListaAlbuns* Parent;
     GestorBD* oGestor;
-    QVector<Pagina*> pages;
+    QVector<Pagina*> *Pages;
 
-
-    pageType_t pageType; // enum definido em pagina.h
 };
 
 #endif // ALBUM_H

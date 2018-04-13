@@ -2,34 +2,95 @@
 #define PESSOA_H
 
 #include <QVector>
-#include <string>
+#include <QString>
+#include <QDate>
+#include <QDir>
+#include <QDebug>
 
-#include "listaalbuns.h"
 #include "gestorbd.h"
-//#include "foto.h"
-class Foto;
 
-struct PessoaParams{
-    std::string name;
-    //...
-};
+/*!
+ * \brief Classe representativa de uma %Pessoa na ótica do utilizador.
+ *
+ * Contém as Fotos associadas e as características associadas à representação de uma %Pessoa.
+ */
 
 class Pessoa
 {
 public:
-    Pessoa(PessoaParams params);
 
-    int acceptPhoto(Foto* photo); // no SAD está acceptPhotos()
-    int removePhoto(Foto* photo); // no SAD está removePhotos()
-    QVector<Foto*> getPhotos();
+    /*!
+     * \brief Construtor
+     * \param Estrutura PersonParam
+     */
+    Pessoa(PersonParam atributes);
 
-    // getters e setters conforme necessário
+  
+    ~Pessoa();
+
+
+    //----------------Get Atributes----------------//
+    /*!
+     * \brief Devolve ID da %Pessoa.
+     * \return ID da %Pessoa.
+     */
+    int getID();
+
+    /*!
+     * \brief Devolve Nome da %Pessoa
+     * \return Nome da %Pessoa
+     */
+    QString getName();
+
+    /*!
+     * \brief Devolve data de de Nascimento da %Pessoa
+     * \return Data de Nascimento da %Pessoa
+     */
+    QDate getBirth();
+
+    /*!
+     * \brief Devolve Género da Pessoa
+     * \return Género da Pessoa
+     */
+    gender getGender();
+
+    /*!
+     * \brief Devolve Relação da Pessoa
+     * \return Relação da Pessoa
+     */
+    QString getBond();
+
+    /*!
+     * \brief Devolve pessoas associadas á %Foto
+     * \return Ponteiro apra vetor de classes Foto
+     */
+    QVector<Foto*> *getPhotos();
+
+
+    /*!
+     * \brief Devolve lista de Pessoas
+     * \return Ponteiro para a classe ListaPessoas
+     */
+    ListaPessoas* parent();
+
+    /* ATTACHMENTS NOT YET IMPLEMENTED
+    int acceptPhoto(Foto* photo);
+    */
+    /* REMOVE NOT YET IMPLEMENTED
+    int removePhoto(Foto* photo);
+    */
+
 private:
-    std::string name;
 
-    ListaAlbuns* aListaAlbuns;
+    int ID;
+    QString Name;
+    QDate Birth;
+    gender Gender;
+    QString Bond;
+
+    ListaPessoas *Parent;
     GestorBD* oGestor;
-    QVector<Foto*> fotos;
+    QVector<Foto*> *Photos;
 };
 
 #endif // PESSOA_H
