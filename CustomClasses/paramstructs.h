@@ -14,6 +14,7 @@ class GestorBD;
 class ListaAlbuns;
 class ListaPessoas;
 
+////////////////////////////////////////////////
 /*!
  * \brief Estrututa que contém os atributos de Foto
  */
@@ -25,13 +26,13 @@ struct PhotoParam{
     GestorBD* Gestor;
 };
 
-
+////////////////////////////////////////////////
 /*!
  * \brief Tipos de página
  */
 enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
 
-
+////////////////////////////////////////////////
 /*!
  * \brief Estrutura que contém os atributos de Pagina
  */
@@ -48,7 +49,7 @@ struct PageParam{
   GestorBD* Gestor=0;
 };
 
-
+////////////////////////////////////////////////
 /*!
  * \brief Estrutura que contém os atributos de Album
  */
@@ -62,12 +63,13 @@ struct AlbumParam{
     GestorBD* Gestor =0;
 };
 
+////////////////////////////////////////////////
 /*!
  * \brief Género
  */
 enum gender :short int {feminino, masculino};
 
-
+////////////////////////////////////////////////
 /*!
  * \brief Estrutura que contém os atributos de Pessoa
  */

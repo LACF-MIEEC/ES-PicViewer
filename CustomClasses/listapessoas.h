@@ -17,12 +17,15 @@
 class ListaPessoas
 {
 public:
+
+    ////////////////////////////////////////////////
     /*!
      * \brief Construtor
      * \param gestor - Ponteiro para a classe GestorBD.
      */
     ListaPessoas(GestorBD* gestor=0);
 
+    ////////////////////////////////////////////////
     /*!
      *\brief Destrutor
      */
@@ -31,6 +34,7 @@ public:
     bool loadPeople(GestorBD* gestor=0);
     //----------------Get Atributes----------------//
 
+    ////////////////////////////////////////////////
     /*!
      * \brief  Devolve Todas as Pessoas.
      * \return Ponteiro para vetor de classes Pessoa.
@@ -39,6 +43,7 @@ public:
 
     //-------------------Create--------------------//
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Cria nova Pessoa
      *
@@ -64,7 +69,20 @@ private:
     QVector<int> allocatedPeopleID;
     int maxPeopleID;
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Algoritmo para gerar novo ID
+     * \param allocatedID - Vetor de inteiros que representam os ID já alocados
+     * \param maxID - Representa o número do maior ID criado
+     * \return Novo ID de Álbum
+     */
     int generateID(QVector<int> &allocatedID, int &maxID);
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera ID para a nova %Pessoa
+     * \return Novo ID da %Pessoa
+     */
     int genPersonID();
 
     QVector<Pessoa*> *People;
