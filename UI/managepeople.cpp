@@ -9,6 +9,8 @@ ManagePeople::ManagePeople(GestorBD *gestor,QWidget *parent) :
 
     aListaPessoas= new ListaPessoas(gestor);
 
+    oGestor=gestor;
+
     aListaPessoas->loadPeople();
 
     //------------------------------------
@@ -62,23 +64,61 @@ void ManagePeople::on_AddPerson_clicked()
 
 void ManagePeople::addPerson(AddPersonDialog *Dialog){
 
-    //Criar o ALbum e Actualizar a interface
+    PersonParam atributes;
 
-    QString Name = Dialog->findChild<QLineEdit*>("Name")->text();
-    QDate Birth = Dialog->findChild<QDateEdit*>("Birth")->date();
-    QString Gender = Dialog->findChild<QComboBox*>("Gender")->currentText();
-    QString Bond  = Dialog->findChild<QLineEdit*>("Bond")->text();
+    atributes.Name = Dialog->findChild<QLineEdit*>("Name")->text();
+    atributes.Birth = Dialog->findChild<QDateEdit*>("Birth")->date();
 
-    //ListaPesoas::createPerson();
-    //addItemPeopleList();
+    if(QString::compare(Dialog->findChild<QComboBox*>("Gender")->currentText(),"Masculino")){
+        atributes.Gender=masculino;
+    }
+    else if(QString::compare(Dialog->findChild<QComboBox*>("Gender")->currentText(),"Feminino")){
+        atributes.Gender=feminino;
+    }
 
+    atributes.Bond  = Dialog->findChild<QLineEdit*>("Bond")->text();
+
+    atributes.Parent=aListaPessoas;
+    atributes.Gestor=oGestor;
+
+    Pessoa* newPerson = aListaPessoas->createPerson(atributes);
+
+    QMessageBox *msg;
+    if(newPerson==nullptr){
+        msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao criar Pessoa!",
+                                             QMessageBox::Ok,this);
+        msg->exec();
+        msg->deleteLater();
+        Dialog->close();
+        Dialog->deleteLater();
+        return;
+    }
+    addItemPeopleList(newPerson);
 
     Dialog->close();
     Dialog->deleteLater();
     //Apresenta Mensagem de confirmação
-    QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Pessoa Criada", "A Pessoa foi criada com sucesso!",
+    msg = new QMessageBox(QMessageBox::Information,"Pessoa Criada", "A Pessoa foi criada com sucesso!",
                                          QMessageBox::Ok,this);
 
     msg->exec();
     msg->deleteLater();
+}
+
+void ManagePeople::on_PeopleList_itemClicked(QListWidgetItem *item)
+{
+    Pessoa* SelectedPerson = aListaPessoas->getPeople()->at(ui->PeopleList->currentRow());
+
+    ui->Name->setText(SelectedPerson->getName());
+    ui->Birth->setText(SelectedPerson->getBirth().toString(Qt::ISODate));
+    ui->Bond->setText(SelectedPerson->getBond());
+
+    switch (SelectedPerson->getGender()){
+    case masculino:
+        ui->Gender->setText("Masculino");
+        break;
+    case feminino:
+        ui->Gender->setText("Feminino");
+        break;
+    }
 }
