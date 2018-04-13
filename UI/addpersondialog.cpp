@@ -1,6 +1,14 @@
 #include "addpersondialog.h"
 #include "ui_addpersondialog.h"
 
+#include "CustomClasses/gestorbd.h"
+#include "CustomClasses/foto.h"
+#include "CustomClasses/pagina.h"
+#include "CustomClasses/album.h"
+#include "CustomClasses/listaalbuns.h"
+#include "CustomClasses/listapessoas.h"
+#include "CustomClasses/pessoa.h"
+
 AddPersonDialog::AddPersonDialog(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AddPersonDialog)

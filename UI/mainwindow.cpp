@@ -1,7 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-Setup::RunStates RunMode;
+#include "CustomClasses/gestorbd.h"
+#include "CustomClasses/foto.h"
+#include "CustomClasses/pagina.h"
+#include "CustomClasses/album.h"
+#include "CustomClasses/listaalbuns.h"
+#include "CustomClasses/listapessoas.h"
+#include "CustomClasses/pessoa.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

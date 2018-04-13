@@ -16,7 +16,13 @@ class GestorBD;
 class ListaAlbuns;
 class ListaPessoas;
 
+struct PhotoParam;
+struct PageParam;
+struct AlbumParam;
+struct PersonParam;
 
+enum pageType_t:short int;
+enum gender: short int;
 ////////////////////////////////////////////////
 /*!
  * \brief Estrutura que contém os atributos de Album

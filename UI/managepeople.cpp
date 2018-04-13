@@ -1,6 +1,14 @@
 #include "managepeople.h"
 #include "ui_managepeople.h"
 
+#include "CustomClasses/gestorbd.h"
+#include "CustomClasses/foto.h"
+#include "CustomClasses/pagina.h"
+#include "CustomClasses/album.h"
+#include "CustomClasses/listaalbuns.h"
+#include "CustomClasses/listapessoas.h"
+#include "CustomClasses/pessoa.h"
+
 ManagePeople::ManagePeople(GestorBD *gestor,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ManagePeople)

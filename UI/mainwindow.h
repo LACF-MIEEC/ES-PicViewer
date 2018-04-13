@@ -28,15 +28,22 @@
 #include "photominiature.h"
 #include "pageinfodisplay.h"
 
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
 
-#include "CustomClasses/gestorbd.h"
-#include "CustomClasses/foto.h"
-#include "CustomClasses/pagina.h"
-#include "CustomClasses/album.h"
-#include "CustomClasses/listaalbuns.h"
-#include "CustomClasses/listapessoas.h"
-#include "CustomClasses/pessoa.h"
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
 
+struct PhotoParam;
+struct PageParam;
+struct AlbumParam;
+struct PersonParam;
+
+enum pageType_t:short int;
+enum gender: short int;
 
 namespace Ui {
 class MainWindow;

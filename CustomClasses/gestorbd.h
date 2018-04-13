@@ -13,6 +13,23 @@
 #include <QSqlRecord>
 
 
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+struct PhotoParam;
+struct PageParam;
+struct AlbumParam;
+struct PersonParam;
+
+enum pageType_t:short int;
+enum gender: short int;
+
 
 extern QDir DBPath;
 ////////////////////////////////////////////////
