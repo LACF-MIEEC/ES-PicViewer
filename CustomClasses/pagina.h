@@ -7,7 +7,39 @@
 #include <QDate>
 #include <QDebug>
 
-#include "foto.h"
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+
+////////////////////////////////////////////////
+/*!
+ * \brief Tipos de página
+ */
+enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
+
+////////////////////////////////////////////////
+/*!
+ * \brief Estrutura que contém os atributos de Pagina
+ */
+struct PageParam{
+  int ID;
+  pageType_t Type;
+  QString Description;
+  QDir Path;
+  QDate StartDate;
+  QDate EndDate;
+  QString PartyType;
+  Album* Parent=0;
+  int   ParentID;
+  GestorBD* Gestor=0;
+};
+
 
 /*!
  * \brief Classe representativa de uma página na ótica do utilizador.

@@ -7,7 +7,17 @@
 #include <QDate>
 #include <QDebug>
 
-#include "album.h"
+
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+
 /*!
  * \brief Classe responsável por fazer a gestão de Álbums.
  *

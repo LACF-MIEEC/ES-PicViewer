@@ -7,7 +7,16 @@
 #include <QDate>
 #include <QDebug>
 
-#include "pessoa.h"
+
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
 
 /*!
  * \brief Classe responsável por gerir objetos da classe %Pessoa e as suas associações com fotos.

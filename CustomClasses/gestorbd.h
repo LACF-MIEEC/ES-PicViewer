@@ -12,8 +12,7 @@
 #include <QSqlError>
 #include <QSqlRecord>
 
-#include "paramstructs.h"
-#include "flags.h"
+
 
 extern QDir DBPath;
 ////////////////////////////////////////////////

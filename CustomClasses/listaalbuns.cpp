@@ -1,4 +1,11 @@
+#include "gestorbd.h"
+#include "foto.h"
+#include "pagina.h"
+#include "album.h"
 #include "listaalbuns.h"
+#include "listapessoas.h"
+#include "pessoa.h"
+
 
 
 ListaAlbuns::ListaAlbuns(GestorBD *gestor)
@@ -109,7 +116,7 @@ bool ListaAlbuns::loadAll(GestorBD* gestor){
     for(int i=0;i<Albums->size();i++){
         for(int j=0;j<Albums->at(i)->getPages()->size();j++){
             if(!Albums->at(i)->getPages()->at(j)->loadPhotos(allocatedPhotoID,maxPhotoID,gestor)){
-                qDebug() << "ListaAlbuns.loadAll():ERROR loadPhotos().";
+                qDebug() << "ListaAlbuns.loaAll():ERROR loadPhotos().";
                 return false;
             }
         }
