@@ -9,10 +9,19 @@
 
 #include "foto.h"
 
+/*!
+ * \brief Classe representativa de uma página na ótica do utilizador.
+ *
+ * Contém as Fotos e as características associadas à representação de uma página.
+ */
 class Pagina
 {
 public:
 
+    /*!
+     * \brief Construtor
+     * \param atributes - Estrutura PageParam
+     */
     Pagina(PageParam atributes);
     ~Pagina();
 
@@ -21,22 +30,68 @@ public:
     bool createFolder();
     //----------------Get Atributes----------------//
 
+    /*!
+     * \brief Devolve ID da Página.
+     * \return int - ID do Página.
+     */
     int getID();
+    /*!
+     *\brief Devolve Descrição da Página
+     *\return Descrição da Página
+     */
     QString getDescription();
+
+    /*!
+     * \brief Devolve caminho da diretoria da Página
+     * \return caminho da diretoria da Página
+     */
     QDir getPath();
 
+    /*!
+     * \brief Devolve o tipo de Página
+     * \return Tipo de Página
+     */
     virtual pageType_t getType()=0;
 
+    /*!
+     * \brief Devolve a data de inicio do evento da Página
+     * \return Data de Inicio
+     */
     virtual QDate getStartDate()=0;
+
+    /*!
+     * \brief Devolve a data de fim do evento da Página
+     * \return Data de Fim
+     */
     virtual QDate getEndDate()=0;
+
+    /*!
+     * \brief Devolve o tipo de Festa
+     * \return Tipo de Festa
+     */
     virtual QString getPartyType()=0;
 
+    /*!
+     * \brief Devolve Fotos da Página
+     * \return ponteiro para vetor de classes Foto
+     */
     QVector<Foto *> *getPhotos();
 
+    /*!
+     * \brief Retorna album da Página
+     * \return Ponteiro para classe Album
+     */
     Album* parent();
 
     //-------------------Create--------------------//
 
+    /*!
+     * \brief Cria nova %Foto
+     *
+     * Cria nova %Foto com os atributos definidos em atributes
+     * \param atributes - Estrutura PhotoParam
+     * \return Ponteiro para a classe Foto
+     */
     Foto* createPhoto(PhotoParam atributes);
 
 
@@ -64,7 +119,9 @@ protected:
     QVector<Foto*> *Photos;
 };
 
-
+/*!
+ * \brief Subclasse da classe Pagina
+ */
 class PaginaViagem : public Pagina
 {
 public:
@@ -86,6 +143,9 @@ private:
 
 };
 
+/*!
+ * \brief Subclasse da classe Pagina
+ */
 class PaginaFesta : public Pagina
 {
 public:
@@ -106,6 +166,9 @@ private:
 
 };
 
+/*!
+ * \brief Subclasse da classe Pagina
+ */
 class PaginaCoisaPessoa : public Pagina
 {
 public:
@@ -123,6 +186,9 @@ private:
 
 };
 
+/*!
+ * \brief Subclasse da classe Pagina
+ */
 class PaginaOutro : public Pagina
 {
 public:

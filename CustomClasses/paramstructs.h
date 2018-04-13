@@ -14,6 +14,9 @@ class GestorBD;
 class ListaAlbuns;
 class ListaPessoas;
 
+/*!
+ * \brief Estrututa que contém os atributos de Foto
+ */
 struct PhotoParam{
     int ID;
     QDir Path;
@@ -22,8 +25,16 @@ struct PhotoParam{
     GestorBD* Gestor;
 };
 
+
+/*!
+ * \brief Tipos de página
+ */
 enum pageType_t : short int { viagem, festa, coisaPessoa, outro };
 
+
+/*!
+ * \brief Estrutura que contém os atributos de Pagina
+ */
 struct PageParam{
   int ID;
   pageType_t Type;
@@ -38,6 +49,9 @@ struct PageParam{
 };
 
 
+/*!
+ * \brief Estrutura que contém os atributos de Album
+ */
 struct AlbumParam{
     int ID;
     QString Name;
@@ -48,8 +62,15 @@ struct AlbumParam{
     GestorBD* Gestor =0;
 };
 
+/*!
+ * \brief Género
+ */
 enum gender :short int {feminino, masculino};
 
+
+/*!
+ * \brief Estrutura que contém os atributos de Pessoa
+ */
 struct PersonParam{
     int ID;
     QString Name;

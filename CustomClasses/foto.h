@@ -10,22 +10,54 @@
 #include "gestorbd.h"
 #include "listapessoas.h"
 
-
+////////////////////////////////////////////////
+/*!
+ * \brief Classe que representa uma %Foto.
+ *
+ * Contém a diretoria da imagem.
+ */
 class Foto
 {
 public:
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Construtor
+     * \param atributes - Estrutura PhotoParam
+     */
     Foto(PhotoParam atributes);
+  
     ~Foto();
 
 
     //----------------Get Atributes----------------//
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve ID da %Foto
+     * \return int - ID da  %Foto
+     */
     int getID();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve caminho do ficheiro %Foto
+     * \return QDir - caminho do ficheiro %Foto
+     */
     QDir getPath();
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Pessoas associadas à %Foto
+     * \return QVector - Ponteiro para o vetor de classes Pessoa
+     */
     QVector<Pessoa *> *getPeople();
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Devolve Página da %Foto
+     * \return Ponteiro para a classe Pagina
+     */
     Pagina* parent();
 
     /*ASSOCIATIONS NOT YET IMPLEMENTED

@@ -9,19 +9,43 @@
 
 #include "pessoa.h"
 
+/*!
+ * \brief Classe responsável por gerir objetos da classe %Pessoa e as suas associações com fotos.
+ *
+ * Como tal é também responsável por efetuar a pesquisa de %Foto por Pessoa associada.
+ */
 class ListaPessoas
 {
 public:
+    /*!
+     * \brief Construtor
+     * \param gestor - Ponteiro para a classe GestorBD.
+     */
     ListaPessoas(GestorBD* gestor=0);
+
+    /*!
+     *\brief Destrutor
+     */
     ~ListaPessoas();
 
     bool loadPeople(GestorBD* gestor=0);
     //----------------Get Atributes----------------//
 
+    /*!
+     * \brief  Devolve Todas as Pessoas.
+     * \return Ponteiro para vetor de classes Pessoa.
+     */
     QVector<Pessoa*> getPeople();
 
     //-------------------Create--------------------//
 
+    /*!
+     * \brief Cria nova Pessoa
+     *
+     * Cria nova pessoa com os atributos definidos em atributes.
+     * \param atributes - Estrutura PersonParam.
+     * \return Ponteiro para a classe Pessoa.
+     */
     Pessoa* createPerson(PersonParam atributes);
 
     /* SEARCH NOT YET IMPLEMENTED

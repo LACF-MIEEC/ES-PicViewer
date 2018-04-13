@@ -23,6 +23,7 @@ Album::~Album(){
 }
 
 bool Album::loadPages(GestorBD *gestor){
+
     if(gestor==0)
         gestor=oGestor;
     if(gestor==0){
