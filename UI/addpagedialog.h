@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QMessageBox>
 
+#include "CustomClasses/paramstructs.h"
+
 namespace Ui {
 class AddPageDialog;
 }
@@ -13,7 +15,7 @@ class AddPageDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddPageDialog(QString Type, QWidget *parent = 0);
+    explicit AddPageDialog(pageType_t tipo, QWidget *parent = 0);
     ~AddPageDialog();
 
 private slots:

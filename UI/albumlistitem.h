@@ -2,6 +2,7 @@
 #define ALBUMLISTITEM_H
 
 #include <QWidget>
+class Album;
 
 namespace Ui {
 class AlbumListItem;
@@ -15,9 +16,11 @@ public:
     explicit AlbumListItem(QWidget *parent = 0, QString Text = NULL);
     ~AlbumListItem();
 
+    Album* getAlbum();
+
 private:
     Ui::AlbumListItem *ui;
-
+    Album* thisAlbum;
 };
 
 #endif // ALBUMLISTITEM_H
