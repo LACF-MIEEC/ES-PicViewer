@@ -1,6 +1,8 @@
 #include "addpagedialog.h"
 #include "ui_addpagedialog.h"
 
+#include "CustomClasses/pagina.h"
+
 AddPageDialog::AddPageDialog(pageType_t tipo, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddPageDialog)

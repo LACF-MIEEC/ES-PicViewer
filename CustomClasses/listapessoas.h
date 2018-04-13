@@ -17,7 +17,13 @@ class GestorBD;
 class ListaAlbuns;
 class ListaPessoas;
 
+struct PhotoParam;
+struct PageParam;
+struct AlbumParam;
+struct PersonParam;
 
+enum pageType_t:short int;
+enum gender: short int;
 /*!
  * \brief Classe responsável por gerir objetos da classe %Pessoa e as suas associações com fotos.
  *
