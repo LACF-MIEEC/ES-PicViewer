@@ -14,7 +14,7 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
 }
 
 ListaPessoas::~ListaPessoas(){
-    for(int i=0;People->size();i++){
+    for(int i=0;i<People->size();i++){
         delete People->at(i);
     }
     delete People;
@@ -41,7 +41,30 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
     }
     delete PersonAtributes;
 
+    int AllocSize;
+    int CurrentID;
+
+
+    //Inicializar AlbumID
+    for(int i=0;i<People->size();i++){
+
+        AllocSize=allocatedPeopleID.size();
+        CurrentID=People->at(i)->getID();
+
+        if(CurrentID > AllocSize){
+            allocatedPeopleID.insert(AllocSize, CurrentID-AllocSize+1, 0);
+        }
+        allocatedPeopleID.replace(CurrentID,1);
+        if(maxPeopleID<CurrentID)
+            maxPeopleID=CurrentID;
+
+    }
+
     return true;
+}
+
+QVector<Pessoa*>* ListaPessoas::getPeople(){
+    return People;
 }
 
 Pessoa* ListaPessoas::createPerson(PersonParam atributes){

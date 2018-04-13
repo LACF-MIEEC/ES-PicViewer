@@ -9,6 +9,8 @@
 
 #include "addpersondialog.h"
 
+#include "CustomClasses/listapessoas.h"
+
 namespace Ui {
 class ManagePeople;
 }
@@ -18,10 +20,10 @@ class ManagePeople : public QWidget
     Q_OBJECT
 
 public:
-    explicit ManagePeople(QWidget *parent = 0);
+    explicit ManagePeople(GestorBD *gestor, QWidget *parent = 0);
     ~ManagePeople();
 
-    void addItemPeopleList(QString ItemName);
+    void addItemPeopleList(Pessoa *newItem);
 
 private slots:
     void on_Voltar_clicked();
@@ -34,6 +36,9 @@ private slots:
 
 private:
     Ui::ManagePeople *ui;
+
+    ListaPessoas* aListaPessoas;
+
 };
 
 #endif // MANAGEPEOPLE_H

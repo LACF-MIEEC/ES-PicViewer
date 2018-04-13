@@ -29,8 +29,6 @@
 #include "pageinfodisplay.h"
 
 #include "CustomClasses/listaalbuns.h"
-#include "CustomClasses/listapessoas.h"
-
 
 namespace Ui {
 class MainWindow;
@@ -44,8 +42,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void addItemAlbumTree(Album* newItem);
 
-    void addItemAlbumTree(QString ItemName,QStringList PageName);
+    void addItemAlbumTree(Pagina* newItem);
 
     void addItemPeopleList(QString ItemName);
 
@@ -77,10 +76,13 @@ private:
     Ui::MainWindow *ui;
 
     ManagePeople *wPeople;
+    AlbumInfoDisplay *wAlbumInfo;
+    PageInfoDisplay *wPageInfo;
 
     GestorBD* oGestor;
     ListaAlbuns* aListaAlbuns;
-    ListaPessoas* aListaPessoas;
+
+    Album* SelectedAlbum;
 
     //QVector<Fotos*> Vector;
 

@@ -397,7 +397,7 @@ void MainWindow::on_AddPhoto_clicked()
             }
 
             //Adicionar Foto
-            aListaAlbuns->createPhoto(AlbumName, PageName);
+            aListaAlbuns->createPhoto(atributes,SelectedAlbum, SelectedPage);
 
         }
 

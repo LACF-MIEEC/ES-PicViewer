@@ -31,11 +31,23 @@ public:
 
     ////////////////////////////////////////////////
     /*!
-     * \brief %Carrega Álbuns existentes na Base de Dados.
+     * \brief Carrega Álbuns existentes na Base de Dados.
+     *
+     *  Reinicializa o Vector de Albuns existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     *
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Álbuns lidos, False - Álbuns não lidos.
      */
-    bool loadAlbuns(GestorBD* gestor=0);
+    bool loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD* gestor=0);
+
+    /*!
+     * \brief Carrega todos os objectos (Album, Pagina e Foto) da BD
+     *
+     * Reinicializa o Vector de Albuns existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     * \param gestor - Ponteiro para a classe GestorBD.
+     * \return True - Todos os objetos carregados, False - Falha ao carregar todos os objectos da BD.
+     */
+    bool loadAll(GestorBD* gestor=0);
 
     //----------------Get Atributes----------------//
 
