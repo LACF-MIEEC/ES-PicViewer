@@ -7,7 +7,37 @@
 #include <QDir>
 #include <QDebug>
 
-#include "gestorbd.h"
+
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+
+////////////////////////////////////////////////
+/*!
+ * \brief Género
+ */
+enum gender :short int {feminino, masculino};
+
+////////////////////////////////////////////////
+/*!
+ * \brief Estrutura que contém os atributos de Pessoa
+ */
+struct PersonParam{
+    int ID;
+    QString Name;
+    QDate Birth;
+    gender Gender;
+    QString Bond;
+    ListaPessoas* Parent;
+    GestorBD* Gestor;
+};
+
 
 /*!
  * \brief Classe representativa de uma %Pessoa na ótica do utilizador.

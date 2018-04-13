@@ -7,7 +7,31 @@
 #include <QDate>
 #include <QDebug>
 
-#include "pagina.h"
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+
+////////////////////////////////////////////////
+/*!
+ * \brief Estrutura que contém os atributos de Album
+ */
+struct AlbumParam{
+    int ID;
+    QString Name;
+    QString Description;
+    QDir Path;
+    pageType_t PageType;
+    ListaAlbuns* Parent =0;
+    GestorBD* Gestor =0;
+};
+
+
 /*!
  * \brief Classe representativa de um Álbum na ótica do utilizador.
  *

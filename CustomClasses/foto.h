@@ -7,8 +7,29 @@
 #include <QDate>
 #include <QDebug>
 
-#include "gestorbd.h"
-//#include "listapessoas.h"
+
+class Album;
+class Pagina;
+class Pessoa;
+class Foto;
+
+class GestorBD;
+class ListaAlbuns;
+class ListaPessoas;
+
+////////////////////////////////////////////////
+/*!
+ * \brief Estrututa que contém os atributos de Foto
+ */
+struct PhotoParam{
+    int ID;
+    QDir Path;
+    Pagina* Parent;
+    int ParentID;
+    GestorBD* Gestor;
+};
+
+
 class ListaPessoas;
 ////////////////////////////////////////////////
 /*!

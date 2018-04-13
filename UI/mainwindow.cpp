@@ -108,7 +108,7 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
 {
     QString AlbumName, PageName="";
     AlbumListItem* AlbumItem;
-if(current){
+
     if(!current->parent()){ //Se current Album
 
         current->setExpanded(true);
@@ -286,7 +286,7 @@ if(current){
             break;
         }
     }
-}
+
 }
 
 void MainWindow::on_Exit_triggered()

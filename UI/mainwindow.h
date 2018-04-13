@@ -28,7 +28,15 @@
 #include "photominiature.h"
 #include "pageinfodisplay.h"
 
+
+#include "CustomClasses/gestorbd.h"
+#include "CustomClasses/foto.h"
+#include "CustomClasses/pagina.h"
+#include "CustomClasses/album.h"
 #include "CustomClasses/listaalbuns.h"
+#include "CustomClasses/listapessoas.h"
+#include "CustomClasses/pessoa.h"
+
 
 namespace Ui {
 class MainWindow;

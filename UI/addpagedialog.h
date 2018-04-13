@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QMessageBox>
 
-#include "CustomClasses/paramstructs.h"
+enum pageType_t: short int;
 
 namespace Ui {
 class AddPageDialog;

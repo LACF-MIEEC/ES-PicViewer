@@ -1,4 +1,11 @@
+#include "gestorbd.h"
+#include "foto.h"
+#include "pagina.h"
+#include "album.h"
+#include "listaalbuns.h"
 #include "listapessoas.h"
+#include "pessoa.h"
+
 
 ListaPessoas::ListaPessoas(GestorBD *gestor)
 {

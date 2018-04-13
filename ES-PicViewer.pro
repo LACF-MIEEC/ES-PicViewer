@@ -70,9 +70,7 @@ HEADERS += \
     UI/managepeople.h \
     UI/pageinfodisplay.h \
     UI/photodisplay.h \
-    UI/photominiature.h \
-    CustomClasses/flags.h \
-    CustomClasses/paramstructs.h
+    UI/photominiature.h
 
 FORMS += \
     UI/addalbumdialog.ui \
