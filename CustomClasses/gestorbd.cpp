@@ -102,7 +102,6 @@ bool GestorBD::createTables()
     return true;
 }
 
-
 //-------------------------------------------------------------
 //ADD
 //-------------------------------------------------------------
@@ -519,7 +518,7 @@ bool GestorBD::deletePhoto(PhotoParam *delPhoto){
 
     if(!queryDel.exec())
     {
-        qDebug() << "Clear Table failed: " << queryDel.lastError();
+        qDebug() << "Clear Photo failed: " << queryDel.lastError();
         return false;
     }
     return true;
@@ -535,7 +534,7 @@ bool GestorBD::deletePage(PageParam *delPage){
 
     if(!queryDel.exec())
     {
-        qDebug() << "Clear Table failed: " << queryDel.lastError();
+        qDebug() << "Clear Page failed: " << queryDel.lastError();
         return false;
     }
     return true;
@@ -560,7 +559,7 @@ bool GestorBD::deletePerson(PersonParam *delPerson){
 
     if(!queryDel.exec())
     {
-        qDebug() << "Clear Table failed: " << queryDel.lastError();
+        qDebug() << "Clear Person failed: " << queryDel.lastError();
         return false;
     }
     return true;
@@ -576,7 +575,7 @@ bool GestorBD::deleteAlbum(AlbumParam *delAlbum){
 
     if(!queryDel.exec())
     {
-        qDebug() << "Clear Table failed: " << queryDel.lastError();
+        qDebug() << "Clear Album failed: " << queryDel.lastError();
         return false;
     }
 

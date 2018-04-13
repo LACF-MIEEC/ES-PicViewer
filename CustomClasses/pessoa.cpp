@@ -10,16 +10,11 @@ Pessoa::Pessoa(PersonParam atributes)
     Parent  =   atributes.Parent;
     oGestor =   atributes.Gestor;
 
-    if(RunMode.testFlag(Setup::Boot)){
-        /*
-         * Get Attachments
-         */
-    }
-
+    Photos = new QVector<Foto*>();
 }
 
-void Pessoa::deleteSelf(){
-    delete this;
+Pessoa::~Pessoa(){
+    delete Photos;
 }
 
 int Pessoa::getID(){
@@ -37,7 +32,7 @@ gender Pessoa::getGender(){
 QString Pessoa::getBond(){
     return Bond;
 }
-QVector<Foto*> Pessoa::getPhotos(){
+QVector<Foto*>* Pessoa::getPhotos(){
     return Photos;
 }
 ListaPessoas* Pessoa::parent(){

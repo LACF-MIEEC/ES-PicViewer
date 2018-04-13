@@ -23,12 +23,11 @@ public:
      * \param atributes - Estrutura PageParam
      */
     Pagina(PageParam atributes);
+    ~Pagina();
 
-    /*!
-     * \brief Elimina Página
-     */
-    void deleteSelf();
+    bool loadPhotos(GestorBD* gestor=0);
 
+    bool createFolder();
     //----------------Get Atributes----------------//
 
     /*!
@@ -108,17 +107,7 @@ public:
 
 
 protected:
-    /*!
-     * \brief createFolder
-     * \param folderName
-     * \return
-     */
-    int createFolder(QString folderName);
 
-    /*!
-     * \brief createFolderName
-     * \return
-     */
     virtual QString createFolderName()=0;
 
     QString Description;

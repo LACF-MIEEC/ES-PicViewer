@@ -25,11 +25,9 @@ public:
      */
     Pessoa(PersonParam atributes);
 
+  
+    ~Pessoa();
 
-    /*!
-     * \brief Elimina Pessoa
-     */
-    void deleteSelf();
 
     //----------------Get Atributes----------------//
     /*!
@@ -62,12 +60,11 @@ public:
      */
     QString getBond();
 
-
     /*!
      * \brief Devolve pessoas associadas á %Foto
      * \return Ponteiro apra vetor de classes Foto
      */
-    QVector<Foto*> getPhotos();
+    QVector<Foto*> *getPhotos();
 
 
     /*!
@@ -93,7 +90,7 @@ private:
 
     ListaPessoas *Parent;
     GestorBD* oGestor;
-    QVector<Foto*> Photos;
+    QVector<Foto*> *Photos;
 };
 
 #endif // PESSOA_H

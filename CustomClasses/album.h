@@ -28,13 +28,17 @@ public:
      * \brief Destrutor.
      */
     ~Album();
+  
     ////////////////////////////////////////////////
     /*!
      * \brief %Carrega Páginas existentes na Base de Dados.
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */
-    bool load(GestorBD *gestor=0);
+    bool loadPages(GestorBD *gestor=0);
+  
+    bool createFolder();
+
     //----------------Get Atributes----------------//
     ////////////////////////////////////////////////
     /*!
@@ -109,7 +113,6 @@ public:
     Foto* createPhoto(PhotoParam atributes, Pagina* destination);
 
 
-
     /* MODIFICATIONS NOT YET IMPLEMENTED
     int setName(QString newName);
     void setDescription(QString newDesc);
@@ -131,7 +134,6 @@ public:
 
 private:
     
-    int createFolder(QString folderName);
     QString createFolderName();
 
     int ID;

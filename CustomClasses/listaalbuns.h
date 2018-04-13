@@ -35,7 +35,7 @@ public:
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Álbuns lidos, False - Álbuns não lidos.
      */
-    bool load(GestorBD* gestor=0);
+    bool loadAlbuns(GestorBD* gestor=0);
 
     //----------------Get Atributes----------------//
 

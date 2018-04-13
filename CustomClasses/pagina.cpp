@@ -8,25 +8,43 @@ Pagina::Pagina(PageParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    if(RunMode.testFlag(Setup::Boot)){
-        Photos = new QVector<Foto*>();
-        QVector<PhotoParam*> *PhotoAtributes = oGestor->getPhotos(&atributes);
-        for(int i=0;i<PhotoAtributes->size();i++){
-            PhotoAtributes->at(i)->Parent=this;
-            Photos->append(new Foto(*PhotoAtributes->at(i)));
-        }
-        delete PhotoAtributes;
-    }
+    Photos = new QVector<Foto*>();
 }
-void Pagina::deleteSelf(){
+Pagina::~Pagina(){
     for(int i=0;Photos->size();i++){
-        Photos->at(i)->deleteSelf();
+        delete Photos->at(i);
     }
     delete Photos;
-    delete this;
 }
 
+bool Pagina::loadPhotos(GestorBD* gestor){
+    if(gestor==0)
+        gestor=oGestor;
+    if(gestor==0){
+        qDebug() << "Pagina.load():ERROR GestorBD not set.";
+        return false;
+    }
+    PageParam atributes;
+    atributes.ID=ID;
+    QVector<PhotoParam*> *PhotoAtributes = gestor->getPhotos(&atributes);
+    if(!PhotoAtributes){
+        qDebug() << "Pagina.load(): ERROR GestorBD->Fail to load.";
+        delete PhotoAtributes;
+        return false;
+    }
+
+    Photos->clear();
+    for(int i=0;i<PhotoAtributes->size();i++){
+        PhotoAtributes->at(i)->Parent=this;
+        Photos->append(new Foto(*PhotoAtributes->at(i)));
+    }
+    delete PhotoAtributes;
+
+    return true;
+
+}
 //------------------Get Atributes--------------------//
+
 int Pagina::getID(){
     return ID;
 }
@@ -50,6 +68,11 @@ Album* Pagina::parent(){
 //-------------------Create--------------------------//
 
 Foto* Pagina::createPhoto(PhotoParam atributes){
+
+
+
+
+
     Foto* newFoto=new Foto(atributes);
     if(!oGestor->addPhoto(&atributes)){
         qDebug() << "Unable to Save Photo";
@@ -63,23 +86,25 @@ Foto* Pagina::createPhoto(PhotoParam atributes){
     }
 }
 
-
 //----------------PRIVATE----------------------------//
-
-int Pagina::createFolder(QString folderName){
-    QDir folder(folderName);
+bool Pagina::createFolder(){
+    QString folderName(createFolderName());
     QString newFolderName;
-
-    for(int i=1;folder.exists();i++){
+    newFolderName = folderName;
+    qDebug() << "Pagina::createFolder()->Creating Folder";
+    for(int i=1;!Path.mkdir(newFolderName);i++){
         newFolderName.clear();
         newFolderName = folderName;
         newFolderName.append("(");
         newFolderName.append(i);
         newFolderName.append(")");
+        qDebug() << "Pagina::createFolder()->ERROR Creating Folder:" << newFolderName;
+        if(i==20){
+            qDebug() << "Pagina::createFolder()->ERROR Creating Folder: IM OUT!!";
+            return false;
+        }
     }
 
-    if(folder.mkdir(newFolderName))
-        return 0;
-    return -1;
+    Path.cd(newFolderName);
+    return true;
 }
-

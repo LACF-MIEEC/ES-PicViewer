@@ -26,12 +26,8 @@ public:
      * \param atributes - Estrutura PhotoParam
      */
     Foto(PhotoParam atributes);
-
-    ////////////////////////////////////////////////
-    /*!
-     * \brief Já não existe
-     */
-    void deleteSelf();
+  
+    ~Foto();
 
 
     //----------------Get Atributes----------------//

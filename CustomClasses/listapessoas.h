@@ -27,6 +27,8 @@ public:
      *\brief Destrutor
      */
     ~ListaPessoas();
+
+    bool loadPeople(GestorBD* gestor=0);
     //----------------Get Atributes----------------//
 
     /*!
