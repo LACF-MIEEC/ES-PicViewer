@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if(!aListaAlbuns->loadAll()){
         msg = new QMessageBox(QMessageBox::Warning,"Foto Inexistente", "A Foto que selecionou não existe!",
-                              QMessageBox::Ok,this);
+                              QMessageBox::Ok);
         msg->exec();
         msg->deleteLater();
     }
@@ -43,10 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->Info->removeItem(0);
     ui->Info->removeItem(0);
-    ui->Info->addItem(wAlbumInfo,"Informações do Álbum");
-    ui->Info->addItem(wPageInfo,"Informações da Página");
-
-
 }
 
 MainWindow::~MainWindow()
@@ -117,17 +113,40 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
 
         current->setExpanded(true);
 
+        ui->Info->removeItem(1);
         //Alterar restantes sitios da frame onde o album ou as suas caracteristicas são definidas
 
         AlbumItem = (AlbumListItem*)ui->AlbumList->itemWidget(current,0);
         SelectedAlbum = AlbumItem->getAlbum();
         SelectedPage  = 0;
 
-
+        AlbumName=SelectedAlbum->getName();
         //
         //      ACTUALIZAR UI
         //
-        ui->Title->setText(QString(SelectedAlbum->getName()));
+        if(!previous){
+             ui->Info->addItem(wAlbumInfo,"Informações do Álbum");
+        }
+        wAlbumInfo->findChild<QLabel*>("Name")->setText(AlbumName);
+        switch(SelectedAlbum->getPageType()){
+        case viagem:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Viagem");
+            break;
+        case coisaPessoa:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Coisa ou Pessoa");
+            break;
+        case festa:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Festa");
+            break;
+        case outro:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Outro");
+            break;
+
+        }
+        wAlbumInfo->findChild<QLabel*>("Path")->setText(SelectedAlbum->getPath().path());
+        wAlbumInfo->findChild<QLabel*>("Description")->setText(SelectedAlbum->getDescription());
+
+        ui->Title->setText(QString(AlbumName));
         //-------------
         //Retirar Fotos do display
         ui->PhotoDisplay->setRowCount(0);     
@@ -143,6 +162,7 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
                     previous->parent()->setExpanded(false);
             }
         }
+
     }
     //Se current Página
     else{
@@ -203,10 +223,69 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
                 row++;
             }
         }
+        if(previous){
+            if(!previous->parent()){ //Se Anterior for Album
+                ui->Info->addItem(wPageInfo,"Informações da Página");
+            }
+        }
 
+        wPageInfo->findChild<QLabel*>("Description")->setText(SelectedPage->getDescription());
+
+        switch(SelectedPage->getType()){
+        case viagem:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data de Inicio:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("EndDate")->setText(SelectedPage->getEndDate().toString(Qt::ISODate));
+            break;
+        case coisaPessoa:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            break;
+        case festa:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(true);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(true);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("PartyType")->setText(SelectedPage->getPartyType());
+            break;
+        case outro:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data de Inicio:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("EndDate")->setText(SelectedPage->getEndDate().toString(Qt::ISODate));
+            break;
+        }
     }
-
-
 }
 
 void MainWindow::on_Exit_triggered()
