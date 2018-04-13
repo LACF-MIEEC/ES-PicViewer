@@ -71,8 +71,6 @@ HEADERS += \
     UI/pageinfodisplay.h \
     UI/photodisplay.h \
     UI/photominiature.h \
-    CustomClasses/flags.h \
-    CustomClasses/paramstructs.h \
     CustomClasses/description.h
 
 FORMS += \
