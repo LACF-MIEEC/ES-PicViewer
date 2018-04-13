@@ -13,7 +13,7 @@ class AlbumListItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit AlbumListItem(QWidget *parent = 0, QString Text = NULL);
+    explicit AlbumListItem(Album *album = 0,QWidget *parent = 0);
     ~AlbumListItem();
 
     Album* getAlbum();

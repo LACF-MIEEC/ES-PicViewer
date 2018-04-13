@@ -13,6 +13,7 @@ class AddAssociationDialog : public QDialog
 
 public:
     explicit AddAssociationDialog(QWidget *parent = 0);
+
     ~AddAssociationDialog();
 
 private:

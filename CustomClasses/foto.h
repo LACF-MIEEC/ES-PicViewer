@@ -27,6 +27,9 @@ public:
      */
     Foto(PhotoParam atributes);
   
+    /*!
+     *\brief Destrutor
+     */
     ~Foto();
 
 
@@ -35,21 +38,21 @@ public:
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve ID da %Foto
-     * \return int - ID da  %Foto
+     * \return ID da  %Foto
      */
     int getID();
 
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve caminho do ficheiro %Foto
-     * \return QDir - caminho do ficheiro %Foto
+     * \return caminho do ficheiro %Foto
      */
     QDir getPath();
 
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve Pessoas associadas à %Foto
-     * \return QVector - Ponteiro para o vetor de classes Pessoa
+     * \return Ponteiro para o vetor de classes Pessoa
      */
     QVector<Pessoa *> *getPeople();
 

@@ -6,10 +6,13 @@
 #include <QDateEdit>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QListWidget>
 
 #include "addpersondialog.h"
 
 #include "CustomClasses/listapessoas.h"
+
+class Pessoa;
 
 namespace Ui {
 class ManagePeople;
@@ -34,10 +37,13 @@ private slots:
 
     void addPerson(AddPersonDialog *Dialog);
 
+    void on_PeopleList_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::ManagePeople *ui;
 
     ListaPessoas* aListaPessoas;
+    GestorBD*   oGestor;
 
 };
 

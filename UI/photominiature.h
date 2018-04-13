@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class Foto;
+
 namespace Ui {
 class PhotoMiniature;
 }
@@ -12,12 +14,15 @@ class PhotoMiniature : public QWidget
     Q_OBJECT
 
 public:
-    explicit PhotoMiniature(int *FotoNum, QWidget *parent = 0);
+    explicit PhotoMiniature(Foto* photo, QWidget *parent = 0);
     ~PhotoMiniature();
-    int Foto;
+
+    Foto* getPhoto();
+
 private:
     Ui::PhotoMiniature *ui;
 
+    Foto* thisPhoto;
 
 };
 

@@ -1,12 +1,17 @@
 #include "albumlistitem.h"
 #include "ui_albumlistitem.h"
 
-AlbumListItem::AlbumListItem(QWidget *parent, QString Text) :
+#include "CustomClasses/album.h"
+
+AlbumListItem::AlbumListItem(Album* album,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AlbumListItem)
 {
     ui->setupUi(this);
-    ui->Text->setText(Text);
+    ui->Text->setText(album->getName());
+
+    thisAlbum=album;
+
 }
 
 AlbumListItem::~AlbumListItem()

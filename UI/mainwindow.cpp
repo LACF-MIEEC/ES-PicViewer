@@ -17,7 +17,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     wPeople = new ManagePeople(oGestor);
 
-    aListaAlbuns->loadAll();
+    QMessageBox* msg;
+
+    if(!aListaAlbuns->loadAll()){
+        msg = new QMessageBox(QMessageBox::Warning,"Foto Inexistente", "A Foto que selecionou não existe!",
+                              QMessageBox::Ok);
+        msg->exec();
+        msg->deleteLater();
+    }
 
     for(int i=0;i<aListaAlbuns->getAlbums()->size();i++){
         addItemAlbumTree(aListaAlbuns->getAlbums()->at(i));
@@ -36,10 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->Info->removeItem(0);
     ui->Info->removeItem(0);
-    ui->Info->addItem(wAlbumInfo,"Informações do Álbum");
-    ui->Info->addItem(wPageInfo,"Informações da Página");
-
-
 }
 
 MainWindow::~MainWindow()
@@ -56,25 +59,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::addItemAlbumTree(Album* newItem)
 {
-    QString ItemName(newItem->getName());
-    QStringList PageName;
+
+    QStringList PagesNames;
+
+    QVector<Pagina*>* AlbumPages=newItem->getPages();
 
     for(int i=0;i<newItem->getPages()->size();i++){
         //Na Arvore pagina apresenta a primeira palavra da descrição
-        PageName.append(newItem->getPages()->at(i)->getDescription().trimmed().split(" ").at(0));
+        PagesNames.append(AlbumPages->at(i)->getDescription().trimmed().split(" ").at(0));
     }
 
     QTreeWidgetItem *TreeItem = new QTreeWidgetItem(ui->AlbumList);
 
-    AlbumListItem *ItemWidget = new AlbumListItem(NULL,ItemName);
+    AlbumListItem *ItemWidget = new AlbumListItem(newItem);
 
     //Adicionar Crianças
     QTreeWidgetItem *ChildItem;
     AlbumListPage *ChildWidget;
 
-    for(int i=0; i < PageName.size() ;i++){
+    for(int i=0; i < PagesNames.size() ;i++){
         ChildItem= new QTreeWidgetItem(TreeItem);
-        ChildWidget= new AlbumListPage(NULL,QString(PageName.at(i)));
+        ChildWidget= new AlbumListPage(QString(PagesNames.at(i)),AlbumPages->at(i));
 
         ui->AlbumList->setItemWidget(ChildItem,0,ChildWidget);
         ChildItem->setSizeHint(0,ChildWidget->sizeHint());
@@ -87,7 +92,7 @@ void MainWindow::addItemAlbumTree(Album* newItem)
 void MainWindow::addItemAlbumTree(Pagina* newItem){
 
     QTreeWidgetItem *ChildItem= new QTreeWidgetItem(ui->AlbumList->currentItem());
-    AlbumListPage *ChildWidget= new AlbumListPage(NULL,newItem->getDescription().trimmed().split(" ").at(0));
+    AlbumListPage *ChildWidget= new AlbumListPage(newItem->getDescription().trimmed().split(" ").at(0),newItem);
 
     ui->AlbumList->setItemWidget(ChildItem,0,ChildWidget);
     ChildItem->setSizeHint(0,ChildWidget->sizeHint());
@@ -102,20 +107,52 @@ void MainWindow::addItemPeopleList(QString ItemName){
 void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     QString AlbumName, PageName="";
-
+    AlbumListItem* AlbumItem;
+if(current){
     if(!current->parent()){ //Se current Album
 
         current->setExpanded(true);
-        //Alterar restantes sitios da frame onde o album ou as suas caracteristicas são definidas
-        AlbumName = ui->AlbumList->itemWidget(current,0)->findChild<QLabel*>("Text")->text();
 
+        ui->Info->removeItem(1);
+        //Alterar restantes sitios da frame onde o album ou as suas caracteristicas são definidas
+
+        AlbumItem = (AlbumListItem*)ui->AlbumList->itemWidget(current,0);
+        SelectedAlbum = AlbumItem->getAlbum();
+        SelectedPage  = 0;
+
+        AlbumName=SelectedAlbum->getName();
+        //
+        //      ACTUALIZAR UI
+        //
+        if(!previous){
+             ui->Info->addItem(wAlbumInfo,"Informações do Álbum");
+        }
+        wAlbumInfo->findChild<QLabel*>("Name")->setText(AlbumName);
+        switch(SelectedAlbum->getPageType()){
+        case viagem:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Viagem");
+            break;
+        case coisaPessoa:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Coisa ou Pessoa");
+            break;
+        case festa:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Festa");
+            break;
+        case outro:
+            wAlbumInfo->findChild<QLabel*>("Type")->setText("Outro");
+            break;
+
+        }
+        wAlbumInfo->findChild<QLabel*>("Path")->setText(SelectedAlbum->getPath().path());
+        wAlbumInfo->findChild<QLabel*>("Description")->setText(SelectedAlbum->getDescription());
 
         ui->Title->setText(QString(AlbumName));
         //-------------
         //Retirar Fotos do display
-        ui->PhotoDisplay->setRowCount(0);
-
-
+        ui->PhotoDisplay->setRowCount(0);     
+        //
+        //
+        //
         if(previous){
             if(!previous->parent()){ //Se Anterior for Album
                 previous->setExpanded(false);
@@ -125,58 +162,54 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
                     previous->parent()->setExpanded(false);
             }
         }
+
     }
-    else{ //Se current Página
+    //Se current Página
+    else{
+        //Procurar o album pertencente
+        AlbumListPage* PageItem;
+        AlbumItem = (AlbumListItem*)ui->AlbumList->itemWidget(current->parent(),0);
+        SelectedAlbum = AlbumItem->getAlbum();
+
+        PageItem = (AlbumListPage*)ui->AlbumList->itemWidget(current,0);
+        SelectedPage  = PageItem->getPage();
+
         //Alterar restantes sitios da frame onde o album/pagina ou as suas caracteristicas são definidas
-        AlbumName = ui->AlbumList->itemWidget(current->parent(),0)->findChild<QLabel*>("Text")->text();
-        PageName=  ui->AlbumList->itemWidget(current,0)->findChild<QLabel*>("Text")->text();
+        AlbumName = SelectedAlbum->getName();
+        PageName  = ui->AlbumList->itemWidget(current,0)->findChild<QLabel*>("Text")->text();
 
         ui->Title->setText(QString(AlbumName + " : " + PageName));
-        //-------------
-        //Colocar Fotos no Display
 
+        // Fotos da Página
+        QVector<Foto*>* PagePhotos=SelectedPage->getPhotos();
 
-
-        //Aceder a objecto página
-        //obter path das fotos
-
-        QStringList PhotoPath;
-        QVector<int*> PhotoID;
-
-        PhotoPath << ":/Photos/bin/Images/Login_Background.png" << ":/Photos/bin/Images/logo.png";
-        PhotoID.fill(0,3);
-
-        //obter pessoas das fotos
-        //???????????
-
-        ui->PhotoDisplay->setRowCount(PhotoPath.size()/ui->PhotoDisplay->columnCount()+1);
+        ui->PhotoDisplay->setRowCount(PagePhotos->size()/ui->PhotoDisplay->columnCount()+1);
         int row=0; int column=0;
 
 
         QTableWidgetItem *Item;
         PhotoMiniature *Miniature;
 
-        for(int i=0;i<PhotoPath.size();i++){
+        for(int i=0;i<PagePhotos->size();i++){
 
-            QImageReader reader(PhotoPath.at(i));
+            QImageReader reader(PagePhotos->at(i)->getPath().path());
             reader.setAutoTransform(true);
             const QImage newImage = reader.read();
             if (newImage.isNull()) {
                 QMessageBox::information(this, QApplication::applicationDisplayName(),
                                              tr("Cannot load %1: %2")
-                                             .arg(QDir::toNativeSeparators(PhotoPath.at(i)), reader.errorString()));
+                                             .arg(QDir::toNativeSeparators(PagePhotos->at(i)->getPath().path()), reader.errorString()));
                 return;
             }
 
-            Miniature = new PhotoMiniature(PhotoID.at(i));
+            Miniature = new PhotoMiniature(PagePhotos->at(i));
 
             Miniature->findChild<QLabel*>("Photo")->setPixmap(QPixmap::fromImage(newImage).scaled(
                                                                   QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0))
                                                               ,Qt::KeepAspectRatio));
             Miniature->findChild<QLabel*>("Photo")->adjustSize();
 
-            Item = new QTableWidgetItem();//QIcon(QPixmap(PhotoPath.at(i)).scaled(ui->PhotoDisplay->iconSize(),Qt::KeepAspectRatio)),QString(""));
-
+            Item = new QTableWidgetItem();
 
             Item->setSizeHint(QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0)));
 
@@ -190,10 +223,70 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
                 row++;
             }
         }
+        if(previous){
+            if(!previous->parent()){ //Se Anterior for Album
+                ui->Info->addItem(wPageInfo,"Informações da Página");
+            }
+        }
 
+        wPageInfo->findChild<QLabel*>("Description")->setText(SelectedPage->getDescription());
+
+        switch(SelectedPage->getType()){
+        case viagem:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data de Inicio:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("EndDate")->setText(SelectedPage->getEndDate().toString(Qt::ISODate));
+            break;
+        case coisaPessoa:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            break;
+        case festa:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(true);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(false);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(true);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("PartyType")->setText(SelectedPage->getPartyType());
+            break;
+        case outro:
+            wPageInfo->findChild<QLabel*>("StartDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_EndDate")->setVisible(true);
+            wPageInfo->findChild<QLabel*>("label_PartyType")->setVisible(false);
+
+            wPageInfo->findChild<QLabel*>("label_Date")->setText("Data de Inicio:");
+
+            wPageInfo->findChild<QLabel*>("StartDate")->setText(SelectedPage->getStartDate().toString(Qt::ISODate));
+            wPageInfo->findChild<QLabel*>("EndDate")->setText(SelectedPage->getEndDate().toString(Qt::ISODate));
+            break;
+        }
     }
-
-
+}
 }
 
 void MainWindow::on_Exit_triggered()
@@ -288,6 +381,7 @@ void MainWindow::addAlbum(AddAlbumDialog *Dialog){
         if(newAlbum==nullptr){
             msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao criar Album!",
                                                  QMessageBox::Ok,this);
+            return;
         }
         msg = new QMessageBox(QMessageBox::Information,"Album Criado", "O Álbum foi criado com sucesso!",
                                              QMessageBox::Ok,this);
@@ -306,15 +400,6 @@ void MainWindow::on_AddPage_clicked()
                                               QMessageBox::Ok,this);
         msg->exec();
         return;
-    }
-
-    //Altera caixa de Dialogo para os detalhes corresponderem ao tipo de Página
-
-    if(!ui->AlbumList->currentItem()->parent()){ //Se estiver o Album Seleccionado
-        SelectedAlbum = aListaAlbuns->getAlbums()->at(ui->AlbumList->currentIndex().row());
-    }
-    else{ //Caso seja um página procurar o album pertencente
-        SelectedAlbum = aListaAlbuns->getAlbums()->at(ui->AlbumList->indexOfTopLevelItem(ui->AlbumList->currentItem()));
     }
 
     AddPageDialog *Dialog = new AddPageDialog(SelectedAlbum->getPageType());
@@ -345,6 +430,7 @@ void MainWindow::addPage(AddPageDialog *Dialog){
        if(newPage==nullptr){
            msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao criar Pagina!",
                                                 QMessageBox::Ok,this);
+           return;
        }
        addItemAlbumTree(newPage);
 
@@ -376,6 +462,8 @@ void MainWindow::on_AddPhoto_clicked()
         QString PageName  = ui->AlbumList->itemWidget(ui->AlbumList->currentItem(),0)->findChild<QLabel*>("Text")->text();
 
     }
+
+
     QStringList photosPath = QFileDialog::getOpenFileNames(this, "Selecione uma ou mais Fotos",
                                                     QDir::homePath(),
                                                     "Imagens (*.png *.xpm *.jpg)"
@@ -384,30 +472,46 @@ void MainWindow::on_AddPhoto_clicked()
     QMessageBox *msg;
     QDir photoDir;
 
+    int PhotoCounter=0;
+
     if(!photosPath.isEmpty()){
 
+        PhotoParam atributes;
         //Verificar se cada uma das fotos existe
         for(int i=0;i<photosPath.size();i++){
             photoDir.setPath(photosPath.at(i));
-            if(!photoDir.exists()){
-                msg = new QMessageBox(QMessageBox::Warning,"Foto Inexistente", "A Fotos que selecionou não existe!",
-                                                      QMessageBox::Ok,this);
+            if(!photoDir.exists(photosPath.at(i))){
+                msg = new QMessageBox(QMessageBox::Warning,"Foto Inexistente", "A Foto que selecionou não existe!",
+                                      QMessageBox::Ok,this);
                 msg->exec();
                 msg->deleteLater();
             }
+            else{
+                //Adicionar Foto
+                atributes.Gestor=oGestor;
+                atributes.Parent=SelectedPage;
+                atributes.ParentID=SelectedPage->getID();
+                atributes.Path = photosPath.at(i);
 
-            //Adicionar Foto
-            aListaAlbuns->createPhoto(AlbumName, PageName);
+                if(!aListaAlbuns->createPhoto(atributes,SelectedPage, SelectedAlbum)){
+                    msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao Criar a Foto!",
+                                          QMessageBox::Ok,this);
+                    msg->exec();
+                    msg->deleteLater();
+                    break;
+                }
 
+                PhotoCounter++;
+            }
         }
+        //updateGUI();
 
-        //Adicionar Foto
-        //ListAlbuns::createPhoto(AlbumName, PageName);
-        //Actualizar GUI
-
-        //Apresenta Mensagem de confirmação
-        msg = new QMessageBox(QMessageBox::Information,"Fotos Adicionadas", "Fotos adicionadas com sucesso!",
-                                              QMessageBox::Ok,this);
+        if(PhotoCounter==0)
+            msg = new QMessageBox(QMessageBox::Information,"Fotos Inexistentes", "As Fotos que selecionou não existem!",
+                              QMessageBox::Ok,this);
+        else
+            msg = new QMessageBox(QMessageBox::Information,"Fotos Adicionadas", QString(QString::number(PhotoCounter)+" Fotos adicionadas com sucesso!"),
+                                  QMessageBox::Ok,this);
 
         msg->exec();
         msg->deleteLater();
@@ -417,11 +521,10 @@ void MainWindow::on_AddPhoto_clicked()
 
 void MainWindow::on_PhotoDisplay_cellDoubleClicked(int row, int column)
 {
-    //ui->PhotoDisplay->cellWidget(row,column)->findChild<int>("Foto");
+    PhotoMiniature* CurrentPhoto;
+    CurrentPhoto= (PhotoMiniature*)ui->PhotoDisplay->cellWidget(row,column);
 
-    //qDebug() << ui->PhotoDisplay->cellWidget(row,column)->;
-
-    QImageReader reader(":/Photos/bin/Images/alegria.png");
+    QImageReader reader(CurrentPhoto->getPhoto()->getPath().path());
     reader.setAutoTransform(true);
     const QImage newImage = reader.read();
 

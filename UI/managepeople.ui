@@ -299,7 +299,7 @@ font: bold 12pt &quot;Century Gothic&quot;;
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QLabel" name="Genero">
+               <widget class="QLabel" name="Gender">
                 <property name="text">
                  <string>Feminino</string>
                 </property>
@@ -321,7 +321,7 @@ font: bold 12pt &quot;Century Gothic&quot;;
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLabel" name="Data">
+               <widget class="QLabel" name="Birth">
                 <property name="text">
                  <string>01/07/1994</string>
                 </property>
@@ -343,7 +343,7 @@ font: bold 12pt &quot;Century Gothic&quot;;
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLabel" name="Relacao">
+               <widget class="QLabel" name="Bond">
                 <property name="text">
                  <string>Prima Afastada</string>
                 </property>

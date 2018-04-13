@@ -28,7 +28,7 @@ public:
      * \brief Destrutor.
      */
     ~Album();
-  
+
     ////////////////////////////////////////////////
     /*!
      * \brief Carrega Páginas existentes na Base de Dados.
@@ -38,7 +38,7 @@ public:
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */
     bool loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor=0);
-  
+
     bool createFolder();
 
     //----------------Get Atributes----------------//
@@ -135,7 +135,7 @@ public:
 
 
 private:
-    
+
     QString createFolderName();
 
     int ID;

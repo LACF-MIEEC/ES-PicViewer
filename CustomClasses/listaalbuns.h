@@ -117,9 +117,34 @@ private:
     QVector<int> allocatedPhotoID;
     int maxPhotoID;
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Algoritmo para gerar novo ID
+     * \param allocatedID - Vetor de inteiros que representam os ID já alocados
+     * \param maxID - Representa o número do maior ID criado
+     * \return Novo ID de Álbum
+     */
     int generateID(QVector<int> &allocatedID, int &maxID);
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera ID para o novo Álbum
+     * \return Novo ID do Álbum
+     */
     int genAlbumID();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera ID para a nova Página
+     * \return Novo ID da Página
+     */
     int genPageID();
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera ID para a nova %Foto
+     * \return Novo ID da %Foto
+     */
     int genPhotoID();
 
     QVector<Album*> *Albums;

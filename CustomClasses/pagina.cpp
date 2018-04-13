@@ -35,7 +35,7 @@ bool Pagina::loadPhotos(QVector<int> &allocatedID, int &maxID,GestorBD* gestor){
 
     Photos->clear();
     for(int i=0;i<PhotoAtributes->size();i++){
-        if(!PhotoAtributes->at(i)->Path.exists()){
+        if(!PhotoAtributes->at(i)->Path.exists(PhotoAtributes->at(i)->Path.path())){
             qDebug() << "Pagina.load(): ERROR No Path to Photo. Possible unauthorized deletion";
             for(int i=0; i<Photos->size();i++){
                 delete Photos->at(i);
@@ -96,13 +96,13 @@ Album* Pagina::parent(){
 
 Foto* Pagina::createPhoto(PhotoParam atributes){
 
-    //Copiar a Foto para directorio
-    if(!atributes.Path.exists()){
+    if(!atributes.Path.exists(atributes.Path.path())){
         qDebug() << "Pagina::createPhoto->ERROR File"<< atributes.Path.path() << "doesn't exist!!";
         return nullptr;
     }
     QString oldPhotoPath(atributes.Path.path());
     QString newPhotoPath(Path.path());
+    newPhotoPath.append("/");
     newPhotoPath.append(QString::number(atributes.ID));
     newPhotoPath.append(".");
     newPhotoPath.append(QFileInfo(oldPhotoPath).suffix());

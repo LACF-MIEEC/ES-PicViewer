@@ -23,6 +23,10 @@ public:
      * \param atributes - Estrutura PageParam
      */
     Pagina(PageParam atributes);
+
+    /*!
+     *\brief Destrutor
+     */
     ~Pagina();
     /*!
      * \brief Carrega Fotos existentes na Base de Dados
@@ -36,53 +40,63 @@ public:
     bool createFolder();
     //----------------Get Atributes----------------//
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve ID da Página.
      * \return int - ID do Página.
      */
     int getID();
+
+    ////////////////////////////////////////////////
     /*!
      *\brief Devolve Descrição da Página
      *\return Descrição da Página
      */
     QString getDescription();
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve caminho da diretoria da Página
      * \return caminho da diretoria da Página
      */
     QDir getPath();
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve o tipo de Página
      * \return Tipo de Página
      */
     virtual pageType_t getType()=0;
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve a data de inicio do evento da Página
      * \return Data de Inicio
      */
     virtual QDate getStartDate()=0;
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve a data de fim do evento da Página
      * \return Data de Fim
      */
     virtual QDate getEndDate()=0;
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve o tipo de Festa
      * \return Tipo de Festa
      */
     virtual QString getPartyType()=0;
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Devolve Fotos da Página
      * \return ponteiro para vetor de classes Foto
      */
     QVector<Foto *> *getPhotos();
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Retorna album da Página
      * \return Ponteiro para classe Album
@@ -91,6 +105,7 @@ public:
 
     //-------------------Create--------------------//
 
+    ////////////////////////////////////////////////
     /*!
      * \brief Cria nova %Foto
      *
@@ -114,6 +129,15 @@ public:
 
 protected:
 
+    ////////////////////////////////////////////////
+    /*!
+     * \brief Gera nome para a diretoria representativa da Página
+     *
+     * O nome da diretoria da Página é gerado concatenando o nome do tipo de página,
+     * os atributos especificos de cada página, as duas primeiras palavras da descrição
+     * (retirando todos os carateres especiais e acentos) e o ID da página, separados por um "_".
+     * \return Nome da Página
+     */
     virtual QString createFolderName()=0;
 
     QString Description;
@@ -125,6 +149,7 @@ protected:
     QVector<Foto*> *Photos;
 };
 
+////////////////////////////////////////////////
 /*!
  * \brief Subclasse da classe Pagina
  */
@@ -149,6 +174,7 @@ private:
 
 };
 
+////////////////////////////////////////////////
 /*!
  * \brief Subclasse da classe Pagina
  */
@@ -170,6 +196,7 @@ private:
     QDate Date;
     QString PartyType;
 
+////////////////////////////////////////////////
 };
 
 /*!
@@ -192,6 +219,7 @@ private:
 
 };
 
+////////////////////////////////////////////////
 /*!
  * \brief Subclasse da classe Pagina
  */

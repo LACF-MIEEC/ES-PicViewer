@@ -83,6 +83,7 @@ private:
     ListaAlbuns* aListaAlbuns;
 
     Album* SelectedAlbum;
+    Pagina* SelectedPage;
 
     //QVector<Fotos*> Vector;
 
