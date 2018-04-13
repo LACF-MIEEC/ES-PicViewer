@@ -1,15 +1,20 @@
 #include "photominiature.h"
 #include "ui_photominiature.h"
 
-PhotoMiniature::PhotoMiniature(int *FotoInt, QWidget *parent) :
+PhotoMiniature::PhotoMiniature(Foto* photo, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PhotoMiniature)
 {
     ui->setupUi(this);
-    Foto=123999;
+    thisPhoto=photo;
 }
 
 PhotoMiniature::~PhotoMiniature()
 {
     delete ui;
 }
+
+Foto* PhotoMiniature::getPhoto(){
+    return thisPhoto;
+}
+

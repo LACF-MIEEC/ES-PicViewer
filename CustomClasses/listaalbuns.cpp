@@ -96,11 +96,13 @@ bool ListaAlbuns::loadAll(GestorBD* gestor){
 
     if(!loadAlbuns(allocatedAlbumID,maxAlbumID,gestor)){
         qDebug() << "ListaAlbuns.loadAll():ERROR loadAlbums().";
+        return false;
     }
 
     for(int i=0;i<Albums->size();i++){
         if(!Albums->at(i)->loadPages(allocatedPageID,maxPageID,gestor)){
             qDebug() << "ListaAlbuns.loadAll():ERROR loadPages().";
+            return false;
         }        
     }
 
@@ -108,6 +110,7 @@ bool ListaAlbuns::loadAll(GestorBD* gestor){
         for(int j=0;j<Albums->at(i)->getPages()->size();j++){
             if(!Albums->at(i)->getPages()->at(j)->loadPhotos(allocatedPhotoID,maxPhotoID,gestor)){
                 qDebug() << "ListaAlbuns.loadAll():ERROR loadPhotos().";
+                return false;
             }
         }
     }

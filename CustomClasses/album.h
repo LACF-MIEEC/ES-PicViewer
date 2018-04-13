@@ -28,7 +28,7 @@ public:
      * \brief Destrutor.
      */
     ~Album();
-  
+
     ////////////////////////////////////////////////
     /*!
      * \brief Carrega Páginas existentes na Base de Dados.
@@ -37,16 +37,7 @@ public:
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */
-
     bool loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor=0);
-
-    ////////////////////////////////////////////////
-    /*!
-     * \brief Cria Pasta relativa ao Álbum
-     *
-     * Cria Pasta com nome gerado pela função createFolderName
-     * \return True - Pasta criada, False - Pasta não criada
-     */
 
     bool createFolder();
 
@@ -54,14 +45,14 @@ public:
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve ID do Álbum.
-     * \return ID do Álbum.
+     * \return int - ID do Álbum.
      */
     int getID();
 
     ////////////////////////////////////////////////
     /*!
      * \brief Devolve nome do Álbum.
-     * \return Nome do Álbum.
+     * \return QString - Nome do Álbum.
      */
     QString getName();
 
@@ -145,14 +136,6 @@ public:
 
 private:
 
-    ////////////////////////////////////////////////
-    /*!
-     * \brief Gera nome para a diretoria representativa do Álbum
-     *
-     * O nome do álbum é gerado retirando todos os carateres especiais e acentos
-     * do nome do Álbum e juntando o ID do album, separados por um "_".
-     * \return Nome do Álbum
-     */
     QString createFolderName();
 
     int ID;

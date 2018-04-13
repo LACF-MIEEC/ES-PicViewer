@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class Pagina;
 namespace Ui {
 class AlbumListPage;
 }
@@ -12,11 +13,14 @@ class AlbumListPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit AlbumListPage(QWidget *parent = 0, QString Text = NULL);
+    explicit AlbumListPage(QString text, Pagina *page = 0, QWidget *parent = 0);
     ~AlbumListPage();
+
+    Pagina* getPage();
 
 private:
     Ui::AlbumListPage *ui;
+    Pagina* thisPage;
 };
 
 #endif // ALBUMLISTPAGE_H
