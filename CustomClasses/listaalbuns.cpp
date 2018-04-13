@@ -34,7 +34,7 @@ ListaAlbuns::~ListaAlbuns(){
     delete Albums;
 }
 
-bool ListaAlbuns::loadAlbuns(GestorBD *gestor){
+bool ListaAlbuns::loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
     if(gestor==0)
         gestor=oGestor;
     if(gestor==0){
@@ -64,6 +64,25 @@ bool ListaAlbuns::loadAlbuns(GestorBD *gestor){
     }
     delete AlbumAtributes;
 
+    int AllocSize;
+    int CurrentID;
+
+
+    //Inicializar AlbumID
+    for(int i=0;i<Albums->size();i++){
+
+        AllocSize=allocatedID.size();
+        CurrentID=Albums->at(i)->getID();
+
+        if(CurrentID > AllocSize){
+            allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
+        }
+        allocatedID.replace(CurrentID,1);
+        if(maxID<CurrentID)
+            maxID=CurrentID;
+
+    }
+
     return true;
 }
 
@@ -75,18 +94,19 @@ bool ListaAlbuns::loadAll(GestorBD* gestor){
         return false;
     }
 
-    if(!loadAlbuns(gestor)){
+    if(!loadAlbuns(allocatedAlbumID,maxAlbumID,gestor)){
         qDebug() << "ListaAlbuns.loadAll():ERROR loadAlbums().";
     }
 
     for(int i=0;i<Albums->size();i++){
-        if(!Albums->at(i)->loadPages(gestor)){
+        if(!Albums->at(i)->loadPages(allocatedPageID,maxPageID,gestor)){
             qDebug() << "ListaAlbuns.loadAll():ERROR loadPages().";
-        }
+        }        
     }
+
     for(int i=0;i<Albums->size();i++){
         for(int j=0;j<Albums->at(i)->getPages()->size();j++){
-            if(!Albums->at(i)->getPages()->at(j)->loadPhotos(gestor)){
+            if(!Albums->at(i)->getPages()->at(j)->loadPhotos(allocatedPhotoID,maxPhotoID,gestor)){
                 qDebug() << "ListaAlbuns.loadAll():ERROR loadPhotos().";
             }
         }
@@ -170,7 +190,6 @@ Album* ListaAlbuns::createAlbum(AlbumParam atributes){
         if(MainPath.rmdir(newAlbum->getPath().dirName())){
             //BIG PROBLEM
             qDebug() << "ListaAlbuma::createAlbum()->ERROR Removing Folder:" << newAlbum->getPath().dirName();
-            return nullptr;
         }
         return nullptr;
     }

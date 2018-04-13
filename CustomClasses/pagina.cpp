@@ -17,7 +17,7 @@ Pagina::~Pagina(){
     delete Photos;
 }
 
-bool Pagina::loadPhotos(GestorBD* gestor){
+bool Pagina::loadPhotos(QVector<int> &allocatedID, int &maxID,GestorBD* gestor){
     if(gestor==0)
         gestor=oGestor;
     if(gestor==0){
@@ -48,6 +48,24 @@ bool Pagina::loadPhotos(GestorBD* gestor){
         Photos->append(new Foto(*PhotoAtributes->at(i)));
     }
     delete PhotoAtributes;
+
+    int AllocSize;
+    int CurrentID;
+
+    //Inicializar PageID
+    for(int i=0;i<Photos->size();i++){
+
+        AllocSize=allocatedID.size();
+        CurrentID=Photos->at(i)->getID();
+
+        if(CurrentID > AllocSize){
+            allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
+        }
+        allocatedID.replace(CurrentID,1);
+        if(maxID<CurrentID)
+            maxID=CurrentID;
+
+    }
 
     return true;
 

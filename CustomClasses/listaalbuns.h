@@ -38,7 +38,7 @@ public:
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Álbuns lidos, False - Álbuns não lidos.
      */
-    bool loadAlbuns(GestorBD* gestor=0);
+    bool loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD* gestor=0);
 
     /*!
      * \brief Carrega todos os objectos (Album, Pagina e Foto) da BD

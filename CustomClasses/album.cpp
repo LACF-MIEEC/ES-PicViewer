@@ -22,7 +22,7 @@ Album::~Album(){
     delete Pages;
 }
 
-bool Album::loadPages(GestorBD *gestor){
+bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
 
     if(gestor==0)
         gestor=oGestor;
@@ -68,6 +68,24 @@ bool Album::loadPages(GestorBD *gestor){
         }
     }
     delete PageAtributes;
+
+    int AllocSize;
+    int CurrentID;
+
+    //Inicializar PageID
+    for(int i=0;i<Pages->size();i++){
+
+        AllocSize=allocatedID.size();
+        CurrentID=Pages->at(i)->getID();
+
+        if(CurrentID > AllocSize){
+            allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
+        }
+        allocatedID.replace(CurrentID,1);
+        if(maxID<CurrentID)
+            maxID=CurrentID;
+
+    }
 
     return true;
 }
@@ -185,7 +203,8 @@ QString Album::createFolderName(){
     //Tirar espaços e caracteres especiais;
 
   //QString NormalizedName(Name.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).replace(" ", "_").normalized(QString::NormalizationForm_D));
-    QString NormalizedName(Name.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\[\]\\\]"))).replace(" ", "_").normalized(QString::NormalizationForm_D));
+    QString NormalizedName(Name.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\" ]"))) // resto: \[\]\\\]")))
+                           .replace(" ", "_").normalized(QString::NormalizationForm_D));
     for (int i=0;i<NormalizedName.length(); i++)
     {
         // strip diacritic marks

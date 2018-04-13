@@ -41,6 +41,25 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
     }
     delete PersonAtributes;
 
+    int AllocSize;
+    int CurrentID;
+
+
+    //Inicializar AlbumID
+    for(int i=0;i<People->size();i++){
+
+        AllocSize=allocatedPeopleID.size();
+        CurrentID=People->at(i)->getID();
+
+        if(CurrentID > AllocSize){
+            allocatedPeopleID.insert(AllocSize, CurrentID-AllocSize+1, 0);
+        }
+        allocatedPeopleID.replace(CurrentID,1);
+        if(maxPeopleID<CurrentID)
+            maxPeopleID=CurrentID;
+
+    }
+
     return true;
 }
 

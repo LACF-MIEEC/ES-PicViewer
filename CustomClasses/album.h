@@ -37,7 +37,7 @@ public:
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */
-    bool loadPages(GestorBD *gestor=0);
+    bool loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor=0);
   
     bool createFolder();
 

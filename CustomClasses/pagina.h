@@ -31,7 +31,7 @@ public:
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Foto(s) lidas, False - Foto(s) não lidas.
      */
-    bool loadPhotos(GestorBD* gestor=0);
+    bool loadPhotos(QVector<int> &allocatedID, int &maxID, GestorBD* gestor=0);
 
     bool createFolder();
     //----------------Get Atributes----------------//
