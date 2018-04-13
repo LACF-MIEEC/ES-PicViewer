@@ -16,7 +16,7 @@ Album::Album(AlbumParam atributes)
 }
 
 Album::~Album(){
-    for(int i=0;Pages->size();i++){
+    for(int i=0;i<Pages->size();i++){
         delete Pages->at(i);
     }
     delete Pages;
@@ -42,6 +42,15 @@ bool Album::loadPages(GestorBD *gestor){
 
     Pages->clear();
     for(int i=0;i<PageAtributes->size();i++){
+        if(!PageAtributes->at(i)->Path.exists()){
+            qDebug() << "Album.load(): ERROR No Path to Page. Possible unauthorized deletion";
+            for(int i=0; i<Pages->size();i++){
+                delete Pages->at(i);
+            }
+            Pages->clear();
+            delete PageAtributes;
+            return false;
+        }
         PageAtributes->at(i)->Parent=this;
         switch(PageType){
         case viagem:
@@ -122,11 +131,12 @@ Pagina* Album::createPage(PageParam atributes){
         delete newPage;
         return nullptr;
     }
-    else if(!oGestor->addPage(&atributes)){
+    atributes.Path.setPath(newPage->getPath().path());
+    if(!oGestor->addPage(&atributes)){
         delete newPage;
         if(Path.rmdir(newPage->getPath().dirName())){
             //BIG PROBLEM
-            qDebug() << "Album::createFolder()->ERROR Removing Folder:" << newPage->getPath().dirName();
+            qDebug() << "Album::createPage()->ERROR Removing Folder:" << newPage->getPath().dirName();
             return nullptr;
         }
         return nullptr;
@@ -141,24 +151,32 @@ Foto* Album::createPhoto(PhotoParam atributes, Pagina* destination){
 }
 
 bool Album::createFolder(){
+    if(!Path.exists()){
+        qDebug() << "Album::createFolder()->ERROR Path to folder doesn't exist!!";
+    }
+
     QString folderName = createFolderName();
     QString newFolderName;
     newFolderName = folderName;
     qDebug() << "Album::createFolder()->Creating Folder";
     for(int i=1;!Path.mkdir(newFolderName);i++){
+        //Should Not Happen
         newFolderName.clear();
         newFolderName = folderName;
         newFolderName.append("(");
-        newFolderName.append(i);
+        newFolderName.append(QString::number(i));
         newFolderName.append(")");
-        qDebug() << "Album::createFolder()->ERROR Creating Folder:" << newFolderName;
+        qDebug() << "Album::createFolder()->ERROR Folder already Exists.Creating Folder:" << newFolderName;
         if(i==20){
             qDebug() << "Album::createFolder()->ERROR Creating Folder: IM OUT!!";
             return false;
         }
     }
 
-    Path.cd(newFolderName);
+    if(!Path.cd(newFolderName)){
+        qDebug() << "Album::createFolder()->ERROR cannot chanche to created directory";
+        return false;
+    }
     return true;
 }
 

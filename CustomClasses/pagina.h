@@ -24,7 +24,13 @@ public:
      */
     Pagina(PageParam atributes);
     ~Pagina();
-
+    /*!
+     * \brief Carrega Fotos existentes na Base de Dados
+     *
+     * Reinicializa o Vector de Fotos existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     * \param gestor - Ponteiro para a classe GestorBD.
+     * \return True - Foto(s) lidas, False - Foto(s) não lidas.
+     */
     bool loadPhotos(GestorBD* gestor=0);
 
     bool createFolder();

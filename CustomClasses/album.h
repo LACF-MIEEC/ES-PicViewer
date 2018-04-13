@@ -31,7 +31,9 @@ public:
   
     ////////////////////////////////////////////////
     /*!
-     * \brief %Carrega Páginas existentes na Base de Dados.
+     * \brief Carrega Páginas existentes na Base de Dados.
+     *
+     * Reinicializa o Vector de Paginas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
      * \param gestor - Ponteiro para a classe GestorBD.
      * \return True - Página(s) lidas, False - Página(s) não lidas.
      */

@@ -28,14 +28,23 @@ public:
      */
     ~ListaPessoas();
 
+    /*!
+     * \brief Carrega Pessoas existentes na BD
+     *
+     *  Reinicializa o Vector de Pessoas existente, salvaguardar ponteiros(ou destruir objectos) antes de chamar;
+     *
+     * \param gestor - Ponteiro para a classe GestorBD.
+     * \return True - Todos os objetos carregados, False - Falha ao carregar todos os objectos da BD.
+     */
     bool loadPeople(GestorBD* gestor=0);
+
     //----------------Get Atributes----------------//
 
     /*!
      * \brief  Devolve Todas as Pessoas.
      * \return Ponteiro para vetor de classes Pessoa.
      */
-    QVector<Pessoa*> getPeople();
+    QVector<Pessoa *> *getPeople();
 
     //-------------------Create--------------------//
 

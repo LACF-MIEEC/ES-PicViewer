@@ -29,7 +29,7 @@ QString PaginaViagem::getPartyType(){
 QString PaginaViagem::createFolderName(){
     QString folderName;
     QStringList trimedDesc;
-    QString NormalizedDesc;
+    QString NormalizedDesc,ShortDesc;
 
     folderName.append("Viagem_");
 
@@ -38,15 +38,16 @@ QString PaginaViagem::createFolderName(){
     folderName.append(EndDate.toString(Qt::ISODate));
 
     //Tirar caracteres especiais e acentos
-    //trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
+//    trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
     trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\[\]\\\]"))).split(" ",QString::SkipEmptyParts);
 
     folderName.append("_");
 
-    NormalizedDesc.append(trimedDesc.at(0));
-    NormalizedDesc.append(trimedDesc.at(1));
+    for(int i=0;(i<trimedDesc.size())||(i<2);i++){
+        ShortDesc.append(trimedDesc.at(i));
+    }
 
-    NormalizedDesc=NormalizedDesc.normalized(QString::NormalizationForm_D);
+    NormalizedDesc=ShortDesc.normalized(QString::NormalizationForm_D);
     for (int i=0;i<NormalizedDesc.length(); i++)
     {
         if (NormalizedDesc.at(i).category()!=QChar::Mark_NonSpacing &&
@@ -88,7 +89,7 @@ QString PaginaFesta::getPartyType(){
 QString PaginaFesta::createFolderName(){
     QString folderName;
     QStringList trimedDesc;
-    QString NormalizedDesc;
+    QString NormalizedDesc,ShortDesc;
 
     folderName.append("Festa_");
     folderName.append(getPartyType());
@@ -96,15 +97,14 @@ QString PaginaFesta::createFolderName(){
     folderName.append(Date.toString(Qt::ISODate));
 
     //Tirar caracteres especiais e acentos
-    //trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
+//    trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
     trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\[\]\\\]"))).split(" ",QString::SkipEmptyParts);
 
     folderName.append("_");
-
-    NormalizedDesc.append(trimedDesc.at(0));
-    NormalizedDesc.append(trimedDesc.at(1));
-
-    NormalizedDesc=NormalizedDesc.normalized(QString::NormalizationForm_D);
+    for(int i=0;(i<trimedDesc.size())||(i<2);i++){
+        ShortDesc.append(trimedDesc.at(i));
+    }
+    NormalizedDesc=ShortDesc.normalized(QString::NormalizationForm_D);
     for (int i=0;i<NormalizedDesc.length(); i++)
     {
         if (NormalizedDesc.at(i).category()!=QChar::Mark_NonSpacing &&
@@ -143,19 +143,19 @@ QString PaginaCoisaPessoa::getPartyType(){
 QString PaginaCoisaPessoa::createFolderName(){
     QString folderName;
     QStringList trimedDesc;
-    QString NormalizedDesc;
+    QString NormalizedDesc,ShortDesc;
 
     folderName.append("CoisaOuPessoa");
 
     //Tirar caracteres especiais e acentos
-    //trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
+//    trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
     trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\[\]\\\]"))).split(" ",QString::SkipEmptyParts);
     folderName.append("_");
 
-    NormalizedDesc.append(trimedDesc.at(0));
-    NormalizedDesc.append(trimedDesc.at(1));
-
-    NormalizedDesc=NormalizedDesc.normalized(QString::NormalizationForm_D);
+    for(int i=0;(i<trimedDesc.size())||(i<2);i++){
+        ShortDesc.append(trimedDesc.at(i));
+    }
+    NormalizedDesc=ShortDesc.normalized(QString::NormalizationForm_D);
     for (int i=0;i<NormalizedDesc.length(); i++)
     {
         if (NormalizedDesc.at(i).category()!=QChar::Mark_NonSpacing &&
@@ -196,7 +196,7 @@ QString PaginaOutro::getPartyType(){
 QString PaginaOutro::createFolderName(){
     QString folderName;
     QStringList trimedDesc;
-    QString NormalizedDesc;
+    QString NormalizedDesc,ShortDesc;
 
     folderName.append("Outro");
     folderName.append("_");
@@ -206,15 +206,16 @@ QString PaginaOutro::createFolderName(){
     folderName.append(EndDate.toString(Qt::ISODate));
 
     //Tirar caracteres especiais e acentos
-    //trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
+//    trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]"))).split(" ",QString::SkipEmptyParts);
     trimedDesc=Description.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\[\]\\\]"))).split(" ",QString::SkipEmptyParts);
 
     folderName.append("_");
 
-    NormalizedDesc.append(trimedDesc.at(0));
-    NormalizedDesc.append(trimedDesc.at(1));
+    for(int i=0;(i<trimedDesc.size())||(i<2);i++){
+        ShortDesc.append(trimedDesc.at(i));
+    }
 
-    NormalizedDesc=NormalizedDesc.normalized(QString::NormalizationForm_D);
+    NormalizedDesc=ShortDesc.normalized(QString::NormalizationForm_D);
     for (int i=0;i<NormalizedDesc.length(); i++)
     {
         if (NormalizedDesc.at(i).category()!=QChar::Mark_NonSpacing &&

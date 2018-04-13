@@ -1,15 +1,27 @@
 #include "managepeople.h"
 #include "ui_managepeople.h"
 
-ManagePeople::ManagePeople(QWidget *parent) :
+ManagePeople::ManagePeople(GestorBD *gestor,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ManagePeople)
 {
     ui->setupUi(this);
+
+    aListaPessoas= new ListaPessoas(gestor);
+
+    aListaPessoas->loadPeople();
+
+    //------------------------------------
+    //Carregar Pessoas
+
+    for(int i=0;i<aListaPessoas->getPeople()->size();i++){
+        addItemPeopleList(aListaPessoas->getPeople()->at(i));
+    }
 }
 
 ManagePeople::~ManagePeople()
 {
+    delete aListaPessoas;
     delete ui;
 }
 
@@ -17,9 +29,9 @@ void ManagePeople::on_Voltar_clicked()
 {
     this->hide();
 }
-void ManagePeople::addItemPeopleList(QString ItemName){
+void ManagePeople::addItemPeopleList(Pessoa* newItem){
 
-    this->findChild<QListWidget*>("PeopleList")->addItem(new QListWidgetItem(QIcon(":/Icons/bin/Icons/People.png"),ItemName));
+    this->findChild<QListWidget*>("PeopleList")->addItem(new QListWidgetItem(QIcon(":/Icons/bin/Icons/People.png"),newItem->getName()));
 }
 
 void ManagePeople::on_DelPerson_clicked()

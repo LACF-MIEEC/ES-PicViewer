@@ -8,8 +8,8 @@
 #include <QDebug>
 
 #include "gestorbd.h"
-#include "listapessoas.h"
-
+//#include "listapessoas.h"
+class ListaPessoas;
 ////////////////////////////////////////////////
 /*!
  * \brief Classe que representa uma %Foto.

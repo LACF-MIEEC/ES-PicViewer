@@ -13,5 +13,8 @@ AlbumListItem::~AlbumListItem()
 {
     delete ui;
 }
+Album* AlbumListItem::getAlbum(){
+    return thisAlbum;
+}
 
 

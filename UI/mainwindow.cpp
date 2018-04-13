@@ -7,83 +7,37 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    wPeople = new ManagePeople();
-
     ui->setupUi(this);
 
+    ui->Title->setText("PicViewer - Bem Vindo!!");
+    this->setWindowState(Qt::WindowMaximized);
+
     oGestor      = new GestorBD(DBPath.path());
-    aListaPessoas= new ListaPessoas(oGestor);
     aListaAlbuns = new ListaAlbuns(oGestor);
 
-    AlbumParam AlbumAtributes;
+    wPeople = new ManagePeople(oGestor);
 
-    AlbumAtributes.Name="Album2";
-    AlbumAtributes.Description="jbaoidbae";
-    AlbumAtributes.PageType=festa;
-    AlbumAtributes.Path=QDir("c:\\Album2");
+    aListaAlbuns->loadAll();
 
-    if(aListaAlbuns->createAlbum(AlbumAtributes)==nullptr){
-        qDebug() << "MainWindow:Unable to Create Album";
+    for(int i=0;i<aListaAlbuns->getAlbums()->size();i++){
+        addItemAlbumTree(aListaAlbuns->getAlbums()->at(i));
     }
-
-
-    //=================================
-    //Construir Janela
-    //Esta Rotina talvez seja melhor ser feita por parte da classe Gestora
-    //------------------------------------
-    //Caregar Albuns e Páginas
-    QStringList Pages;
-
-    Pages << "Pagina 1" << "Mais Uma" << "É a ultima";
-
-    this->addItemAlbumTree("Album Velho", Pages);
-    this->addItemAlbumTree("Album Novo", Pages);
-
     ui->AlbumList->collapseAll();
-    //------------------------------------
-    //Carregar Fotos
-
-
-    //------------------------------------
-    //Carregar Pessoas
-    wPeople->addItemPeopleList("Gilberto");
-    wPeople->addItemPeopleList("Palmira");
-    wPeople->addItemPeopleList("Arminda");
-    wPeople->addItemPeopleList("Cesário");
-    wPeople->addItemPeopleList("Alcides");
-    wPeople->addItemPeopleList("Josefina");
-    wPeople->addItemPeopleList("Serafim");
-    wPeople->addItemPeopleList("Eulália");
-
-    this->addItemPeopleList("Alcides");
-    this->addItemPeopleList("Josefina");
-    this->addItemPeopleList("Serafim");
-    this->addItemPeopleList("Eulália");
-
-
-
-    this->setWindowState(Qt::WindowMaximized);
 
     ui->PhotoDisplay->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->PhotoDisplay->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->PhotoDisplay->setColumnCount(4);
-    //ui->PhotoDisplay->setIconSize(QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0)));
 
+    wAlbumInfo= new AlbumInfoDisplay();
+    wPageInfo= new PageInfoDisplay();
 
-    ui->Title->setText("PicViewer - Bem Vindo!!");
-
-    AlbumInfoDisplay *widget1= new AlbumInfoDisplay();
-    PageInfoDisplay *widget2= new PageInfoDisplay();
-
-    widget1->resize(ui->Info->sizeHint());
-    widget2->resize(ui->Info->sizeHint());
+    wAlbumInfo->resize(ui->Info->sizeHint());
+    wPageInfo->resize(ui->Info->sizeHint());
 
     ui->Info->removeItem(0);
     ui->Info->removeItem(0);
-    ui->Info->addItem(widget1,"Informações do Álbum");
-    ui->Info->addItem(widget2,"Informações da Página");
-
-
+    ui->Info->addItem(wAlbumInfo,"Informações do Álbum");
+    ui->Info->addItem(wPageInfo,"Informações da Página");
 
 
 }
@@ -95,12 +49,21 @@ MainWindow::~MainWindow()
         Talvez Chamar uma funçao de fecho,
             para engobar outras opções de fecho p.e. botão [X].
     */
-
+    delete oGestor;
+    delete aListaAlbuns;
     delete ui;
 }
 
-void MainWindow::addItemAlbumTree(QString ItemName, QStringList PageName)
+void MainWindow::addItemAlbumTree(Album* newItem)
 {
+    QString ItemName(newItem->getName());
+    QStringList PageName;
+
+    for(int i=0;i<newItem->getPages()->size();i++){
+        //Na Arvore pagina apresenta a primeira palavra da descrição
+        PageName.append(newItem->getPages()->at(i)->getDescription().trimmed().split(" ").at(0));
+    }
+
     QTreeWidgetItem *TreeItem = new QTreeWidgetItem(ui->AlbumList);
 
     AlbumListItem *ItemWidget = new AlbumListItem(NULL,ItemName);
@@ -119,6 +82,15 @@ void MainWindow::addItemAlbumTree(QString ItemName, QStringList PageName)
     TreeItem->setSizeHint(0,ItemWidget->sizeHint());
     ui->AlbumList->setItemWidget(TreeItem,0,ItemWidget);
 
+}
+
+void MainWindow::addItemAlbumTree(Pagina* newItem){
+
+    QTreeWidgetItem *ChildItem= new QTreeWidgetItem(ui->AlbumList->currentItem());
+    AlbumListPage *ChildWidget= new AlbumListPage(NULL,newItem->getDescription().trimmed().split(" ").at(0));
+
+    ui->AlbumList->setItemWidget(ChildItem,0,ChildWidget);
+    ChildItem->setSizeHint(0,ChildWidget->sizeHint());
 }
 
 void MainWindow::addItemPeopleList(QString ItemName){
@@ -292,48 +264,60 @@ void MainWindow::on_AddAlbum_clicked()
 void MainWindow::addAlbum(AddAlbumDialog *Dialog){
 
         //Criar o ALbum e Actualizar a interface
+        AlbumParam atributes;
 
-        QString Name = Dialog->findChild<QLineEdit*>("Name")->text();
-        QString Desc = Dialog->findChild<QPlainTextEdit*>("Description")->toPlainText();
+        atributes.Name = Dialog->findChild<QLineEdit*>("Name")->text();
+        atributes.Description = Dialog->findChild<QPlainTextEdit*>("Description")->toPlainText();
         QString Type = Dialog->findChild<QComboBox*>("Type")->currentText();
-        QString Dir  = Dialog->findChild<QLineEdit*>("Directory")->text();
+        atributes.Path.setPath(Dialog->findChild<QLineEdit*>("Directory")->text());
 
-        //ListaAlbuns::createAlbum();
-        //addItemAlbumTree
+        if(Type.operator ==("Viagem"))
+            atributes.PageType=viagem;
+        else if(Type.operator ==("Festa"))
+            atributes.PageType=festa;
+        else if(Type.operator ==("Coisa ou Pessoa"))
+            atributes.PageType=coisaPessoa;
+        else if(Type.operator ==("Outro"))
+            atributes.PageType=outro;
 
-        //Apresenta Mensagem de confirmação
-        QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Album Criado", "O Álbum foi criado com sucesso!",
+        atributes.Parent = aListaAlbuns;
+        atributes.Gestor = oGestor;
+
+        Album* newAlbum=aListaAlbuns->createAlbum(atributes);
+        QMessageBox *msg;
+        if(newAlbum==nullptr){
+            msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao criar Album!",
+                                                 QMessageBox::Ok,this);
+        }
+        msg = new QMessageBox(QMessageBox::Information,"Album Criado", "O Álbum foi criado com sucesso!",
                                              QMessageBox::Ok,this);
+        addItemAlbumTree(newAlbum);
 
         msg->exec();
+        msg->deleteLater();
         Dialog->close();
         Dialog->deleteLater();
 }
 
 void MainWindow::on_AddPage_clicked()
 {
-
-    QString AlbumName;
+    if(!ui->AlbumList->currentItem()){
+        QMessageBox *msg = new QMessageBox(QMessageBox::Warning,"Aviso", "Selecione um album para adicionar a pagina!",
+                                              QMessageBox::Ok,this);
+        msg->exec();
+        return;
+    }
 
     //Altera caixa de Dialogo para os detalhes corresponderem ao tipo de Página
 
     if(!ui->AlbumList->currentItem()->parent()){ //Se estiver o Album Seleccionado
-        AlbumName = ui->AlbumList->itemWidget(ui->AlbumList->currentItem(),0)->findChild<QLabel*>("Text")->text();
+        SelectedAlbum = aListaAlbuns->getAlbums()->at(ui->AlbumList->currentIndex().row());
     }
     else{ //Caso seja um página procurar o album pertencente
-        AlbumName = ui->AlbumList->itemWidget(ui->AlbumList->currentItem()->parent(),0)->findChild<QLabel*>("Text")->text();
+        SelectedAlbum = aListaAlbuns->getAlbums()->at(ui->AlbumList->indexOfTopLevelItem(ui->AlbumList->currentItem()));
     }
 
-    //MISSING**************************
-    //Get ALbum Type
-
-    // AlbumList Search Album ?? By ID or By Name?
-
-    QString Type; //Talvez seja melhor definir um ID [1,4] para definir os tipos
-
-    Type.operator=("Coisa ou Pessoa"); //só para teste (remover depois)
-    //*********************************
-    AddPageDialog *Dialog = new AddPageDialog(Type);
+    AddPageDialog *Dialog = new AddPageDialog(SelectedAlbum->getPageType());
 
     connect(Dialog,SIGNAL(pageAccepted(AddPageDialog*)), this, SLOT(addPage(AddPageDialog*)));
     Dialog->show();
@@ -341,25 +325,36 @@ void MainWindow::on_AddPage_clicked()
 
 void MainWindow::addPage(AddPageDialog *Dialog){
 
+       PageParam atributes;
        //Criar a Página e Actualizar a interface
-       QString Desc = Dialog->findChild<QPlainTextEdit*>("Description")->toPlainText();
+       atributes.Description= Dialog->findChild<QPlainTextEdit*>("Description")->toPlainText();
 
        //Alguns destes podem não se aplicar,  dependendo do tipo de página
-       QDate Date = Dialog->findChild<QDateEdit*>("Date")->date();
-       QDate EndDate = Dialog->findChild<QDateEdit*>("DateEnd")->date();
-       QString PartyType = Dialog->findChild<QLineEdit*>("Type")->text();
+       atributes.StartDate = Dialog->findChild<QDateEdit*>("Date")->date();
+       atributes.EndDate = Dialog->findChild<QDateEdit*>("DateEnd")->date();
+       atributes.PartyType = Dialog->findChild<QLineEdit*>("Type")->text();
 
+       atributes.Gestor=oGestor;
+       atributes.Parent=SelectedAlbum;
+       atributes.ParentID=SelectedAlbum->getID();
+       atributes.Path=SelectedAlbum->getPath();
+       atributes.Type=SelectedAlbum->getPageType();
 
-       //ListaAlbuns::createPage();
-       //addItemAlbumTree
+       Pagina* newPage=aListaAlbuns->createPage(atributes,SelectedAlbum);
+       QMessageBox *msg;
+       if(newPage==nullptr){
+           msg = new QMessageBox(QMessageBox::Warning,"Erro", "Falha ao criar Pagina!",
+                                                QMessageBox::Ok,this);
+       }
+       addItemAlbumTree(newPage);
 
-       //Apresenta Mensagem de confirmação
-       QMessageBox *msg = new QMessageBox(QMessageBox::Information,"Página Criada", "A Página foi criada com sucesso!",
+       msg = new QMessageBox(QMessageBox::Information,"Página Criada", "A Página foi criada com sucesso!",
                                              QMessageBox::Ok,this);
 
        msg->exec();
        Dialog->close();
        Dialog->deleteLater();
+       msg->deleteLater();
 }
 
 void MainWindow::on_AddPhoto_clicked()
@@ -396,6 +391,7 @@ void MainWindow::on_AddPhoto_clicked()
                                               QMessageBox::Ok,this);
 
         msg->exec();
+        msg->deleteLater();
     }
 }
 

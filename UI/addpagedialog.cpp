@@ -1,26 +1,27 @@
 #include "addpagedialog.h"
 #include "ui_addpagedialog.h"
 
-AddPageDialog::AddPageDialog(QString Type, QWidget *parent) :
+AddPageDialog::AddPageDialog(pageType_t tipo, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddPageDialog)
 {
     ui->setupUi(this);
-
-    if(Type.compare("Viagem")== 0){
+    switch(tipo){
+    case viagem:
         this->findChild<QLabel*>("label_Type")->hide();
         this->findChild<QLineEdit*>("Type")->setEnabled(false);
         this->findChild<QLineEdit*>("Type")->hide();
+        break;
 
-    }else if(Type.compare("Festa")==0){
+    case festa:
         this->findChild<QLabel*>("label_Date")->setText("Data:");
 
         this->findChild<QLabel*>("label_DateEnd")->hide();
         this->findChild<QDateEdit*>("DateEnd")->setEnabled(false);
         this->findChild<QDateEdit*>("DateEnd")->hide();
+        break;
 
-
-    }else if(Type.compare("Coisa ou Pessoa")==0){
+    case coisaPessoa:
         this->findChild<QLabel*>("label_Type")->hide();
         this->findChild<QLineEdit*>("Type")->setEnabled(false);
         this->findChild<QLineEdit*>("Type")->hide();
@@ -33,13 +34,14 @@ AddPageDialog::AddPageDialog(QString Type, QWidget *parent) :
         this->findChild<QLabel*>("label_DateEnd")->hide();
         this->findChild<QDateEdit*>("DateEnd")->setEnabled(false);
         this->findChild<QDateEdit*>("DateEnd")->hide();
+        break;
 
-    }else if(Type.compare("Outro")==0){
+    case outro:
         this->findChild<QLabel*>("label_Type")->hide();
         this->findChild<QLineEdit*>("Type")->setEnabled(false);
         this->findChild<QLineEdit*>("Type")->hide();
-    }
-
+        break;
+    }//end Switch
 }
 
 AddPageDialog::~AddPageDialog()
@@ -51,7 +53,7 @@ void AddPageDialog::on_buttonBox_accepted()
 {
     QString Desc = this->findChild<QPlainTextEdit*>("Description")->toPlainText();
     if(Desc.isEmpty()){
-       //Tem de  haver descrição
+        //Tem de  haver descrição
         QMessageBox *error = new QMessageBox(QMessageBox::Warning,"Parametros insuficientes", "Tem de fornecer uma descrição para a página",
                                              QMessageBox::Ok,this);
 

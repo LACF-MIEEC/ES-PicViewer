@@ -11,7 +11,7 @@ Pagina::Pagina(PageParam atributes)
     Photos = new QVector<Foto*>();
 }
 Pagina::~Pagina(){
-    for(int i=0;Photos->size();i++){
+    for(int i=0;i<Photos->size();i++){
         delete Photos->at(i);
     }
     delete Photos;
@@ -35,6 +35,15 @@ bool Pagina::loadPhotos(GestorBD* gestor){
 
     Photos->clear();
     for(int i=0;i<PhotoAtributes->size();i++){
+        if(!PhotoAtributes->at(i)->Path.exists()){
+            qDebug() << "Pagina.load(): ERROR No Path to Photo. Possible unauthorized deletion";
+            for(int i=0; i<Photos->size();i++){
+                delete Photos->at(i);
+            }
+            Photos->clear();
+            delete PhotoAtributes;
+            return false;
+        }
         PhotoAtributes->at(i)->Parent=this;
         Photos->append(new Foto(*PhotoAtributes->at(i)));
     }
@@ -69,18 +78,33 @@ Album* Pagina::parent(){
 
 Foto* Pagina::createPhoto(PhotoParam atributes){
 
+    //Copiar a Foto para directorio
+    if(!atributes.Path.exists()){
+        qDebug() << "Pagina::createPhoto->ERROR File"<< atributes.Path.path() << "doesn't exist!!";
+        return nullptr;
+    }
+    QString oldPhotoPath(atributes.Path.path());
+    QString newPhotoPath(Path.path());
+    newPhotoPath.append(QString::number(atributes.ID));
+    newPhotoPath.append(".");
+    newPhotoPath.append(QFileInfo(oldPhotoPath).suffix());
 
 
+    if(!QFile::copy(oldPhotoPath,newPhotoPath)){
+        qDebug() << "Pagina::createPhoto->ERRO copying file:" << oldPhotoPath << "to" << newPhotoPath;
+        return nullptr;
+    }
 
+    atributes.Path.setPath(newPhotoPath);
 
     Foto* newFoto=new Foto(atributes);
+
     if(!oGestor->addPhoto(&atributes)){
-        qDebug() << "Unable to Save Photo";
         delete newFoto;
         return nullptr;
     }
     else{
-        qDebug() << "Photo Saved";
+        qDebug() << "Pagina::createPhoto->Photo Saved";
         Photos->append(newFoto);
         return newFoto;
     }
@@ -88,6 +112,9 @@ Foto* Pagina::createPhoto(PhotoParam atributes){
 
 //----------------PRIVATE----------------------------//
 bool Pagina::createFolder(){
+    if(!Path.exists()){
+        qDebug() << "Pagina::createFolder()->ERROR Path to folder doesn't exist!!";
+    }
     QString folderName(createFolderName());
     QString newFolderName;
     newFolderName = folderName;
@@ -96,7 +123,7 @@ bool Pagina::createFolder(){
         newFolderName.clear();
         newFolderName = folderName;
         newFolderName.append("(");
-        newFolderName.append(i);
+        newFolderName.append(QString::number(i));
         newFolderName.append(")");
         qDebug() << "Pagina::createFolder()->ERROR Creating Folder:" << newFolderName;
         if(i==20){

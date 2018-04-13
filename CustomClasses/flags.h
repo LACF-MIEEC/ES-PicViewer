@@ -4,15 +4,8 @@
 #include <QFlags>
 #include <QFlag>
 
-////////////////////////////////////////////////
-/*!
- * \brief
- */
 struct Setup{
-    ////////////////////////////////////////////////
-    /*!
-     * \brief The RunState enum
-     */
+
     enum RunState{
         Boot,
         RunTime
