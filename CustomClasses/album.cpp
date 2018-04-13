@@ -11,11 +11,9 @@ Album::Album(AlbumParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    if(RunMode.testFlag(Setup::Boot)){
-
 }
 
-bool Album::load(GestorBD *gestor=0){
+bool Album::load(GestorBD *gestor){
     if(gestor==0)
         gestor=oGestor;
     if(gestor==0){
