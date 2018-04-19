@@ -5,24 +5,19 @@
 #include <QVector>
 #include <QDir>
 #include <QDate>
-#include <QDebug>
 
-class Album;
 class Pagina;
-class Pessoa;
 class Foto;
 
 class GestorBD;
 class ListaAlbuns;
-class ListaPessoas;
 
 struct PhotoParam;
 struct PageParam;
-struct AlbumParam;
-struct PersonParam;
 
 enum pageType_t:short int;
-enum gender: short int;
+
+
 ////////////////////////////////////////////////
 /*!
  * \brief Estrutura que contém os atributos de Album
@@ -132,7 +127,7 @@ public:
      * \brief Devolve Páginas no Álbum.
      * \return Ponteiro para vetor de classes Pagina.
      */
-    QVector<Pagina *> *getPages();
+    QVector<Pagina *> getPages();
 
 
     ////////////////////////////////////////////////
@@ -166,26 +161,6 @@ public:
      */
     Foto* createPhoto(PhotoParam atributes, Pagina* destination);
 
-
-    /* MODIFICATIONS NOT YET IMPLEMENTED
-    int setName(QString newName);
-    void setDescription(QString newDesc);
-    */
-
-    /* DELETE AND MOVE NOT YET IMPLEMENTED
-    int acceptPage(Pagina* page);
-    int removePage(Pagina* page);
-    int deletePage(Pagina* page);
-    */
-
-    //int acceptPhoto(Pagina* page, Foto* photo); //Mais vale ir logo à página se já tenho o ponteiro
-
-    /* SEARCH NOT YET IMPLEMENTED
-    QVector<Foto*> searchPhotoByDate(QDate date);
-    QVector<Foto*> searchPhotoByKeyword(QString keyword);
-    */
-
-
 private:
 
 
@@ -208,7 +183,7 @@ private:
 
     ListaAlbuns* Parent;
     GestorBD* oGestor;
-    QVector<Pagina*> *Pages;
+    QVector<Pagina*> Pages;
 
 };
 

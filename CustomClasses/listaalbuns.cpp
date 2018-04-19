@@ -178,7 +178,7 @@ int ListaAlbuns::genPhotoID(){
 
 //----------------GetAtributes----------------//
 
-QVector<Album*>* ListaAlbuns::getAlbums(){
+QVector<Album *> ListaAlbuns::getAlbums(){
     return Albums;
 }
 

@@ -8,22 +8,13 @@
 #include <QDebug>
 
 
-class Album;
-class Pagina;
+
 class Pessoa;
-class Foto;
 
 class GestorBD;
-class ListaAlbuns;
-class ListaPessoas;
 
-struct PhotoParam;
-struct PageParam;
-struct AlbumParam;
 struct PersonParam;
 
-enum pageType_t:short int;
-enum gender: short int;
 /*!
  * \brief Classe responsável por gerir objetos da classe %Pessoa e as suas associações com fotos.
  *
@@ -63,7 +54,7 @@ public:
      * \brief  Devolve Todas as Pessoas.
      * \return Ponteiro para vetor de classes Pessoa.
      */
-    QVector<Pessoa *> *getPeople();
+    QVector<Pessoa *> getPeople();
 
     //-------------------Create--------------------//
 
@@ -76,17 +67,6 @@ public:
      * \return Ponteiro para a classe Pessoa.
      */
     Pessoa* createPerson(PersonParam atributes);
-
-    /* SEARCH NOT YET IMPLEMENTED
-    QVector<Foto*> searchPhotosByPerson(QString name);
-    */
-    /* REMOVE AND ATTACHMENTS NOT YET IMPLEMENTED
-    int deletePerson(Pessoa*);
-
-    int attachPerson(Pessoa* person, Foto* foto);
-    int dettachPerson(Pessoa* person, Foto* foto);
-    */
-
 
 private:
 
@@ -111,7 +91,7 @@ private:
      */
     int genPersonID();
 
-    QVector<Pessoa*> *People;
+    QVector<Pessoa*> People;
     GestorBD* oGestor;
 };
 

@@ -385,6 +385,7 @@ QVector<PhotoParam*>* GestorBD::getPhotos(PageParam *Page){
     if(!queryGet.exec())
     {
         qDebug() << "get foto failed: " << queryGet.lastError();
+        return nullptr;
     }
 
     QVector<PhotoParam*>*Fotos = new QVector<PhotoParam*>();

@@ -92,7 +92,7 @@ QDir Pagina::getPath(){
     return Path;
 }
 
-QVector<Foto*>* Pagina::getPhotos(){
+QVector<Foto *> Pagina::getPhotos(){
     return Photos;
 }
 

@@ -5,25 +5,21 @@
 #include <QVector>
 #include <QDir>
 #include <QDate>
-#include <QDebug>
 
 
 class Album;
 class Pagina;
-class Pessoa;
 class Foto;
 
 class GestorBD;
 class ListaAlbuns;
-class ListaPessoas;
 
 struct PhotoParam;
 struct PageParam;
 struct AlbumParam;
-struct PersonParam;
 
 enum pageType_t:short int;
-enum gender: short int;
+
 /*!
  * \brief Classe responsável por fazer a gestão de Álbums.
  *
@@ -79,7 +75,7 @@ public:
      * \brief Devolve todos os Álbuns.
      * \return Ponteiro para vetor de calsses Album.
      */
-    QVector<Album *> *getAlbums();
+    QVector<Album *> getAlbums();
 
 
     //-------------------Create--------------------//
@@ -116,20 +112,6 @@ public:
      * \return Ponteiro para a classe Foto.
      */
     Foto* createPhoto(PhotoParam atributes,Pagina* destPage, Album* destAlbum);
-
-    /* REMOVE AND EDIT NOT YET IMPLEMENTED
-    int deleteAlbum(Album* album);
-    int editAlbum(Album* album, QString newName, QString newDesc);
-    */
-    /* MOVE AND SEARCH NOT YET IMPLEMENTED
-    int movePage(Album* origin, Album* destination, Pagina* page);
-
-    int movePhoto(Album* originAlbum, Pagina* originPage,
-                  Album* destinationAlbum, Pagina* destinationPage,
-                  Foto* photo);
-    QVector<Foto*> searchPhotoByDate(QDate);
-    QVector<Foto*> searchPhotoByKeyword(QString keyword);
-    */
 
 private:
 
@@ -176,7 +158,7 @@ private:
      */
     int genPhotoID();
 
-    QVector<Album*> *Albums;
+    QVector<Album*> Albums;
     GestorBD* oGestor;
 };
 

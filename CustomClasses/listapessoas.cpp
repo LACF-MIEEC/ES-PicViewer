@@ -17,12 +17,11 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
     qDebug() << "ListaPeople: allocatedPeopleID size is " << allocatedPeopleID.size() << ", maxPeopleID is " << maxPeopleID;
 
     oGestor =gestor;
-    People = new QVector<Pessoa*>();
 }
 
 ListaPessoas::~ListaPessoas(){
-    for(int i=0;i<People->size();i++){
-        delete People->at(i);
+    for(int i=0;i<People.size();i++){
+        delete People.at(i);
     }
     delete People;
 }
@@ -35,7 +34,7 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
         return false;
     }
 
-    QVector<PersonParam*> *PersonAtributes = gestor->getPeople(this);
+    QVector<PersonParam*> PersonAtributes = gestor->getPeople(this);
     if(!PersonAtributes){
         qDebug() << "ListaPessoas.load(): ERROR GestorBD->Fail to load.";
         delete PersonAtributes;
@@ -70,7 +69,7 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
     return true;
 }
 
-QVector<Pessoa*>* ListaPessoas::getPeople(){
+QVector<Pessoa *> ListaPessoas::getPeople(){
     return People;
 }
 

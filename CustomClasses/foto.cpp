@@ -30,7 +30,7 @@ QDir Foto::getPath(){
     return Path;
 }
 
-QVector<Pessoa*>* Foto::getPeople(){
+QVector<Pessoa *> Foto::getPeople(){
     return People;
 }
 

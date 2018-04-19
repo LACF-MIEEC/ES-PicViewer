@@ -5,24 +5,13 @@
 #include <QVector>
 #include <QDir>
 #include <QDate>
-#include <QDebug>
 
 class Album;
-class Pagina;
-class Pessoa;
 class Foto;
 
 class GestorBD;
-class ListaAlbuns;
-class ListaPessoas;
-
 struct PhotoParam;
-struct PageParam;
-struct AlbumParam;
-struct PersonParam;
 
-enum pageType_t:short int;
-enum gender: short int;
 ////////////////////////////////////////////////
 /*!
  * \brief Tipos de página
@@ -155,7 +144,7 @@ public:
      * \brief Devolve Fotos da Página.
      * \return ponteiro para vetor de classes Foto.
      */
-    QVector<Foto *> *getPhotos();
+    QVector<Foto *> getPhotos();
 
 
     ////////////////////////////////////////////////
@@ -209,7 +198,7 @@ protected:
 
     Album* Parent;
     GestorBD* oGestor;
-    QVector<Foto*> *Photos;
+    QVector<Foto*> Photos;
 };
 
 
