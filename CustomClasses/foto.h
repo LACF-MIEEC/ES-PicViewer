@@ -8,22 +8,15 @@
 #include <QDebug>
 
 
-class Album;
 class Pagina;
 class Pessoa;
-class Foto;
 
 class GestorBD;
-class ListaAlbuns;
 class ListaPessoas;
-
-struct PhotoParam;
-struct PageParam;
-struct AlbumParam;
-struct PersonParam;
 
 enum pageType_t:short int;
 enum gender: short int;
+
 ////////////////////////////////////////////////
 /*!
  * \brief Estrututa que contém os atributos de Foto
@@ -34,10 +27,9 @@ struct PhotoParam{
     Pagina* Parent;
     int ParentID;
     GestorBD* Gestor;
+    ListaPessoas* PeopleList;
 };
 
-
-class ListaPessoas;
 ////////////////////////////////////////////////
 /*!
  * \brief Classe que representa uma %Foto.
@@ -86,8 +78,15 @@ public:
      * \brief Devolve Pessoas associadas à %Foto.
      * \return Ponteiro para o vetor de classes Pessoa.
      */
-    QVector<Pessoa *> *getPeople();
+    QVector<Pessoa*> getPeople();
 
+
+    ////////////////////////////////////////////////
+    /*!
+     * \brief getParentID
+     * \return
+     */
+    int getParentID();
 
     ////////////////////////////////////////////////
     /*!
@@ -105,9 +104,9 @@ private:
 
     int ID;
     QDir Path;
-    QVector<Pessoa*> *People;
+    QVector<Pessoa*> People;
 
-    ListaPessoas* PeopleList;//Como se lá chega?????????
+    ListaPessoas* PeopleList;
     GestorBD* oGestor;
     Pagina* Parent;
 

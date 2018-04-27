@@ -5,23 +5,12 @@
 #include <QString>
 #include <QDate>
 #include <QDir>
-#include <QDebug>
 
-class Album;
-class Pagina;
-class Pessoa;
 class Foto;
 
-class GestorBD;
-class ListaAlbuns;
 class ListaPessoas;
+class GestorBD;
 
-struct PhotoParam;
-struct PageParam;
-struct AlbumParam;
-struct PersonParam;
-
-enum pageType_t:short int;
 enum gender: short int;
 
 ////////////////////////////////////////////////
@@ -115,7 +104,7 @@ public:
      * \brief Devolve pessoas associadas á %Foto.
      * \return Ponteiro apra vetor de classes Foto.
      */
-    QVector<Foto*> *getPhotos();
+    QVector<Foto*> getPhotos();
 
 
     ////////////////////////////////////////////////
@@ -142,7 +131,7 @@ private:
 
     ListaPessoas *Parent;
     GestorBD* oGestor;
-    QVector<Foto*> *Photos;
+    QVector<Foto*> Photos;
 };
 
 #endif // PESSOA_H

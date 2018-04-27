@@ -32,13 +32,12 @@ ListaAlbuns::ListaAlbuns(GestorBD *gestor)
     qDebug() << "ListaAlbuns: allocatedPhotoID size is " << allocatedPhotoID.size() << ", maxPhotoID is " << maxPhotoID;
 
     oGestor = gestor;
-    Albums = new QVector<Album*>();
+    Albums  = QVector<Album*>();
 }
 ListaAlbuns::~ListaAlbuns(){
-    for(int i=0;i<Albums->size();i++){
-        delete Albums->at(i);
+    for(int i=0;i<Albums.size();i++){
+        delete Albums.at(i);
     }
-    delete Albums;
 }
 
 bool ListaAlbuns::loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
@@ -56,18 +55,18 @@ bool ListaAlbuns::loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD *ge
         return false;
     }
 
-    Albums->clear();
+    Albums.clear();
     for(int i=0;i<AlbumAtributes->size();i++){
         if(!AlbumAtributes->at(i)->Path.exists()){
             qDebug() << "ListaAlbuns.load(): ERROR No Path to Album. Possible unauthorized deletion";
-            for(int i=0; i<Albums->size();i++){
-                delete Albums->at(i);
+            for(int i=0; i<Albums.size();i++){
+                delete Albums.at(i);
             }
-            Albums->clear();
+            Albums.clear();
             delete AlbumAtributes;
             return false;
         }
-        Albums->append(new Album(*AlbumAtributes->at(i)));
+        Albums.append(new Album(*AlbumAtributes->at(i)));
     }
     delete AlbumAtributes;
 
@@ -76,10 +75,10 @@ bool ListaAlbuns::loadAlbuns(QVector<int> &allocatedID, int &maxID, GestorBD *ge
 
 
     //Inicializar AlbumID
-    for(int i=0;i<Albums->size();i++){
+    for(int i=0;i<Albums.size();i++){
 
         AllocSize=allocatedID.size();
-        CurrentID=Albums->at(i)->getID();
+        CurrentID=Albums.at(i)->getID();
 
         if(CurrentID > AllocSize){
             allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
@@ -106,16 +105,16 @@ bool ListaAlbuns::loadAll(GestorBD* gestor){
         return false;
     }
 
-    for(int i=0;i<Albums->size();i++){
-        if(!Albums->at(i)->loadPages(allocatedPageID,maxPageID,gestor)){
+    for(int i=0;i<Albums.size();i++){
+        if(!Albums.at(i)->loadPages(allocatedPageID,maxPageID,gestor)){
             qDebug() << "ListaAlbuns.loadAll():ERROR loadPages().";
             return false;
         }        
     }
 
-    for(int i=0;i<Albums->size();i++){
-        for(int j=0;j<Albums->at(i)->getPages()->size();j++){
-            if(!Albums->at(i)->getPages()->at(j)->loadPhotos(allocatedPhotoID,maxPhotoID,gestor)){
+    for(int i=0;i<Albums.size();i++){
+        for(int j=0;j<Albums.at(i)->getPages().size();j++){
+            if(!Albums.at(i)->getPages().at(j)->loadPhotos(allocatedPhotoID,maxPhotoID,gestor)){
                 qDebug() << "ListaAlbuns.loaAll():ERROR loadPhotos().";
                 return false;
             }
@@ -178,7 +177,7 @@ int ListaAlbuns::genPhotoID(){
 
 //----------------GetAtributes----------------//
 
-QVector<Album*>* ListaAlbuns::getAlbums(){
+QVector<Album *> ListaAlbuns::getAlbums(){
     return Albums;
 }
 
@@ -193,7 +192,7 @@ Album* ListaAlbuns::createAlbum(AlbumParam atributes){
         return nullptr;
     }
     atributes.Path.setPath(newAlbum->getPath().path());
-    if(!oGestor->addAlbum(&atributes)){
+    if(!oGestor->addAlbum(newAlbum)){
         delete newAlbum;
         QDir MainPath(newAlbum->getPath());
         MainPath.cdUp();
@@ -204,7 +203,7 @@ Album* ListaAlbuns::createAlbum(AlbumParam atributes){
         return nullptr;
     }
 
-        Albums->append(newAlbum);
+        Albums.append(newAlbum);
         return newAlbum;
 
 }

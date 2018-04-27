@@ -16,13 +16,12 @@ Pagina::Pagina(PageParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    Photos = new QVector<Foto*>();
+    Photos      =   QVector<Foto*>();
 }
 Pagina::~Pagina(){
-    for(int i=0;i<Photos->size();i++){
-        delete Photos->at(i);
+    for(int i=0;i<Photos.size();i++){
+        delete Photos.at(i);
     }
-    delete Photos;
 }
 
 bool Pagina::loadPhotos(QVector<int> &allocatedID, int &maxID,GestorBD* gestor){
@@ -34,26 +33,26 @@ bool Pagina::loadPhotos(QVector<int> &allocatedID, int &maxID,GestorBD* gestor){
     }
     PageParam atributes;
     atributes.ID=ID;
-    QVector<PhotoParam*> *PhotoAtributes = gestor->getPhotos(&atributes);
+    QVector<PhotoParam*> *PhotoAtributes = gestor->getPhotos(this);
     if(!PhotoAtributes){
         qDebug() << "Pagina.load(): ERROR GestorBD->Fail to load.";
         delete PhotoAtributes;
         return false;
     }
 
-    Photos->clear();
+    Photos.clear();
     for(int i=0;i<PhotoAtributes->size();i++){
         if(!PhotoAtributes->at(i)->Path.exists(PhotoAtributes->at(i)->Path.path())){
             qDebug() << "Pagina.load(): ERROR No Path to Photo. Possible unauthorized deletion";
-            for(int i=0; i<Photos->size();i++){
-                delete Photos->at(i);
+            for(int i=0; i<Photos.size();i++){
+                delete Photos.at(i);
             }
-            Photos->clear();
+            Photos.clear();
             delete PhotoAtributes;
             return false;
         }
         PhotoAtributes->at(i)->Parent=this;
-        Photos->append(new Foto(*PhotoAtributes->at(i)));
+        Photos.append(new Foto(*PhotoAtributes->at(i)));
     }
     delete PhotoAtributes;
 
@@ -61,10 +60,10 @@ bool Pagina::loadPhotos(QVector<int> &allocatedID, int &maxID,GestorBD* gestor){
     int CurrentID;
 
     //Inicializar PageID
-    for(int i=0;i<Photos->size();i++){
+    for(int i=0;i<Photos.size();i++){
 
         AllocSize=allocatedID.size();
-        CurrentID=Photos->at(i)->getID();
+        CurrentID=Photos.at(i)->getID();
 
         if(CurrentID > AllocSize){
             allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
@@ -92,7 +91,7 @@ QDir Pagina::getPath(){
     return Path;
 }
 
-QVector<Foto*>* Pagina::getPhotos(){
+QVector<Foto *> Pagina::getPhotos(){
     return Photos;
 }
 
@@ -125,13 +124,13 @@ Foto* Pagina::createPhoto(PhotoParam atributes){
 
     Foto* newFoto=new Foto(atributes);
 
-    if(!oGestor->addPhoto(&atributes)){
+    if(!oGestor->addPhoto(newFoto)){
         delete newFoto;
         return nullptr;
     }
     else{
         qDebug() << "Pagina::createPhoto->Photo Saved";
-        Photos->append(newFoto);
+        Photos.append(newFoto);
         return newFoto;
     }
 }
