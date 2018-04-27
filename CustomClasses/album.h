@@ -1,4 +1,4 @@
-    #ifndef ALBUM_H
+#ifndef ALBUM_H
 #define ALBUM_H
 
 #include <QString>
@@ -127,7 +127,7 @@ public:
      * \brief Devolve Páginas no Álbum.
      * \return Ponteiro para vetor de classes Pagina.
      */
-    QVector<Pagina *> getPages();
+    QVector<Pagina*> getPages();
 
 
     ////////////////////////////////////////////////

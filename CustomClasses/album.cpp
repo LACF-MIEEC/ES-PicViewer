@@ -17,7 +17,7 @@ Album::Album(AlbumParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    Pages=new QVector<Pagina*>();
+    Pages       =   QVector<Pagina*>();
 
 }
 
@@ -25,7 +25,6 @@ Album::~Album(){
     for(int i=0;i<Pages->size();i++){
         delete Pages->at(i);
     }
-    delete Pages;
 }
 
 bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
@@ -39,7 +38,7 @@ bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
 
     AlbumParam atributes;
     atributes.ID=ID;
-    QVector<PageParam*> *PageAtributes = gestor->getPages(&atributes);
+    QVector<PageParam*> *PageAtributes = gestor->getPages(this);
     if(!PageAtributes){
         qDebug() << "Album.load(): ERROR GestorBD->Fail to load.";
         delete PageAtributes;
@@ -156,7 +155,7 @@ Pagina* Album::createPage(PageParam atributes){
         return nullptr;
     }
     atributes.Path.setPath(newPage->getPath().path());
-    if(!oGestor->addPage(&atributes)){
+    if(!oGestor->addPage(newPage)){
         delete newPage;
         if(Path.rmdir(newPage->getPath().dirName())){
             //BIG PROBLEM
@@ -166,7 +165,7 @@ Pagina* Album::createPage(PageParam atributes){
         return nullptr;
     }
 
-    Pages->append(newPage);
+    Pages.append(newPage);
     return newPage;
 }
 

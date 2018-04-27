@@ -14,9 +14,9 @@ class Pessoa;
 class GestorBD;
 class ListaPessoas;
 
-
 enum pageType_t:short int;
 enum gender: short int;
+
 ////////////////////////////////////////////////
 /*!
  * \brief Estrututa que contém os atributos de Foto
@@ -27,6 +27,7 @@ struct PhotoParam{
     Pagina* Parent;
     int ParentID;
     GestorBD* Gestor;
+    ListaPessoas* PeopleList;
 };
 
 ////////////////////////////////////////////////
@@ -82,6 +83,13 @@ public:
 
     ////////////////////////////////////////////////
     /*!
+     * \brief getParentID
+     * \return
+     */
+    int getParentID();
+
+    ////////////////////////////////////////////////
+    /*!
      * \brief Devolve Página da %Foto.
      * \return Ponteiro para a classe Pagina.
      */
@@ -98,7 +106,7 @@ private:
     QDir Path;
     QVector<Pessoa*> People;
 
-    ListaPessoas* PeopleList;//Como se lá chega?????????
+    ListaPessoas* PeopleList;
     GestorBD* oGestor;
     Pagina* Parent;
 

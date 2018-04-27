@@ -75,7 +75,7 @@ public:
      * \brief Devolve todos os Álbuns.
      * \return Ponteiro para vetor de calsses Album.
      */
-    QVector<Album *> getAlbums();
+    QVector<Album*> getAlbums();
 
 
     //-------------------Create--------------------//

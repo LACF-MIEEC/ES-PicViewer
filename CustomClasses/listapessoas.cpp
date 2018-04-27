@@ -16,14 +16,14 @@ ListaPessoas::ListaPessoas(GestorBD *gestor)
     maxPeopleID = 0;
     qDebug() << "ListaPeople: allocatedPeopleID size is " << allocatedPeopleID.size() << ", maxPeopleID is " << maxPeopleID;
 
-    oGestor =gestor;
+    oGestor = gestor;
+    People  = QVector<Pessoa*>();
 }
 
 ListaPessoas::~ListaPessoas(){
     for(int i=0;i<People.size();i++){
         delete People.at(i);
     }
-    delete People;
 }
 
 bool ListaPessoas::loadPeople(GestorBD* gestor){
@@ -41,9 +41,9 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
         return false;
     }
 
-    People->clear();
-    for(int i=0;i<PersonAtributes->size();i++){
-        People->append(new Pessoa(*PersonAtributes->at(i)));
+    People.clear();
+    for(int i=0;i<PersonAtributes.size();i++){
+        People.append(new Pessoa(*PersonAtributes.at(i)));
     }
     delete PersonAtributes;
 
@@ -52,10 +52,10 @@ bool ListaPessoas::loadPeople(GestorBD* gestor){
 
 
     //Inicializar AlbumID
-    for(int i=0;i<People->size();i++){
+    for(int i=0;i<People.size();i++){
 
         AllocSize=allocatedPeopleID.size();
-        CurrentID=People->at(i)->getID();
+        CurrentID=People.at(i)->getID();
 
         if(CurrentID > AllocSize){
             allocatedPeopleID.insert(AllocSize, CurrentID-AllocSize+1, 0);
@@ -76,14 +76,14 @@ QVector<Pessoa *> ListaPessoas::getPeople(){
 Pessoa* ListaPessoas::createPerson(PersonParam atributes){
     atributes.ID=genPersonID();
     Pessoa* newPerson = new Pessoa(atributes);
-    if(!oGestor->addPerson(&atributes)){
+    if(!oGestor->addPerson(newPerson)){
         qDebug() << "ListaPessoas:Unable to Save Person";
         delete newPerson;
         return nullptr;
     }
     else{
         qDebug() << "ListaPessoas:Person Saved";
-        People->append(newPerson);
+        People.append(newPerson);
         return newPerson;
     }
 }

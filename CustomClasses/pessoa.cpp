@@ -9,6 +9,8 @@ Pessoa::Pessoa(PersonParam atributes)
     Bond    =   atributes.Bond;
     Parent  =   atributes.Parent;
     oGestor =   atributes.Gestor;
+
+    Photos  =   QVector<Foto*>();
 }
 
 Pessoa::~Pessoa(){

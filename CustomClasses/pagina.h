@@ -31,7 +31,6 @@ struct PageParam{
   QDate EndDate;
   QString PartyType;
   Album* Parent=0;
-  int   ParentID;
   GestorBD* Gestor=0;
 };
 
@@ -71,6 +70,7 @@ public:
      * \param maxID - Representa o número do maior ID criado.
      * \return True - Foto(s) lidas, False - Foto(s) não lidas.
      */
+
     bool loadPhotos(QVector<int> &allocatedID, int &maxID, GestorBD* gestor=0);
 
 
@@ -144,7 +144,7 @@ public:
      * \brief Devolve Fotos da Página.
      * \return ponteiro para vetor de classes Foto.
      */
-    QVector<Foto *> getPhotos();
+    QVector<Foto*> getPhotos();
 
 
     ////////////////////////////////////////////////
