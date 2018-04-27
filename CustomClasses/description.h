@@ -38,8 +38,8 @@
  * - Associação entre Pessoas e Fotos
  * - Escolha
  * - Apresentação em slides
- * #- Reproduxir áudio
- * #- Configurar tempo entre Fotos
+ * -# Reproduzir áudio
+ * -# Configurar tempo entre Fotos
  * - (...)
  *
  *
