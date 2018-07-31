@@ -1,3 +1,9 @@
+#include "gestorbd.h"
+#include "foto.h"
+#include "pagina.h"
+#include "album.h"
+#include "listaalbuns.h"
+#include "listapessoas.h"
 #include "pessoa.h"
 
 Pessoa::Pessoa(PersonParam atributes)
@@ -10,10 +16,11 @@ Pessoa::Pessoa(PersonParam atributes)
     Parent  =   atributes.Parent;
     oGestor =   atributes.Gestor;
 
-    Photos  =   QVector<Foto*>();
+    Photos = new QVector<Foto*>();
 }
 
 Pessoa::~Pessoa(){
+    delete Photos;
 }
 
 int Pessoa::getID(){
@@ -31,7 +38,7 @@ gender Pessoa::getGender(){
 QString Pessoa::getBond(){
     return Bond;
 }
-QVector<Foto *> Pessoa::getPhotos(){
+QVector<Foto*>* Pessoa::getPhotos(){
     return Photos;
 }
 ListaPessoas* Pessoa::parent(){

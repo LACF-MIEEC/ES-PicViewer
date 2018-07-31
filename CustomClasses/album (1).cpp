@@ -17,14 +17,15 @@ Album::Album(AlbumParam atributes)
     Parent      =   atributes.Parent;
     oGestor     =   atributes.Gestor;
 
-    Pages       =   QVector<Pagina*>();
+    Pages=new QVector<Pagina*>();
 
 }
 
 Album::~Album(){
-    for(int i=0;i<Pages.size();i++){
-        delete Pages.at(i);
+    for(int i=0;i<Pages->size();i++){
+        delete Pages->at(i);
     }
+    delete Pages;
 }
 
 bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
@@ -38,37 +39,37 @@ bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
 
     AlbumParam atributes;
     atributes.ID=ID;
-    QVector<PageParam*> *PageAtributes = gestor->getPages(this);
+    QVector<PageParam*> *PageAtributes = gestor->getPages(&atributes);
     if(!PageAtributes){
         qDebug() << "Album.load(): ERROR GestorBD->Fail to load.";
         delete PageAtributes;
         return false;
     }
 
-    Pages.clear();
+    Pages->clear();
     for(int i=0;i<PageAtributes->size();i++){
         if(!PageAtributes->at(i)->Path.exists()){
             qDebug() << "Album.load(): ERROR No Path to Page. Possible unauthorized deletion";
-            for(int i=0; i<Pages.size();i++){
-                delete Pages.at(i);
+            for(int i=0; i<Pages->size();i++){
+                delete Pages->at(i);
             }
-            Pages.clear();
+            Pages->clear();
             delete PageAtributes;
             return false;
         }
         PageAtributes->at(i)->Parent=this;
         switch(PageType){
         case viagem:
-            Pages.append(new PaginaViagem(*PageAtributes->at(i)));
+            Pages->append(new PaginaViagem(*PageAtributes->at(i)));
             break;
         case coisaPessoa:
-            Pages.append(new PaginaCoisaPessoa(*PageAtributes->at(i)));
+            Pages->append(new PaginaCoisaPessoa(*PageAtributes->at(i)));
             break;
         case festa:
-            Pages.append(new PaginaFesta(*PageAtributes->at(i)));
+            Pages->append(new PaginaFesta(*PageAtributes->at(i)));
             break;
         case outro:
-            Pages.append(new PaginaOutro(*PageAtributes->at(i)));
+            Pages->append(new PaginaOutro(*PageAtributes->at(i)));
             break;
         }
     }
@@ -78,10 +79,10 @@ bool Album::loadPages(QVector<int> &allocatedID, int &maxID, GestorBD *gestor){
     int CurrentID;
 
     //Inicializar PageID
-    for(int i=0;i<Pages.size();i++){
+    for(int i=0;i<Pages->size();i++){
 
         AllocSize=allocatedID.size();
-        CurrentID=Pages.at(i)->getID();
+        CurrentID=Pages->at(i)->getID();
 
         if(CurrentID > AllocSize){
             allocatedID.insert(AllocSize, CurrentID-AllocSize+1, 0);
@@ -119,7 +120,7 @@ pageType_t Album::getPageType(){
     return PageType;
 }
 
-QVector<Pagina *> Album::getPages(){
+QVector<Pagina*>* Album::getPages(){
     return Pages;
 }
 
@@ -155,7 +156,7 @@ Pagina* Album::createPage(PageParam atributes){
         return nullptr;
     }
     atributes.Path.setPath(newPage->getPath().path());
-    if(!oGestor->addPage(newPage)){
+    if(!oGestor->addPage(&atributes)){
         delete newPage;
         if(Path.rmdir(newPage->getPath().dirName())){
             //BIG PROBLEM
@@ -165,7 +166,7 @@ Pagina* Album::createPage(PageParam atributes){
         return nullptr;
     }
 
-    Pages.append(newPage);
+    Pages->append(newPage);
     return newPage;
 }
 

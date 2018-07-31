@@ -5,13 +5,24 @@
 #include <QVector>
 #include <QDir>
 #include <QDate>
+#include <QDebug>
 
 class Album;
+class Pagina;
+class Pessoa;
 class Foto;
 
 class GestorBD;
-struct PhotoParam;
+class ListaAlbuns;
+class ListaPessoas;
 
+struct PhotoParam;
+struct PageParam;
+struct AlbumParam;
+struct PersonParam;
+
+enum pageType_t:short int;
+enum gender: short int;
 ////////////////////////////////////////////////
 /*!
  * \brief Tipos de página
@@ -31,6 +42,7 @@ struct PageParam{
   QDate EndDate;
   QString PartyType;
   Album* Parent=0;
+  int   ParentID;
   GestorBD* Gestor=0;
 };
 
@@ -70,7 +82,6 @@ public:
      * \param maxID - Representa o número do maior ID criado.
      * \return True - Foto(s) lidas, False - Foto(s) não lidas.
      */
-
     bool loadPhotos(QVector<int> &allocatedID, int &maxID, GestorBD* gestor=0);
 
 
@@ -144,13 +155,7 @@ public:
      * \brief Devolve Fotos da Página.
      * \return ponteiro para vetor de classes Foto.
      */
-    QVector<Foto*> getPhotos();
-
-    /*!
-     * \brief getParentID
-     * \return
-     */
-    int getParentID();
+    QVector<Foto *> *getPhotos();
 
 
     ////////////////////////////////////////////////
@@ -204,7 +209,7 @@ protected:
 
     Album* Parent;
     GestorBD* oGestor;
-    QVector<Foto*> Photos;
+    QVector<Foto*> *Photos;
 };
 
 
@@ -295,8 +300,6 @@ public:
     QDate getStartDate();
     QDate getEndDate();
     QString getPartyType();
-
-
 
 private:
     QString createFolderName();

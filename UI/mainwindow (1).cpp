@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
         msg->deleteLater();
     }
 
-    for(int i=0;i<aListaAlbuns->getAlbums().size();i++){
-        addItemAlbumTree(aListaAlbuns->getAlbums().at(i));
+    for(int i=0;i<aListaAlbuns->getAlbums()->size();i++){
+        addItemAlbumTree(aListaAlbuns->getAlbums()->at(i));
     }
     ui->AlbumList->collapseAll();
 
@@ -69,11 +69,11 @@ void MainWindow::addItemAlbumTree(Album* newItem)
 
     QStringList PagesNames;
 
-    QVector<Pagina*> AlbumPages = newItem->getPages();
+    QVector<Pagina*>* AlbumPages=newItem->getPages();
 
-    for(int i=0;i<newItem->getPages().size();i++){
+    for(int i=0;i<newItem->getPages()->size();i++){
         //Na Arvore pagina apresenta a primeira palavra da descrição
-        PagesNames.append(AlbumPages.at(i)->getDescription().trimmed().split(" ").at(0));
+        PagesNames.append(AlbumPages->at(i)->getDescription().trimmed().split(" ").at(0));
     }
 
     QTreeWidgetItem *TreeItem = new QTreeWidgetItem(ui->AlbumList);
@@ -86,7 +86,7 @@ void MainWindow::addItemAlbumTree(Album* newItem)
 
     for(int i=0; i < PagesNames.size() ;i++){
         ChildItem= new QTreeWidgetItem(TreeItem);
-        ChildWidget= new AlbumListPage(QString(PagesNames.at(i)),AlbumPages.at(i));
+        ChildWidget= new AlbumListPage(QString(PagesNames.at(i)),AlbumPages->at(i));
 
         ui->AlbumList->setItemWidget(ChildItem,0,ChildWidget);
         ChildItem->setSizeHint(0,ChildWidget->sizeHint());
@@ -188,28 +188,28 @@ void MainWindow::on_AlbumList_currentItemChanged(QTreeWidgetItem *current, QTree
         ui->Title->setText(QString(AlbumName + " : " + PageName));
 
         // Fotos da Página
-        QVector<Foto*>  PagePhotos=SelectedPage->getPhotos();
+        QVector<Foto*>* PagePhotos=SelectedPage->getPhotos();
 
-        ui->PhotoDisplay->setRowCount(PagePhotos.size()/ui->PhotoDisplay->columnCount()+1);
+        ui->PhotoDisplay->setRowCount(PagePhotos->size()/ui->PhotoDisplay->columnCount()+1);
         int row=0; int column=0;
 
 
         QTableWidgetItem *Item;
         PhotoMiniature *Miniature;
 
-        for(int i=0;i<PagePhotos.size();i++){
+        for(int i=0;i<PagePhotos->size();i++){
 
-            QImageReader reader(PagePhotos.at(i)->getPath().path());
+            QImageReader reader(PagePhotos->at(i)->getPath().path());
             reader.setAutoTransform(true);
             const QImage newImage = reader.read();
             if (newImage.isNull()) {
                 QMessageBox::information(this, QApplication::applicationDisplayName(),
                                              tr("Cannot load %1: %2")
-                                             .arg(QDir::toNativeSeparators(PagePhotos.at(i)->getPath().path()), reader.errorString()));
+                                             .arg(QDir::toNativeSeparators(PagePhotos->at(i)->getPath().path()), reader.errorString()));
                 return;
             }
 
-            Miniature = new PhotoMiniature(PagePhotos.at(i));
+            Miniature = new PhotoMiniature(PagePhotos->at(i));
 
             Miniature->findChild<QLabel*>("Photo")->setPixmap(QPixmap::fromImage(newImage).scaled(
                                                                   QSize(ui->PhotoDisplay->horizontalHeader()->sectionSize(0),ui->PhotoDisplay->horizontalHeader()->sectionSize(0))
@@ -428,7 +428,7 @@ void MainWindow::addPage(AddPageDialog *Dialog){
 
        atributes.Gestor=oGestor;
        atributes.Parent=SelectedAlbum;
-//       atributes.ParentID=SelectedAlbum->getID();
+       atributes.ParentID=SelectedAlbum->getID();
        atributes.Path=SelectedAlbum->getPath();
        atributes.Type=SelectedAlbum->getPageType();
 

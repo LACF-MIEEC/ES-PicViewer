@@ -76,37 +76,37 @@ public:
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona nova %Foto à Base de Dados.
-     * \param newPhoto - Ponteiro para a classe Foto.
+     * \param newPhoto - Estrutura PhotoParam.
      * \return True - %Foto Adicionada, False - %Foto não adicionada.
      */
-    bool addPhoto(Foto*);
+    bool addPhoto(PhotoParam*);
 
 
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona novo Álbum à Base de Dados.
-     * \param newAlbum - Ponteiro para a classe Album.
+     * \param newAlbum - Estrutura AlbumParam.
      * \return True - Álbum Adicionado, False - Álbum não adicionado.
      */
-    bool addAlbum(Album*);
+    bool addAlbum(AlbumParam*);
 
 
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona nova Página à Base de Dados.
-     * \param newPage - Ponteiro para a classe Pagina.
+     * \param newPage - Estrutura PageParam.
      * \return True - Página Adicionada, False - Página não adicionada.
      */
-    bool addPage(Pagina*);
+    bool addPage(PageParam*);
 
 
     ////////////////////////////////////////////////
     /*!
      * \brief Adiciona nova %Pessoa à Base de Dados.
-     * \param newPerson - Ponteiro para classe Pessoa.
+     * \param newPerson - Estrutura PersonParam.
      * \return True - %Pessoa Adicionada, False - %Pessoa não adicionada.
      */
-    bool addPerson(Pessoa*);
+    bool addPerson(PersonParam*);
     //-------------------------------------------------------------
     //UPDATE
     //-------------------------------------------------------------
@@ -117,10 +117,10 @@ public:
      * \brief Atualiza Informações da %Foto pretendida.
      *
      * A %Foto pretendida obtém-se através do seu ID definido em newPhoto.
-     * \param newPhoto - Ponteiro para a classe Foto.
+     * \param newPhoto - Estrutura PhotoParam.
      * \return True - %Foto Atualizada, False - %Foto não Atualizada.
      */
-    bool updatePhoto(Foto*);
+    bool updatePhoto(PhotoParam*);
 
 
     ////////////////////////////////////////////////
@@ -128,10 +128,10 @@ public:
      * \brief Atualiza Informações do Álbum pretendido.
      *
      * O Álbum pretendido obtém-se através do seu ID definido em newAlbum.
-     * \param newAlbum - Ponteiro para a classe Album.
+     * \param newAlbum - Estrutura AlbumParam.
      * \return True - Álbum Atualizado, False - Álbum não Atualizado.
      */
-    bool updateAlbum(Album*);
+    bool updateAlbum(AlbumParam*);
 
 
     ////////////////////////////////////////////////
@@ -139,10 +139,10 @@ public:
      * \brief Atualiza Informações da Página pretendido.
      *
      * A Página pretendida obtém-se através do seu ID definido em newPage.
-     * \param newPage - Ponteiro para a classe Pagina.
+     * \param newPage - Estrutura PageParam.
      * \return True - Página Atualizada, False - Página não Atualizada.
      */
-    bool updatePage(Pagina*);
+    bool updatePage(PageParam*);
 
 
     ////////////////////////////////////////////////
@@ -150,10 +150,10 @@ public:
      * \brief Atualiza Informações da %Pessoa pretendida.
      *
      * A %Pessoa pretendida obtém-se através do seu ID definido em newPerson.
-     * \param newPerson - Ponteiro para a classe Pessoa.
+     * \param newPerson - Estrutura PersonParam.
      * \return True - %Pessoa Atualizada, False - %Pessoa não Atualizada.
      */
-    bool updatePerson(Pessoa *);
+    bool updatePerson(PersonParam*);
 
 
     //-------------------get--------------------//
@@ -162,10 +162,10 @@ public:
      * \brief Procura na Base de Dados todas as Fotos da Página pretendida.
      *
      * A pesquisa é feita através do ID da página definido em Page.
-     * \param Page - Ponteiro para a classe Pagina .
+     * \param Page - Estrutura PageParam.
      * \return Vetor de Estruturas PhotoParam com atributos das Fotos.
      */
-    QVector<PhotoParam *> *getPhotos(Pagina *);
+    QVector<PhotoParam *> *getPhotos(PageParam *);
 
 
     ////////////////////////////////////////////////
@@ -173,17 +173,17 @@ public:
      * \brief Procura na Base de Dados todas as Páginas do Álbum pretendido.
      *
      * A pesquisa é feita através do ID do Álbum definido em Alb.
-     * \param Alb - Ponteiro para a classe Album.
+     * \param Alb - Estrutura AlbumParam.
      * \return Vetor de Estruturas PageParam com atributos das Páginas.
      */
-    QVector<PageParam *> *getPages(Album *);
+    QVector<PageParam *> *getPages(AlbumParam *);
 
 
     ////////////////////////////////////////////////
     /*!
      * \brief Procura na Base de Dados todos os Álbuns existentes.
      *
-     * \param Albs - ponteiro para a classe ListaAlbuns.
+     * \param Albs - Classe ListaAlbuns.
      * \return Vetor de Estruturas AlbumParam com atributos dos Álbuns.
      */
     QVector<AlbumParam *> *getAlbums(ListaAlbuns *);
@@ -193,7 +193,7 @@ public:
     /*!
      * \brief Procura na Base de Dados todas as Pessoas existentes.
      *
-     * \param People - Ponteiro para a classe ListaPessoas.
+     * \param People - Classe ListaPessoas.
      * \return Vetor de Estruturas PersonParam com atributos das Pessoas.
      */
     QVector<PersonParam *> *getPeople(ListaPessoas *);
@@ -205,10 +205,10 @@ public:
      * \brief Elimina %Foto pretendida.
      *
      * A %Foto pretendida obtém-se através do seu ID definido em delPhoto.
-     * \param delPhoto - Ponteiro para a classe Foto.
+     * \param delPhoto - Estrutura PhotoParam.
      * \return True - %Foto Eliminada, False - %Foto não Eliminada.
      */
-    bool deletePhoto(Foto*);
+    bool deletePhoto(PhotoParam*);
 
 
     ////////////////////////////////////////////////
@@ -216,10 +216,10 @@ public:
      * \brief Elimina Álbum pretendido.
      *
      * O Álbum pretendido obtém-se através do seu ID definido em delAlbum.
-     * \param delAlbum - Ponteiro para a classe Album.
+     * \param delAlbum - Estrutura AlbumParam.
      * \return True - Álbum Atualizado, False - Álbum não Atualizado.
      */
-    bool deleteAlbum(Album*);
+    bool deleteAlbum(AlbumParam*);
 
 
     ////////////////////////////////////////////////
@@ -227,10 +227,10 @@ public:
      * \brief Elimina Página pretendida.
      *
      * A Página pretendida obtém-se através do seu ID definido em delPage.
-     * \param delPage - Ponteiro para a classe Pagina.
+     * \param delPage - Estrutura PageParam.
      * \return True - Página Eliminada, False - Página não Eliminada.
      */
-    bool deletePage(Pagina*);
+    bool deletePage(PageParam*);
 
 
     ////////////////////////////////////////////////
@@ -238,10 +238,10 @@ public:
      * \brief Elimina %Pessoa pretendida.
      *
      * A %Pessoa pretendida obtém-se através do seu ID definido em delPerson.
-     * \param delPerson - Ponteiro para a classe Pessoa.
+     * \param delPerson - Estrutura PersonParam.
      * \return True - %Pessoa Eliminada, False - %Pessoa não Eliminada.
      */
-    bool deletePerson(Pessoa*);
+    bool deletePerson(PersonParam*);
 
 
     //-------------------Create--------------------//

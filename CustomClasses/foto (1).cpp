@@ -15,10 +15,11 @@ Foto::Foto(PhotoParam atributes)
     Parent  = atributes.Parent;
     oGestor = atributes.Gestor;
 
-    People = QVector<Pessoa*>();
+    People = new QVector<Pessoa*>();
 }
 
 Foto::~Foto(){
+    delete People;
 }
 
 int Foto::getID(){
@@ -29,12 +30,8 @@ QDir Foto::getPath(){
     return Path;
 }
 
-QVector<Pessoa*> Foto::getPeople(){
+QVector<Pessoa*>* Foto::getPeople(){
     return People;
-}
-
-int Foto::getParentID(){
-    return Parent->getID();
 }
 
 Pagina* Foto::parent(){

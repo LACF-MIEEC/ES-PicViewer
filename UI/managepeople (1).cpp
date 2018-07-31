@@ -24,8 +24,8 @@ ManagePeople::ManagePeople(GestorBD *gestor,QWidget *parent) :
     //------------------------------------
     //Carregar Pessoas
 
-    for(int i=0;i<aListaPessoas->getPeople().size();i++){
-        addItemPeopleList(aListaPessoas->getPeople().at(i));
+    for(int i=0;i<aListaPessoas->getPeople()->size();i++){
+        addItemPeopleList(aListaPessoas->getPeople()->at(i));
     }
 }
 
@@ -115,7 +115,7 @@ void ManagePeople::addPerson(AddPersonDialog *Dialog){
 
 void ManagePeople::on_PeopleList_itemClicked(QListWidgetItem *item)
 {
-    Pessoa* SelectedPerson = aListaPessoas->getPeople().at(ui->PeopleList->currentRow());
+    Pessoa* SelectedPerson = aListaPessoas->getPeople()->at(ui->PeopleList->currentRow());
 
     ui->Name->setText(SelectedPerson->getName());
     ui->Birth->setText(SelectedPerson->getBirth().toString(Qt::ISODate));
